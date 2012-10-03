@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'JHWaveformView' target in the 'JHWaveformView' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
