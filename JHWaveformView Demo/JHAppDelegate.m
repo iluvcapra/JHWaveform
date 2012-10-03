@@ -10,9 +10,14 @@
 
 @implementation JHAppDelegate
 
+@synthesize waveformView = _waveformView;
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
+    float testSignal[] = {0.0f,1.0f,-1.0f,1.0f,-1.0f,0.0f};
+    [_waveformView setWaveform:testSignal length:6];
+
 }
 
 @end

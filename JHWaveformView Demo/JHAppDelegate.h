@@ -9,9 +9,11 @@
 #import <Cocoa/Cocoa.h>
 #import "JHWaveformView.h"
 
-@interface JHAppDelegate : NSObject <NSApplicationDelegate>
+@interface JHAppDelegate : NSObject <NSApplicationDelegate> {
+    JHWaveformView *_waveformView;
+}
 
 @property (assign) IBOutlet NSWindow *window;
-@property (assign) IBOutlet JHWaveformView *waveformView;
+@property (retain) IBOutlet JHWaveformView *waveformView;
 
 @end

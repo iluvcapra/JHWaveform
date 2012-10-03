@@ -20,7 +20,7 @@
     if (self) {
         self.foregroundColor = [NSColor redColor];
         self.backgroundColor = [NSColor blackColor];
-        self.lineColor       = [NSColor blueColor];
+        self.lineColor       = [NSColor whiteColor];
         _sampleData = NULL;
         _sampleDataLength = 0;
     }
@@ -43,6 +43,7 @@
     for (i = 0; i < length; i++) {
         _sampleData[i] = NSMakePoint(i, samples[i]);
     }
+    _sampleDataLength = length;
     
     [self setNeedsDisplay:YES];
 }
@@ -54,11 +55,10 @@
     [NSBezierPath fillRect:self.bounds];
     
     NSAffineTransform *tx = [NSAffineTransform transform];
-    [tx scaleXBy:1.0f yBy:self.bounds.size.width / (CGFloat)_sampleDataLength];
-     //   CGAffineTransform *tx = CGAffineTransformMakeScale(1.0f, self.bounds.width / _sampleDataLength);
- //   CGMutablePathRef *waveformPath = CGPathCreateMutable();
- //   CGPathAddLines(waveformPath, tx, _sampleData, _sampleDataLength);
-    
+    [tx translateXBy:0.0f yBy:self.bounds.size.height / 2];
+    [tx scaleXBy:self.bounds.size.width / (CGFloat)_sampleDataLength
+             yBy:self.bounds.size.height / 2];
+
     NSBezierPath *waveformPath = [NSBezierPath bezierPath];
     [waveformPath appendBezierPathWithPoints:_sampleData count:_sampleDataLength];
     [waveformPath transformUsingAffineTransform:tx];
