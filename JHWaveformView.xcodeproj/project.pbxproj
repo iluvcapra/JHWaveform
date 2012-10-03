@@ -25,6 +25,7 @@
 		7DD0544A161CEB6B0019D540 /* JHWaveformView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD05434161CEB6A0019D540 /* JHWaveformView.framework */; };
 		7DD05450161CEB6B0019D540 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DD0544E161CEB6B0019D540 /* InfoPlist.strings */; };
 		7DD05453161CEB6B0019D540 /* JHWaveformViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD05452161CEB6B0019D540 /* JHWaveformViewTests.m */; };
+		7DD0545C161CF29B0019D540 /* JHWaveformView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD05434161CEB6A0019D540 /* JHWaveformView.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,13 @@
 			remoteInfo = JHWaveformView;
 		};
 		7DD05448161CEB6B0019D540 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DD053EE161CEAFB0019D540 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DD05433161CEB6A0019D540;
+			remoteInfo = JHWaveformView;
+		};
+		7DD0545A161CF2940019D540 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7DD053EE161CEAFB0019D540 /* Project object */;
 			proxyType = 1;
@@ -82,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DD0545C161CF29B0019D540 /* JHWaveformView.framework in Frameworks */,
 				7DD053FC161CEAFB0019D540 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,6 +274,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				7DD0545B161CF2940019D540 /* PBXTargetDependency */,
 			);
 			name = "JHWaveformView App";
 			productName = JHWaveformView;
@@ -469,6 +479,11 @@
 			isa = PBXTargetDependency;
 			target = 7DD05433161CEB6A0019D540 /* JHWaveformView */;
 			targetProxy = 7DD05448161CEB6B0019D540 /* PBXContainerItemProxy */;
+		};
+		7DD0545B161CF2940019D540 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DD05433161CEB6A0019D540 /* JHWaveformView */;
+			targetProxy = 7DD0545A161CF2940019D540 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

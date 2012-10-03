@@ -8,7 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface JHWaveformView : NSView
+@interface JHWaveformView : NSView {
+    NSColor *_foregroundColor, *_lineColor, *_backgroundColor;
+    
+    NSPoint *_sampleData;
+    NSUInteger _sampleDataLength;
+}
 
 @property (copy, readwrite) NSColor *foregroundColor, *lineColor, *backgroundColor;
 

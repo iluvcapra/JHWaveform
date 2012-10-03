@@ -8,16 +8,11 @@
 
 #import "JHWaveformView.h"
 
+@implementation JHWaveformView
+
 @synthesize foregroundColor =   _foregroundColor;
 @synthesize lineColor =         _lineColor;
 @synthesize backgroundColor =   _backgroundColor;
-
-@implementation JHWaveformView {
-    NSColor *_foregroundColor, _lineColor, _backgroundColor;
-    
-    NSPoint *_sampleData;
-    NSUInteger _sampleDataLength;
-}
 
 
 -(id)initWithFrame:(NSRect)frameRect {
@@ -29,12 +24,14 @@
         _sampleData = NULL;
         _sampleDataLength = 0;
     }
+    
+    return self;
 }
 
 -(void)setWaveform:(float *)samples length:(NSUInteger)length {
     
     if (_sampleData) {
-        _sampleData = realloc(_sampleData, length * sizeof(NSpoint));
+        _sampleData = realloc(_sampleData, length * sizeof(NSPoint));
     } else {
         _sampleData = calloc(length, sizeof(NSPoint));
     }
@@ -53,11 +50,11 @@
 -(void)drawRect:(NSRect)dirtyRect {
     
     /* fill background */
-    [[self.backgroundColor] set];
+    [self.backgroundColor set];
     [NSBezierPath fillRect:self.bounds];
     
-    NSAffineTransform *tx = [[NSAffineTransform transform] scaleXBy:1.0f
-                                                                yBy:self.bounds.width / (CGFloat)_sampleDataLength];
+    NSAffineTransform *tx = [NSAffineTransform transform];
+    [tx scaleXBy:1.0f yBy:self.bounds.size.width / (CGFloat)_sampleDataLength];
      //   CGAffineTransform *tx = CGAffineTransformMakeScale(1.0f, self.bounds.width / _sampleDataLength);
  //   CGMutablePathRef *waveformPath = CGPathCreateMutable();
  //   CGPathAddLines(waveformPath, tx, _sampleData, _sampleDataLength);
@@ -66,15 +63,14 @@
     [waveformPath appendBezierPathWithPoints:_sampleData count:_sampleDataLength];
     [waveformPath transformUsingAffineTransform:tx];
     
-    [[self.lineColor] set];
+    [self.lineColor set];
     [waveformPath stroke];
-    [[self.foregroundColor] set];
+    [self.foregroundColor set];
     [waveformPath fill];
 }
 
 - (void)dealloc {
     free(_sampleData);
-    [super dealloc];
 }
 
 @end
