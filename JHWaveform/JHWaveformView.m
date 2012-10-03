@@ -31,19 +31,28 @@
 -(void)setWaveform:(float *)samples length:(NSUInteger)length {
     
     if (_sampleData) {
-        _sampleData = realloc(_sampleData, length * sizeof(NSPoint));
+        _sampleData = realloc(_sampleData, (length +2) * sizeof(NSPoint));
     } else {
-        _sampleData = calloc(length, sizeof(NSPoint));
+        _sampleData = calloc((length +2), sizeof(NSPoint));
     }
     
     NSAssert(_sampleData != NULL,
              @"Could not allocate memory for sample buffer");
     
+    _sampleDataLength = length + 2;
+    
+    _sampleData[0] = NSMakePoint(0.0f, 0.0f); /* start with a zero */
+    _sampleData[_sampleDataLength - 1] = NSMakePoint(_sampleDataLength, 0.0f); /* end with a zero */
+    /* we start and end with a zero to make the path fill properly */
+    
     NSUInteger i;
-    for (i = 0; i < length; i++) {
-        _sampleData[i] = NSMakePoint(i, samples[i]);
+    for (i = 1; i < _sampleDataLength - 1; i++) {
+        _sampleData[i] = NSMakePoint(i, samples[i-1]);
     }
-    _sampleDataLength = length;
+    
+    
+    
+    
     
     [self setNeedsDisplay:YES];
 }
