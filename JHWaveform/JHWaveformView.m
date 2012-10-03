@@ -50,10 +50,6 @@
         _sampleData[i] = NSMakePoint(i, samples[i-1]);
     }
     
-    
-    
-    
-    
     [self setNeedsDisplay:YES];
 }
 
