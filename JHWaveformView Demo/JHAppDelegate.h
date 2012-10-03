@@ -28,5 +28,6 @@ enum testSignals {
 -(IBAction)setTestSignal:(id)sender;
 -(IBAction)setNumberOfSamples:(id)sender;
 
+-(IBAction)setColor:(id)sender;
 
 @end

@@ -23,9 +23,22 @@
         self.lineColor       = [NSColor whiteColor];
         _sampleData = NULL;
         _sampleDataLength = 0;
+        
     }
     
+    [self addObserver:self forKeyPath:@"foregroundColor" options:NSKeyValueObservingOptionNew context:(void *)999];
+    [self addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:(void *)999];
+    [self addObserver:self forKeyPath:@"lineColor"       options:NSKeyValueObservingOptionNew context:(void *)999];
+    
     return self;
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary *)change context:(void *)context {
+    if (context == (void *)999) {
+        [self setNeedsDisplay:YES];
+    }
 }
 
 -(void)setWaveform:(float *)samples length:(NSUInteger)length {
@@ -61,7 +74,7 @@
     
     NSAffineTransform *tx = [NSAffineTransform transform];
     [tx translateXBy:0.0f yBy:self.bounds.size.height / 2];
-    [tx scaleXBy:self.bounds.size.width / (CGFloat)_sampleDataLength
+    [tx scaleXBy:self.bounds.size.width / ((CGFloat)_sampleDataLength)
              yBy:self.bounds.size.height / 2];
 
     NSBezierPath *waveformPath = [NSBezierPath bezierPath];
