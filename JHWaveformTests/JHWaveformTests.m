@@ -1,14 +1,14 @@
 //
-//  JHWaveformViewTests.m
-//  JHWaveformViewTests
+//  JHWaveformTests.m
+//  JHWaveformTests
 //
 //  Created by Jamie Hardt on 10/3/12.
 //  Copyright (c) 2012 Jamie Hardt. All rights reserved.
 //
 
-#import "JHWaveformViewTests.h"
+#import "JHWaveformTests.h"
 
-@implementation JHWaveformViewTests
+@implementation JHWaveformTests
 
 - (void)setUp
 {
@@ -26,7 +26,7 @@
 
 - (void)testExample
 {
-    STFail(@"Unit tests are not implemented yet in JHWaveformViewTests");
+    STFail(@"Unit tests are not implemented yet in JHWaveformTests");
 }
 
 @end

@@ -7,23 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7DD05435161CEB6B0019D540 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD053FB161CEAFB0019D540 /* Cocoa.framework */; };
-		7DD0543B161CEB6B0019D540 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DD05439161CEB6B0019D540 /* InfoPlist.strings */; };
-		7DD0543F161CEB6B0019D540 /* JHWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0543E161CEB6B0019D540 /* JHWaveformView.m */; };
-		7DD05446161CEB6B0019D540 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD05419161CEAFB0019D540 /* SenTestingKit.framework */; };
-		7DD05447161CEB6B0019D540 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD053FB161CEAFB0019D540 /* Cocoa.framework */; };
-		7DD0544A161CEB6B0019D540 /* JHWaveformView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD05434161CEB6A0019D540 /* JHWaveformView.framework */; };
-		7DD05450161CEB6B0019D540 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DD0544E161CEB6B0019D540 /* InfoPlist.strings */; };
-		7DD05453161CEB6B0019D540 /* JHWaveformViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD05452161CEB6B0019D540 /* JHWaveformViewTests.m */; };
+		7DD05463161CF5950019D540 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD053FB161CEAFB0019D540 /* Cocoa.framework */; };
+		7DD05469161CF5950019D540 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DD05467161CF5950019D540 /* InfoPlist.strings */; };
+		7DD0546B161CF5950019D540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0546A161CF5950019D540 /* main.m */; };
+		7DD0546F161CF5950019D540 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 7DD0546D161CF5950019D540 /* Credits.rtf */; };
+		7DD05472161CF5950019D540 /* JHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD05471161CF5950019D540 /* JHAppDelegate.m */; };
+		7DD05475161CF5960019D540 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DD05473161CF5960019D540 /* MainMenu.xib */; };
+		7DD05482161CF66A0019D540 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD053FB161CEAFB0019D540 /* Cocoa.framework */; };
+		7DD05488161CF66A0019D540 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DD05486161CF66A0019D540 /* InfoPlist.strings */; };
+		7DD0548C161CF66B0019D540 /* JHWaveform.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0548B161CF66A0019D540 /* JHWaveform.m */; };
+		7DD05493161CF66B0019D540 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD05419161CEAFB0019D540 /* SenTestingKit.framework */; };
+		7DD05494161CF66B0019D540 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD053FB161CEAFB0019D540 /* Cocoa.framework */; };
+		7DD05497161CF66B0019D540 /* JHWaveform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD05481161CF66A0019D540 /* JHWaveform.framework */; };
+		7DD0549D161CF66B0019D540 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DD0549B161CF66B0019D540 /* InfoPlist.strings */; };
+		7DD054A0161CF66B0019D540 /* JHWaveformTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0549F161CF66B0019D540 /* JHWaveformTests.m */; };
+		7DD054A9161CF6DB0019D540 /* JHWaveform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD05481161CF66A0019D540 /* JHWaveform.framework */; };
+		7DD054AA161CF7110019D540 /* JHWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0543E161CEB6B0019D540 /* JHWaveformView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7DD05448161CEB6B0019D540 /* PBXContainerItemProxy */ = {
+		7DD05495161CF66B0019D540 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7DD053EE161CEAFB0019D540 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7DD05433161CEB6A0019D540;
-			remoteInfo = JHWaveformView;
+			remoteGlobalIDString = 7DD05480161CF66A0019D540;
+			remoteInfo = JHWaveform;
+		};
+		7DD054A7161CF6D50019D540 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DD053EE161CEAFB0019D540 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DD05480161CF66A0019D540;
+			remoteInfo = JHWaveform;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -33,39 +48,55 @@
 		7DD053FF161CEAFB0019D540 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7DD05400161CEAFB0019D540 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7DD05419161CEAFB0019D540 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		7DD05420161CEAFB0019D540 /* JHWaveformViewTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JHWaveformViewTests-Info.plist"; sourceTree = "<group>"; };
-		7DD05422161CEAFB0019D540 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7DD05424161CEAFB0019D540 /* JHWaveformViewTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHWaveformViewTests.h; sourceTree = "<group>"; };
-		7DD05425161CEAFB0019D540 /* JHWaveformViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHWaveformViewTests.m; sourceTree = "<group>"; };
-		7DD05434161CEB6A0019D540 /* JHWaveformView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JHWaveformView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7DD05438161CEB6B0019D540 /* JHWaveformView-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JHWaveformView-Info.plist"; sourceTree = "<group>"; };
-		7DD0543A161CEB6B0019D540 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7DD0543C161CEB6B0019D540 /* JHWaveformView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JHWaveformView-Prefix.pch"; sourceTree = "<group>"; };
-		7DD0543D161CEB6B0019D540 /* JHWaveformView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHWaveformView.h; sourceTree = "<group>"; };
-		7DD0543E161CEB6B0019D540 /* JHWaveformView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHWaveformView.m; sourceTree = "<group>"; };
-		7DD05445161CEB6B0019D540 /* JHWaveformViewTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JHWaveformViewTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7DD0544D161CEB6B0019D540 /* JHWaveformViewTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JHWaveformViewTests-Info.plist"; sourceTree = "<group>"; };
-		7DD0544F161CEB6B0019D540 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7DD05451161CEB6B0019D540 /* JHWaveformViewTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHWaveformViewTests.h; sourceTree = "<group>"; };
-		7DD05452161CEB6B0019D540 /* JHWaveformViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHWaveformViewTests.m; sourceTree = "<group>"; };
+		7DD0543D161CEB6B0019D540 /* JHWaveformView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JHWaveformView.h; path = JHWaveform/JHWaveformView.h; sourceTree = SOURCE_ROOT; };
+		7DD0543E161CEB6B0019D540 /* JHWaveformView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JHWaveformView.m; path = JHWaveform/JHWaveformView.m; sourceTree = SOURCE_ROOT; };
+		7DD05461161CF5950019D540 /* JHWaveformView Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JHWaveformView Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DD05466161CF5950019D540 /* JHWaveformView Demo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JHWaveformView Demo-Info.plist"; sourceTree = "<group>"; };
+		7DD05468161CF5950019D540 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7DD0546A161CF5950019D540 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7DD0546C161CF5950019D540 /* JHWaveformView Demo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JHWaveformView Demo-Prefix.pch"; sourceTree = "<group>"; };
+		7DD0546E161CF5950019D540 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		7DD05470161CF5950019D540 /* JHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHAppDelegate.h; sourceTree = "<group>"; };
+		7DD05471161CF5950019D540 /* JHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHAppDelegate.m; sourceTree = "<group>"; };
+		7DD05474161CF5960019D540 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		7DD05481161CF66A0019D540 /* JHWaveform.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JHWaveform.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DD05485161CF66A0019D540 /* JHWaveform-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JHWaveform-Info.plist"; sourceTree = "<group>"; };
+		7DD05487161CF66A0019D540 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7DD05489161CF66A0019D540 /* JHWaveform-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JHWaveform-Prefix.pch"; sourceTree = "<group>"; };
+		7DD0548A161CF66A0019D540 /* JHWaveform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHWaveform.h; sourceTree = "<group>"; };
+		7DD0548B161CF66A0019D540 /* JHWaveform.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHWaveform.m; sourceTree = "<group>"; };
+		7DD05492161CF66B0019D540 /* JHWaveformTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JHWaveformTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DD0549A161CF66B0019D540 /* JHWaveformTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JHWaveformTests-Info.plist"; sourceTree = "<group>"; };
+		7DD0549C161CF66B0019D540 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7DD0549E161CF66B0019D540 /* JHWaveformTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHWaveformTests.h; sourceTree = "<group>"; };
+		7DD0549F161CF66B0019D540 /* JHWaveformTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHWaveformTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7DD05430161CEB6A0019D540 /* Frameworks */ = {
+		7DD0545E161CF5950019D540 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DD05435161CEB6B0019D540 /* Cocoa.framework in Frameworks */,
+				7DD054A9161CF6DB0019D540 /* JHWaveform.framework in Frameworks */,
+				7DD05463161CF5950019D540 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7DD05441161CEB6B0019D540 /* Frameworks */ = {
+		7DD0547D161CF66A0019D540 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DD05446161CEB6B0019D540 /* SenTestingKit.framework in Frameworks */,
-				7DD05447161CEB6B0019D540 /* Cocoa.framework in Frameworks */,
-				7DD0544A161CEB6B0019D540 /* JHWaveformView.framework in Frameworks */,
+				7DD05482161CF66A0019D540 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DD0548E161CF66B0019D540 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DD05493161CF66B0019D540 /* SenTestingKit.framework in Frameworks */,
+				7DD05494161CF66B0019D540 /* Cocoa.framework in Frameworks */,
+				7DD05497161CF66B0019D540 /* JHWaveform.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,9 +106,9 @@
 		7DD053EC161CEAFB0019D540 = {
 			isa = PBXGroup;
 			children = (
-				7DD0541E161CEAFB0019D540 /* JHWaveformViewTests */,
-				7DD05436161CEB6B0019D540 /* JHWaveformView */,
-				7DD0544B161CEB6B0019D540 /* JHWaveformViewTests */,
+				7DD05464161CF5950019D540 /* JHWaveformView Demo */,
+				7DD05483161CF66A0019D540 /* JHWaveform */,
+				7DD05498161CF66B0019D540 /* JHWaveformTests */,
 				7DD053FA161CEAFB0019D540 /* Frameworks */,
 				7DD053F8161CEAFB0019D540 /* Products */,
 			);
@@ -86,8 +117,9 @@
 		7DD053F8161CEAFB0019D540 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7DD05434161CEB6A0019D540 /* JHWaveformView.framework */,
-				7DD05445161CEB6B0019D540 /* JHWaveformViewTests.octest */,
+				7DD05461161CF5950019D540 /* JHWaveformView Demo.app */,
+				7DD05481161CF66A0019D540 /* JHWaveform.framework */,
+				7DD05492161CF66B0019D540 /* JHWaveformTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,60 +144,66 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		7DD0541E161CEAFB0019D540 /* JHWaveformViewTests */ = {
+		7DD05464161CF5950019D540 /* JHWaveformView Demo */ = {
 			isa = PBXGroup;
 			children = (
-				7DD05424161CEAFB0019D540 /* JHWaveformViewTests.h */,
-				7DD05425161CEAFB0019D540 /* JHWaveformViewTests.m */,
-				7DD0541F161CEAFB0019D540 /* Supporting Files */,
+				7DD05470161CF5950019D540 /* JHAppDelegate.h */,
+				7DD05471161CF5950019D540 /* JHAppDelegate.m */,
+				7DD05473161CF5960019D540 /* MainMenu.xib */,
+				7DD05465161CF5950019D540 /* Supporting Files */,
 			);
-			path = JHWaveformViewTests;
+			path = "JHWaveformView Demo";
 			sourceTree = "<group>";
 		};
-		7DD0541F161CEAFB0019D540 /* Supporting Files */ = {
+		7DD05465161CF5950019D540 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7DD05420161CEAFB0019D540 /* JHWaveformViewTests-Info.plist */,
-				7DD05421161CEAFB0019D540 /* InfoPlist.strings */,
+				7DD05466161CF5950019D540 /* JHWaveformView Demo-Info.plist */,
+				7DD05467161CF5950019D540 /* InfoPlist.strings */,
+				7DD0546A161CF5950019D540 /* main.m */,
+				7DD0546C161CF5950019D540 /* JHWaveformView Demo-Prefix.pch */,
+				7DD0546D161CF5950019D540 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		7DD05436161CEB6B0019D540 /* JHWaveformView */ = {
+		7DD05483161CF66A0019D540 /* JHWaveform */ = {
 			isa = PBXGroup;
 			children = (
 				7DD0543D161CEB6B0019D540 /* JHWaveformView.h */,
 				7DD0543E161CEB6B0019D540 /* JHWaveformView.m */,
-				7DD05437161CEB6B0019D540 /* Supporting Files */,
+				7DD0548A161CF66A0019D540 /* JHWaveform.h */,
+				7DD0548B161CF66A0019D540 /* JHWaveform.m */,
+				7DD05484161CF66A0019D540 /* Supporting Files */,
 			);
-			path = JHWaveformView;
+			path = JHWaveform;
 			sourceTree = "<group>";
 		};
-		7DD05437161CEB6B0019D540 /* Supporting Files */ = {
+		7DD05484161CF66A0019D540 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7DD05438161CEB6B0019D540 /* JHWaveformView-Info.plist */,
-				7DD05439161CEB6B0019D540 /* InfoPlist.strings */,
-				7DD0543C161CEB6B0019D540 /* JHWaveformView-Prefix.pch */,
+				7DD05485161CF66A0019D540 /* JHWaveform-Info.plist */,
+				7DD05486161CF66A0019D540 /* InfoPlist.strings */,
+				7DD05489161CF66A0019D540 /* JHWaveform-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		7DD0544B161CEB6B0019D540 /* JHWaveformViewTests */ = {
+		7DD05498161CF66B0019D540 /* JHWaveformTests */ = {
 			isa = PBXGroup;
 			children = (
-				7DD05451161CEB6B0019D540 /* JHWaveformViewTests.h */,
-				7DD05452161CEB6B0019D540 /* JHWaveformViewTests.m */,
-				7DD0544C161CEB6B0019D540 /* Supporting Files */,
+				7DD0549E161CF66B0019D540 /* JHWaveformTests.h */,
+				7DD0549F161CF66B0019D540 /* JHWaveformTests.m */,
+				7DD05499161CF66B0019D540 /* Supporting Files */,
 			);
-			path = JHWaveformViewTests;
+			path = JHWaveformTests;
 			sourceTree = "<group>";
 		};
-		7DD0544C161CEB6B0019D540 /* Supporting Files */ = {
+		7DD05499161CF66B0019D540 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7DD0544D161CEB6B0019D540 /* JHWaveformViewTests-Info.plist */,
-				7DD0544E161CEB6B0019D540 /* InfoPlist.strings */,
+				7DD0549A161CF66B0019D540 /* JHWaveformTests-Info.plist */,
+				7DD0549B161CF66B0019D540 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -173,7 +211,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		7DD05431161CEB6A0019D540 /* Headers */ = {
+		7DD0547E161CF66A0019D540 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -183,41 +221,59 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		7DD05433161CEB6A0019D540 /* JHWaveformView */ = {
+		7DD05460161CF5950019D540 /* JHWaveformView Demo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7DD05454161CEB6B0019D540 /* Build configuration list for PBXNativeTarget "JHWaveformView" */;
+			buildConfigurationList = 7DD05476161CF5960019D540 /* Build configuration list for PBXNativeTarget "JHWaveformView Demo" */;
 			buildPhases = (
-				7DD0542F161CEB6A0019D540 /* Sources */,
-				7DD05430161CEB6A0019D540 /* Frameworks */,
-				7DD05431161CEB6A0019D540 /* Headers */,
-				7DD05432161CEB6A0019D540 /* Resources */,
+				7DD0545D161CF5950019D540 /* Sources */,
+				7DD0545E161CF5950019D540 /* Frameworks */,
+				7DD0545F161CF5950019D540 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7DD054A8161CF6D50019D540 /* PBXTargetDependency */,
+			);
+			name = "JHWaveformView Demo";
+			productName = "JHWaveformView Demo";
+			productReference = 7DD05461161CF5950019D540 /* JHWaveformView Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7DD05480161CF66A0019D540 /* JHWaveform */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7DD054A1161CF66B0019D540 /* Build configuration list for PBXNativeTarget "JHWaveform" */;
+			buildPhases = (
+				7DD0547C161CF66A0019D540 /* Sources */,
+				7DD0547D161CF66A0019D540 /* Frameworks */,
+				7DD0547E161CF66A0019D540 /* Headers */,
+				7DD0547F161CF66A0019D540 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = JHWaveformView;
-			productName = JHWaveformView;
-			productReference = 7DD05434161CEB6A0019D540 /* JHWaveformView.framework */;
+			name = JHWaveform;
+			productName = JHWaveform;
+			productReference = 7DD05481161CF66A0019D540 /* JHWaveform.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		7DD05444161CEB6B0019D540 /* JHWaveformViewTests */ = {
+		7DD05491161CF66B0019D540 /* JHWaveformTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7DD05457161CEB6B0019D540 /* Build configuration list for PBXNativeTarget "JHWaveformViewTests" */;
+			buildConfigurationList = 7DD054A4161CF66B0019D540 /* Build configuration list for PBXNativeTarget "JHWaveformTests" */;
 			buildPhases = (
-				7DD05440161CEB6B0019D540 /* Sources */,
-				7DD05441161CEB6B0019D540 /* Frameworks */,
-				7DD05442161CEB6B0019D540 /* Resources */,
-				7DD05443161CEB6B0019D540 /* ShellScript */,
+				7DD0548D161CF66B0019D540 /* Sources */,
+				7DD0548E161CF66B0019D540 /* Frameworks */,
+				7DD0548F161CF66B0019D540 /* Resources */,
+				7DD05490161CF66B0019D540 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7DD05449161CEB6B0019D540 /* PBXTargetDependency */,
+				7DD05496161CF66B0019D540 /* PBXTargetDependency */,
 			);
-			name = JHWaveformViewTests;
-			productName = JHWaveformViewTests;
-			productReference = 7DD05445161CEB6B0019D540 /* JHWaveformViewTests.octest */;
+			name = JHWaveformTests;
+			productName = JHWaveformTests;
+			productReference = 7DD05492161CF66B0019D540 /* JHWaveformTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -242,33 +298,44 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7DD05433161CEB6A0019D540 /* JHWaveformView */,
-				7DD05444161CEB6B0019D540 /* JHWaveformViewTests */,
+				7DD05460161CF5950019D540 /* JHWaveformView Demo */,
+				7DD05480161CF66A0019D540 /* JHWaveform */,
+				7DD05491161CF66B0019D540 /* JHWaveformTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		7DD05432161CEB6A0019D540 /* Resources */ = {
+		7DD0545F161CF5950019D540 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DD0543B161CEB6B0019D540 /* InfoPlist.strings in Resources */,
+				7DD05469161CF5950019D540 /* InfoPlist.strings in Resources */,
+				7DD0546F161CF5950019D540 /* Credits.rtf in Resources */,
+				7DD05475161CF5960019D540 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7DD05442161CEB6B0019D540 /* Resources */ = {
+		7DD0547F161CF66A0019D540 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DD05450161CEB6B0019D540 /* InfoPlist.strings in Resources */,
+				7DD05488161CF66A0019D540 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DD0548F161CF66B0019D540 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DD0549D161CF66B0019D540 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7DD05443161CEB6B0019D540 /* ShellScript */ = {
+		7DD05490161CF66B0019D540 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -284,53 +351,84 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7DD0542F161CEB6A0019D540 /* Sources */ = {
+		7DD0545D161CF5950019D540 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DD0543F161CEB6B0019D540 /* JHWaveformView.m in Sources */,
+				7DD0546B161CF5950019D540 /* main.m in Sources */,
+				7DD05472161CF5950019D540 /* JHAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7DD05440161CEB6B0019D540 /* Sources */ = {
+		7DD0547C161CF66A0019D540 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DD05453161CEB6B0019D540 /* JHWaveformViewTests.m in Sources */,
+				7DD054AA161CF7110019D540 /* JHWaveformView.m in Sources */,
+				7DD0548C161CF66B0019D540 /* JHWaveform.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DD0548D161CF66B0019D540 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DD054A0161CF66B0019D540 /* JHWaveformTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7DD05449161CEB6B0019D540 /* PBXTargetDependency */ = {
+		7DD05496161CF66B0019D540 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7DD05433161CEB6A0019D540 /* JHWaveformView */;
-			targetProxy = 7DD05448161CEB6B0019D540 /* PBXContainerItemProxy */;
+			target = 7DD05480161CF66A0019D540 /* JHWaveform */;
+			targetProxy = 7DD05495161CF66B0019D540 /* PBXContainerItemProxy */;
+		};
+		7DD054A8161CF6D50019D540 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DD05480161CF66A0019D540 /* JHWaveform */;
+			targetProxy = 7DD054A7161CF6D50019D540 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7DD05421161CEAFB0019D540 /* InfoPlist.strings */ = {
+		7DD05467161CF5950019D540 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7DD05422161CEAFB0019D540 /* en */,
+				7DD05468161CF5950019D540 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		7DD05439161CEB6B0019D540 /* InfoPlist.strings */ = {
+		7DD0546D161CF5950019D540 /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7DD0543A161CEB6B0019D540 /* en */,
+				7DD0546E161CF5950019D540 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		7DD05473161CF5960019D540 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7DD05474161CF5960019D540 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		7DD05486161CF66A0019D540 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7DD05487161CF66A0019D540 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		7DD0544E161CEB6B0019D540 /* InfoPlist.strings */ = {
+		7DD0549B161CF66B0019D540 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7DD0544F161CEB6B0019D540 /* en */,
+				7DD0549C161CF66B0019D540 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -391,7 +489,31 @@
 			};
 			name = Release;
 		};
-		7DD05455161CEB6B0019D540 /* Debug */ = {
+		7DD05477161CF5960019D540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JHWaveformView Demo/JHWaveformView Demo-Prefix.pch";
+				INFOPLIST_FILE = "JHWaveformView Demo/JHWaveformView Demo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7DD05478161CF5960019D540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JHWaveformView Demo/JHWaveformView Demo-Prefix.pch";
+				INFOPLIST_FILE = "JHWaveformView Demo/JHWaveformView Demo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		7DD054A2161CF66B0019D540 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
@@ -399,14 +521,14 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "JHWaveformView/JHWaveformView-Prefix.pch";
-				INFOPLIST_FILE = "JHWaveformView/JHWaveformView-Info.plist";
+				GCC_PREFIX_HEADER = "JHWaveform/JHWaveform-Prefix.pch";
+				INFOPLIST_FILE = "JHWaveform/JHWaveform-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
 		};
-		7DD05456161CEB6B0019D540 /* Release */ = {
+		7DD054A3161CF66B0019D540 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
@@ -414,34 +536,34 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "JHWaveformView/JHWaveformView-Prefix.pch";
-				INFOPLIST_FILE = "JHWaveformView/JHWaveformView-Info.plist";
+				GCC_PREFIX_HEADER = "JHWaveform/JHWaveform-Prefix.pch";
+				INFOPLIST_FILE = "JHWaveform/JHWaveform-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
 		};
-		7DD05458161CEB6B0019D540 /* Debug */ = {
+		7DD054A5161CF66B0019D540 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "JHWaveformView/JHWaveformView-Prefix.pch";
-				INFOPLIST_FILE = "JHWaveformViewTests/JHWaveformViewTests-Info.plist";
+				GCC_PREFIX_HEADER = "JHWaveform/JHWaveform-Prefix.pch";
+				INFOPLIST_FILE = "JHWaveformTests/JHWaveformTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
-		7DD05459161CEB6B0019D540 /* Release */ = {
+		7DD054A6161CF66B0019D540 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "JHWaveformView/JHWaveformView-Prefix.pch";
-				INFOPLIST_FILE = "JHWaveformViewTests/JHWaveformViewTests-Info.plist";
+				GCC_PREFIX_HEADER = "JHWaveform/JHWaveform-Prefix.pch";
+				INFOPLIST_FILE = "JHWaveformTests/JHWaveformTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -459,19 +581,27 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7DD05454161CEB6B0019D540 /* Build configuration list for PBXNativeTarget "JHWaveformView" */ = {
+		7DD05476161CF5960019D540 /* Build configuration list for PBXNativeTarget "JHWaveformView Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7DD05455161CEB6B0019D540 /* Debug */,
-				7DD05456161CEB6B0019D540 /* Release */,
+				7DD05477161CF5960019D540 /* Debug */,
+				7DD05478161CF5960019D540 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
-		7DD05457161CEB6B0019D540 /* Build configuration list for PBXNativeTarget "JHWaveformViewTests" */ = {
+		7DD054A1161CF66B0019D540 /* Build configuration list for PBXNativeTarget "JHWaveform" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7DD05458161CEB6B0019D540 /* Debug */,
-				7DD05459161CEB6B0019D540 /* Release */,
+				7DD054A2161CF66B0019D540 /* Debug */,
+				7DD054A3161CF66B0019D540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7DD054A4161CF66B0019D540 /* Build configuration list for PBXNativeTarget "JHWaveformTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DD054A5161CF66B0019D540 /* Debug */,
+				7DD054A6161CF66B0019D540 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
