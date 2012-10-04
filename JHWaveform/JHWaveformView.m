@@ -13,6 +13,7 @@
 @synthesize foregroundColor =   _foregroundColor;
 @synthesize lineColor =         _lineColor;
 @synthesize backgroundColor =   _backgroundColor;
+@synthesize lineWidth       =   _lineWidth;
 
 
 -(id)initWithFrame:(NSRect)frameRect {
@@ -20,15 +21,17 @@
     if (self) {
         self.foregroundColor = [NSColor redColor];
         self.backgroundColor = [NSColor blackColor];
-        self.lineColor       = [NSColor whiteColor];
+        self.lineColor       = [NSColor blueColor];
         _sampleData = NULL;
         _sampleDataLength = 0;
+        _lineWidth = 1.0f;
         
     }
     
     [self addObserver:self forKeyPath:@"foregroundColor" options:NSKeyValueObservingOptionNew context:(void *)999];
     [self addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:(void *)999];
     [self addObserver:self forKeyPath:@"lineColor"       options:NSKeyValueObservingOptionNew context:(void *)999];
+    [self addObserver:self forKeyPath:@"lineWidth"       options:NSKeyValueObservingOptionNew context:(void *)999];
     
     return self;
 }
@@ -80,6 +83,8 @@
     NSBezierPath *waveformPath = [NSBezierPath bezierPath];
     [waveformPath appendBezierPathWithPoints:_sampleData count:_sampleDataLength];
     [waveformPath transformUsingAffineTransform:tx];
+    
+    [waveformPath setLineWidth:_lineWidth];
     
     [self.lineColor set];
     [waveformPath stroke];
