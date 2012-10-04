@@ -22,6 +22,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
 @synthesize verticalScale   =       _verticalScale;
 @synthesize displaysRuler   =       _displaysRuler;
 
+#define RULER_HEIGHT    25
 
 -(CGFloat)_sampleToXPoint:(NSUInteger)sampleIdx {
     return (float)sampleIdx / (float)_sampleDataLength * self.bounds.size.width;
@@ -181,7 +182,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     NSRect retRect = [self bounds];
     if (_displaysRuler) {
         retRect.origin.y = retRect.size.height - 25;
-        retRect.size.height = 25;
+        retRect.size.height = RULER_HEIGHT;
     } else {
         retRect = NSZeroRect;
     }
