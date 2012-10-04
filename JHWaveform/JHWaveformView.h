@@ -12,8 +12,8 @@
 @interface JHWaveformView : NSView {
     NSColor *_foregroundColor, *_lineColor, *_backgroundColor, *_selectedColor;
     
-    CGFloat _lineWidth;
-//    CGFloat _lineFlatness;
+    CGFloat     _lineWidth;
+    CGFloat     _verticalScale;
     
     NSRange     _selectedSampleRange;
     NSUInteger  _selectionAnchor;
@@ -26,7 +26,10 @@
 }
 
 @property (copy, readwrite) NSColor *foregroundColor, *lineColor, *backgroundColor, *selectedColor;
+
 @property (assign) CGFloat lineWidth;
+@property (assign) CGFloat verticalScale;
+
 
 @property (assign) NSRange selectedSampleRange;
 

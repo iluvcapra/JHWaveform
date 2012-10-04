@@ -17,6 +17,7 @@
 @synthesize lineWidth       =       _lineWidth;
 @synthesize selectedSampleRange =   _selectedSampleRange;
 @synthesize allowsSelection =       _allowsSelection;
+@synthesize verticalScale   =       _verticalScale;
 
 
 -(CGFloat)_sampleToXPoint:(NSUInteger)sampleIdx {
@@ -41,11 +42,12 @@
         self.selectedColor   = [NSColor selectedControlColor];
         _sampleData = NULL;
         _sampleDataLength = 0;
-        _lineWidth = 1.0f;
-        _selectedSampleRange = NSMakeRange(NSNotFound, 0);
+        self.lineWidth = 1.0f;
+        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
         _dragging = NO;
         _selectionAnchor = 0;
         self.allowsSelection = YES;
+        self.verticalScale = 1.0f;
     }
     
     [self addObserver:self forKeyPath:@"foregroundColor" options:NSKeyValueObservingOptionNew context:(void *)999];
@@ -53,6 +55,7 @@
     [self addObserver:self forKeyPath:@"lineColor"       options:NSKeyValueObservingOptionNew context:(void *)999];
     [self addObserver:self forKeyPath:@"lineWidth"       options:NSKeyValueObservingOptionNew context:(void *)999];
     [self addObserver:self forKeyPath:@"selectedSampleRange"       options:NSKeyValueObservingOptionNew context:(void *)999];
+    [self addObserver:self forKeyPath:@"verticalScale"       options:NSKeyValueObservingOptionNew context:(void *)999];    
  // [self addObserver:self forKeyPath:@"lineFlatness"       options:NSKeyValueObservingOptionNew context:(void *)999];
     
     return self;
@@ -182,7 +185,7 @@
     NSAffineTransform *tx = [NSAffineTransform transform];
     [tx translateXBy:0.0f yBy:self.bounds.size.height / 2];
     [tx scaleXBy:self.bounds.size.width / ((CGFloat)_sampleDataLength)
-             yBy:self.bounds.size.height / 2];
+             yBy:self.bounds.size.height * _verticalScale / 2];
 
     NSBezierPath *waveformPath = [NSBezierPath bezierPath];
     [waveformPath appendBezierPathWithPoints:_sampleData
