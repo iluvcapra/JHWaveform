@@ -52,4 +52,19 @@
     [self _setTestSignalToView];
 }
 
+-(IBAction)openTestAudioFile:(id)sender {
+    NSOpenPanel *op = [NSOpenPanel openPanel];
+
+    [op setAllowsMultipleSelection:NO];
+    [op beginSheetModalForWindow:self.window
+               completionHandler:^(NSInteger result) {
+                   if (result == NSFileHandlingPanelOKButton) {
+                           [_waveformView setURL:[op URL]];
+                   }
+    }];
+    
+    
+
+}
+
 @end

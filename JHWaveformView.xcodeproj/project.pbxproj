@@ -10,6 +10,8 @@
 		7DCF710F161E3440007AF2A0 /* JHAudioPreview.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DCF710D161E3440007AF2A0 /* JHAudioPreview.h */; };
 		7DCF7110161E3440007AF2A0 /* JHAudioPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreview.m */; };
 		7DCF7111161E3440007AF2A0 /* JHAudioPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreview.m */; };
+		7DCF7114161E34CF007AF2A0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */; };
+		7DCF7116161E4464007AF2A0 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7115161E4464007AF2A0 /* CoreMedia.framework */; };
 		7DD05463161CF5950019D540 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD053FB161CEAFB0019D540 /* Cocoa.framework */; };
 		7DD05469161CF5950019D540 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DD05467161CF5950019D540 /* InfoPlist.strings */; };
 		7DD0546B161CF5950019D540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0546A161CF5950019D540 /* main.m */; };
@@ -48,6 +50,8 @@
 /* Begin PBXFileReference section */
 		7DCF710D161E3440007AF2A0 /* JHAudioPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHAudioPreview.h; sourceTree = "<group>"; };
 		7DCF710E161E3440007AF2A0 /* JHAudioPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHAudioPreview.m; sourceTree = "<group>"; };
+		7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7DCF7115161E4464007AF2A0 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		7DD053FB161CEAFB0019D540 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7DD053FE161CEAFB0019D540 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		7DD053FF161CEAFB0019D540 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -91,6 +95,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DCF7116161E4464007AF2A0 /* CoreMedia.framework in Frameworks */,
+				7DCF7114161E34CF007AF2A0 /* AVFoundation.framework in Frameworks */,
 				7DD05482161CF66A0019D540 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -111,6 +117,8 @@
 		7DD053EC161CEAFB0019D540 = {
 			isa = PBXGroup;
 			children = (
+				7DCF7115161E4464007AF2A0 /* CoreMedia.framework */,
+				7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */,
 				7DD05464161CF5950019D540 /* JHWaveformView Demo */,
 				7DD05483161CF66A0019D540 /* JHWaveform */,
 				7DD05498161CF66B0019D540 /* JHWaveformTests */,
@@ -177,11 +185,11 @@
 			children = (
 				7DD0543D161CEB6B0019D540 /* JHWaveformView.h */,
 				7DD0543E161CEB6B0019D540 /* JHWaveformView.m */,
+				7DCF710D161E3440007AF2A0 /* JHAudioPreview.h */,
+				7DCF710E161E3440007AF2A0 /* JHAudioPreview.m */,
 				7DD0548A161CF66A0019D540 /* JHWaveform.h */,
 				7DD0548B161CF66A0019D540 /* JHWaveform.m */,
 				7DD05484161CF66A0019D540 /* Supporting Files */,
-				7DCF710D161E3440007AF2A0 /* JHAudioPreview.h */,
-				7DCF710E161E3440007AF2A0 /* JHAudioPreview.m */,
 			);
 			path = JHWaveform;
 			sourceTree = "<group>";
