@@ -14,7 +14,8 @@ enum JHWaveformViewMouseModes {
 };
 
 @interface JHWaveformView : NSView {
-    NSColor *_foregroundColor, *_lineColor, *_backgroundColor, *_selectedColor;
+    NSColor *_foregroundColor, *_lineColor, *_backgroundColor,
+    *_selectedColor, *_selectedBorderColor,*_gridColor;
     
     CGFloat     _lineWidth;
     CGFloat     _verticalScale;
@@ -34,7 +35,8 @@ enum JHWaveformViewMouseModes {
     NSUInteger  _gridTicks;
 }
 
-@property (copy, readwrite) NSColor *foregroundColor, *lineColor, *backgroundColor, *selectedColor;
+@property (copy, readwrite) NSColor *foregroundColor, *lineColor, *backgroundColor, *selectedColor,
+*selectedBorderColor, *gridColor, *rulerGradientBeginColor,*rulerGradientEndColor,*rulerTicksColor,*outerBorderColor;
 
 @property (assign) CGFloat lineWidth;
 @property (assign) CGFloat verticalScale;

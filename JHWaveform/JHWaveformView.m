@@ -16,6 +16,9 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
 @synthesize lineColor =             _lineColor;
 @synthesize backgroundColor =       _backgroundColor;
 @synthesize selectedColor   =       _selectedColor;
+@synthesize selectedBorderColor = _selectedBorderColor;
+@synthesize gridColor       =       _gridColor;
+
 @synthesize lineWidth       =       _lineWidth;
 @synthesize selectedSampleRange =   _selectedSampleRange;
 @synthesize allowsSelection =       _allowsSelection;
@@ -26,7 +29,9 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
 @synthesize rulerMinorTicks =       _rulerMinorTicks;
 @synthesize gridTicks       =       _gridTicks;
 
-#define RULER_HEIGHT    25
+#define RULER_HEIGHT            25
+#define RULER_TICK_INSET        3
+#define RULER_MINOR_TICK_FACTOR 0.5f
 
 -(CGFloat)_sampleToXPoint:(NSUInteger)sampleIdx {
     return (float)sampleIdx / (float)_sampleDataLength * self.bounds.size.width;
@@ -42,8 +47,10 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     if (self) {
         self.foregroundColor = [NSColor grayColor];
         self.backgroundColor = [NSColor controlBackgroundColor];
-        self.lineColor       = [NSColor blackColor];
+        self.lineColor       = [NSColor textColor];
         self.selectedColor   = [NSColor selectedControlColor];
+        self.selectedBorderColor = [self.selectedColor shadowWithLevel:0.5f];
+        self.gridColor       = [NSColor gridColor];
         _sampleData = NULL;
         _sampleDataLength = 0;
         self.lineWidth = 1.0f;
@@ -67,8 +74,19 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
     [self addObserver:self forKeyPath:@"lineColor"       options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    [self addObserver:self forKeyPath:@"selectedColor"       options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    [self addObserver:self forKeyPath:@"selectedBorderColor"       options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    [self addObserver:self forKeyPath:@"gridColor"       options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    
+    
     [self addObserver:self forKeyPath:@"lineWidth"       options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    
+    
+    
     [self addObserver:self forKeyPath:@"selectedSampleRange"       options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
     [self addObserver:self forKeyPath:@"verticalScale"       options:NSKeyValueObservingOptionNew
@@ -213,7 +231,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     /* gridlines */
     
     if (_displaysGrid) {
-        [[NSColor gridColor] set];
+        [self.gridColor set];
         [NSBezierPath setDefaultLineWidth:0.5f];
         NSUInteger i, xpt;
         for (i = 0; i < _sampleDataLength; i += _gridTicks) {
@@ -236,7 +254,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
         
         [NSBezierPath fillRect:selectedRect];
         
-        [[self.selectedColor shadowWithLevel:0.4f] set];
+        [self.selectedBorderColor set];
         [NSBezierPath setDefaultLineWidth:2.0];
         [NSBezierPath strokeRect:selectedRect];
     }
@@ -265,18 +283,39 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     /* ruler */
     if (_displaysRuler) {
         NSRect rulerRect = [self rulerRect];
-        [[NSColor blackColor] set];
-        [NSBezierPath strokeLineFromPoint:rulerRect.origin
-                                  toPoint:NSMakePoint(rulerRect.origin.x + rulerRect.size.width,
-                                                      rulerRect.origin.y)];
+
+
         
         NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlLightHighlightColor]
                                                                   endingColor:[NSColor controlHighlightColor]];
         
         [rulerGradient drawInRect:rulerRect angle:270.0f];
+        
+
+        
+        CGFloat tickHeight = rulerRect.size.height - (RULER_TICK_INSET * 2);
+        CGFloat minorTickHeight = tickHeight * RULER_MINOR_TICK_FACTOR;
+        NSUInteger i, xpt;
+        
+        [[NSColor controlDarkShadowColor] set];
+        [NSBezierPath setDefaultLineWidth:1.0f];
+        for (i = 0; i < _sampleDataLength; i += _rulerMajorTicks) {
+            xpt = [self _sampleToXPoint:i];
+            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
+                                      toPoint:NSMakePoint(xpt, rulerRect.origin.y+ tickHeight)];
+        }
+        for (i = 0; i < _sampleDataLength; i += _rulerMinorTicks) {
+            if (i % _rulerMajorTicks) {
+                xpt = [self _sampleToXPoint:i];
+                [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
+                                          toPoint:NSMakePoint(xpt, rulerRect.origin.y+ minorTickHeight)];
+            }
+        }
+        /* draw border around ruler rect */
         [[NSColor controlDarkShadowColor] set];
         [NSBezierPath setDefaultLineWidth:0.5f];
         [NSBezierPath strokeRect:rulerRect];
+    
     }
 
     
