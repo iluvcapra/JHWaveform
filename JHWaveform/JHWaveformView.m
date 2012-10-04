@@ -28,6 +28,10 @@
     return lrint((xPoint / self.bounds.size.width) * _sampleDataLength);
 }
 
+- (void)_extendSelectionToSample:(NSUInteger)loc {
+
+}
+
 -(id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
     if (self) {
@@ -40,7 +44,7 @@
         _lineWidth = 1.0f;
         _selectedSampleRange = NSMakeRange(NSNotFound, 0);
         _dragging = NO;
-        _selectionOrigin = 0;
+        _selectionAnchor = 0;
         self.allowsSelection = NO;
     }
     
@@ -69,9 +73,41 @@
         
     NSUInteger loc = [self _XpointToSample:clickDown.x];
     
-    _selectionOrigin = loc;
+    if (self.allowsSelection && ([event modifierFlags] & NSShiftKeyMask)) {
+        
+        NSRange currentSelection  = self.selectedSampleRange;
+        NSUInteger currentSelectionMidpoint = currentSelection.location + currentSelection.length/2;
+        if (loc < currentSelection.location) {
+            
+            _selectionAnchor = currentSelection.location + currentSelection.length;
+            self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 1));
+            
+        } else if (NSLocationInRange(loc, currentSelection) &&
+                   loc < currentSelectionMidpoint) {
+            
+            _selectionAnchor = currentSelection.location + currentSelection.length;
+            self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
+            
+        } else if (NSLocationInRange(loc, currentSelection) &&
+                   loc >= currentSelectionMidpoint) {
+            
+            _selectionAnchor = currentSelection.location;
+            self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
+        } else {
+            
+            _selectionAnchor = currentSelection.location;
+            self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 1));
+        }
+        
+        
+    } else {
+        
+        _selectionAnchor = loc;
+    }
+    
     _dragging = YES;
 }
+
 
 -(void)mouseDragged:(NSEvent *)event {
     NSPoint clickDown = [self convertPoint:[event locationInWindow]
@@ -84,18 +120,10 @@
     NSUInteger loc = [self _XpointToSample:clickDown.x];
     
     if (self.allowsSelection) {
-        
-        if ([event modifierFlags] & NSShiftKeyMask) {
-            NSRange extend = NSMakeRange(loc, 1);
-            self.selectedSampleRange = NSUnionRange(self.selectedSampleRange, extend);
-
+        if (loc < _selectionAnchor) {
+            self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
         } else {
-            if (loc < _selectionOrigin) {
-                self.selectedSampleRange = NSMakeRange(loc, _selectionOrigin - loc);
-            } else {
-                self.selectedSampleRange = NSMakeRange(_selectionOrigin, loc - _selectionOrigin);
-            }
-        
+            self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
         }
     }
 }

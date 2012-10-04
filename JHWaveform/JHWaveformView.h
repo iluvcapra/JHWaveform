@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface JHWaveformView : NSView {
     NSColor *_foregroundColor, *_lineColor, *_backgroundColor, *_selectedColor;
     
@@ -15,7 +16,7 @@
 //    CGFloat _lineFlatness;
     
     NSRange     _selectedSampleRange;
-    NSUInteger  _selectionOrigin;
+    NSUInteger  _selectionAnchor;
     BOOL        _dragging;
     
     NSPoint *_sampleData;
