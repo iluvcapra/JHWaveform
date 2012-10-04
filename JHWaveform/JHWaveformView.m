@@ -36,6 +36,8 @@
         _sampleDataLength = 0;
         _lineWidth = 1.0f;
         _selectedSampleRange = NSMakeRange(NSNotFound, 0);
+        _dragging = NO;
+        _selectionOrigin = 0;
     }
     
     [self addObserver:self forKeyPath:@"foregroundColor" options:NSKeyValueObservingOptionNew context:(void *)999];
@@ -63,7 +65,8 @@
     
     NSUInteger loc = [self _XpointToSample:clickDown.x];
     
-    self.selectedSampleRange = NSMakeRange(loc, 0);
+    _selectionOrigin = loc;
+    _dragging = YES;
 }
 
 -(void)mouseDragged:(NSEvent *)event {
@@ -71,13 +74,21 @@
                                   fromView:nil];
     
     NSUInteger loc = [self _XpointToSample:clickDown.x];
+
+    if (loc < _selectionOrigin) {
+        self.selectedSampleRange = NSMakeRange(loc, _selectionOrigin - loc);
+    } else {
+        self.selectedSampleRange = NSMakeRange(_selectionOrigin, loc - _selectionOrigin);
+    }
+    
     
     NSRange extend = NSMakeRange(loc, 1);
     self.selectedSampleRange = NSUnionRange(self.selectedSampleRange, extend);
+    
 }
 
 -(void)mouseUp:(NSEvent *)event {
-
+    _dragging = NO;
 }
 
 

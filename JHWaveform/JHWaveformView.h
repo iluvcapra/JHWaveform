@@ -14,7 +14,9 @@
     CGFloat _lineWidth;
 //    CGFloat _lineFlatness;
     
-    NSRange _selectedSampleRange;
+    NSRange     _selectedSampleRange;
+    NSUInteger  _selectionOrigin;
+    BOOL        _dragging;
     
     NSPoint *_sampleData;
     NSUInteger _sampleDataLength;
