@@ -21,6 +21,10 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
 @synthesize allowsSelection =       _allowsSelection;
 @synthesize verticalScale   =       _verticalScale;
 @synthesize displaysRuler   =       _displaysRuler;
+@synthesize displaysGrid    =       _displaysGrid;
+@synthesize rulerMajorTicks =       _rulerMajorTicks;
+@synthesize rulerMinorTicks =       _rulerMinorTicks;
+@synthesize gridTicks       =       _gridTicks;
 
 #define RULER_HEIGHT    25
 
@@ -49,7 +53,13 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
         self.allowsSelection = YES;
         self.verticalScale = 1.0f;
         self.displaysRuler = YES;
+        self.displaysGrid = YES;
+        
+        self.rulerMajorTicks = 100;
+        self.rulerMinorTicks = 10;
+        self.gridTicks       = self.rulerMajorTicks;
     }
+    
     
     [self addObserver:self forKeyPath:@"foregroundColor" options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
@@ -65,7 +75,8 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
     [self addObserver:self forKeyPath:@"displaysRuler"       options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    
+    [self addObserver:self forKeyPath:@"displaysGrid"       options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
  // [self addObserver:self forKeyPath:@"lineFlatness"       options:NSKeyValueObservingOptionNew context:JHWaveformViewNeedsRedisplayCtx];
     
     return self;
@@ -199,6 +210,20 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     
     NSRect waveformRect = [self waveformRect];
     
+    /* gridlines */
+    
+    if (_displaysGrid) {
+        [[NSColor gridColor] set];
+        [NSBezierPath setDefaultLineWidth:0.5f];
+        NSUInteger i, xpt;
+        for (i = 0; i < _sampleDataLength; i += _gridTicks) {
+            xpt = [self _sampleToXPoint:i];
+            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
+                                      toPoint:NSMakePoint(xpt, [self bounds].size.height)];
+        }
+        
+    }
+    
     /* fill selection */
     
     if (_selectedSampleRange.location != NSNotFound ||
@@ -210,6 +235,10 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
                                          waveformRect.size.height);
         
         [NSBezierPath fillRect:selectedRect];
+        
+        [[self.selectedColor shadowWithLevel:0.4f] set];
+        [NSBezierPath setDefaultLineWidth:2.0];
+        [NSBezierPath strokeRect:selectedRect];
     }
     
     /* draw waveform outlines */
@@ -245,7 +274,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
                                                                   endingColor:[NSColor controlHighlightColor]];
         
         [rulerGradient drawInRect:rulerRect angle:270.0f];
-        [[NSColor blackColor] set];
+        [[NSColor controlDarkShadowColor] set];
         [NSBezierPath setDefaultLineWidth:0.5f];
         [NSBezierPath strokeRect:rulerRect];
     }
