@@ -220,10 +220,10 @@
                               toPoint:NSMakePoint(rulerRect.origin.x + rulerRect.size.width,
                                                   rulerRect.origin.y)];
     
-    NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlHighlightColor]
-                                                              endingColor:[NSColor controlLightHighlightColor]];
+    NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlLightHighlightColor]
+                                                              endingColor:[NSColor controlHighlightColor]];
     
-    [rulerGradient drawInRect:rulerRect angle:90.0f];
+    [rulerGradient drawInRect:rulerRect angle:270.0f];
     [[NSColor blackColor] set];
     [NSBezierPath setDefaultLineWidth:0.5f];
     [NSBezierPath strokeRect:rulerRect];
