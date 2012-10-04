@@ -9,6 +9,7 @@
 #import "JHWaveformView.h"
 
 static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedisplayObserverContext";
+static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelectionCtx";
 
 @implementation JHWaveformView
 
@@ -95,7 +96,9 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
     [self addObserver:self forKeyPath:@"displaysGrid"       options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
- // [self addObserver:self forKeyPath:@"lineFlatness"       options:NSKeyValueObservingOptionNew context:JHWaveformViewNeedsRedisplayCtx];
+    
+    [self addObserver:self forKeyPath:@"allowsSelection" options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewAllowsSelectionCtx];
     
     return self;
 }
@@ -106,6 +109,8 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
                        change:(NSDictionary *)change context:(void *)context {
     if (context == (__bridge void *)JHWaveformViewNeedsRedisplayCtx ) {
         [self setNeedsDisplay:YES];
+    } else if (context == (__bridge void *)JHWaveformViewAllowsSelectionCtx) {
+        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     }
 }
 
@@ -115,38 +120,42 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
         
     NSUInteger loc = [self _XpointToSample:clickDown.x];
     
-    if (self.allowsSelection && ([event modifierFlags] & NSShiftKeyMask)) {
-        
-        NSRange currentSelection  = self.selectedSampleRange;
-        NSUInteger currentSelectionMidpoint = currentSelection.location + currentSelection.length/2;
-        if (loc < currentSelection.location) {
+    if (self.allowsSelection) {
+        if (([event modifierFlags] & NSShiftKeyMask) && self.selectedSampleRange.location != NSNotFound) {
             
-            _selectionAnchor = currentSelection.location + currentSelection.length;
-            self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
+            NSRange currentSelection  = self.selectedSampleRange;
             
-        } else if (NSLocationInRange(loc, currentSelection) &&
-                   loc < currentSelectionMidpoint) {
+            NSUInteger currentSelectionMidpoint = currentSelection.location + currentSelection.length/2;
+            if (loc < currentSelection.location) {
+                
+                _selectionAnchor = currentSelection.location + currentSelection.length;
+                self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
+                
+            } else if (NSLocationInRange(loc, currentSelection) &&
+                       loc < currentSelectionMidpoint) {
+                
+                _selectionAnchor = currentSelection.location + currentSelection.length;
+                self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
+                
+            } else if (NSLocationInRange(loc, currentSelection) &&
+                       loc >= currentSelectionMidpoint) {
+                
+                _selectionAnchor = currentSelection.location;
+                self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
+            } else {
+                
+                _selectionAnchor = currentSelection.location;
+                self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
+            }
             
-            _selectionAnchor = currentSelection.location + currentSelection.length;
-            self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
             
-        } else if (NSLocationInRange(loc, currentSelection) &&
-                   loc >= currentSelectionMidpoint) {
-            
-            _selectionAnchor = currentSelection.location;
-            self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
         } else {
             
-            _selectionAnchor = currentSelection.location;
-            self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
+            _selectionAnchor = loc;
+            _selectedSampleRange = NSMakeRange(loc, 0);
         }
-        
-        
-    } else {
-        
-        _selectionAnchor = loc;
-        self.selectedSampleRange = NSMakeRange(loc, 0);
     }
+
     
     _dragging = YES;
 }
@@ -172,6 +181,9 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
 
 -(void)mouseUp:(NSEvent *)event {
     _dragging = NO;
+    if (self.selectedSampleRange.length == 0) {
+        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
+    }
 }
 
 #pragma mark Set Data
