@@ -16,6 +16,7 @@
 @synthesize lineWidth       =   _lineWidth;
 
 
+
 -(id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
     if (self) {
@@ -32,6 +33,7 @@
     [self addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:(void *)999];
     [self addObserver:self forKeyPath:@"lineColor"       options:NSKeyValueObservingOptionNew context:(void *)999];
     [self addObserver:self forKeyPath:@"lineWidth"       options:NSKeyValueObservingOptionNew context:(void *)999];
+ //   [self addObserver:self forKeyPath:@"lineFlatness"       options:NSKeyValueObservingOptionNew context:(void *)999];
     
     return self;
 }
@@ -85,6 +87,7 @@
     [waveformPath transformUsingAffineTransform:tx];
     
     [waveformPath setLineWidth:_lineWidth];
+//    [waveformPath setFlatness:_lineFlatness];
     
     [self.lineColor set];
     [waveformPath stroke];

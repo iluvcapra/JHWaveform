@@ -12,6 +12,7 @@
     NSColor *_foregroundColor, *_lineColor, *_backgroundColor;
     
     CGFloat _lineWidth;
+//    CGFloat _lineFlatness;
     
     NSPoint *_sampleData;
     NSUInteger _sampleDataLength;
