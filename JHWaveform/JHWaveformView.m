@@ -228,6 +228,8 @@
     [NSBezierPath setDefaultLineWidth:0.5f];
     [NSBezierPath strokeRect:rulerRect];
     
+    /* outline */
+    [NSBezierPath setDefaultLineWidth:0.5f];
     [NSBezierPath strokeRect:[self bounds]];
 }
 
