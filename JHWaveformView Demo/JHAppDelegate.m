@@ -32,16 +32,13 @@
     free(testSignal);
 }
 
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
     float testSignal[] = {0.0f,1.0f,-1.0f,1.0f,-1.0f,0.0f};
     [_waveformView setWaveform:testSignal length:6];
     _numberOfSamples = 1000;
-
 }
-
 
 
 -(IBAction)setTestSignal:(id)sender {
