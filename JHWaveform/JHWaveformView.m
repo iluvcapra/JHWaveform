@@ -45,7 +45,7 @@
         _selectedSampleRange = NSMakeRange(NSNotFound, 0);
         _dragging = NO;
         _selectionAnchor = 0;
-        self.allowsSelection = NO;
+        self.allowsSelection = YES;
     }
     
     [self addObserver:self forKeyPath:@"foregroundColor" options:NSKeyValueObservingOptionNew context:(void *)999];
@@ -80,7 +80,7 @@
         if (loc < currentSelection.location) {
             
             _selectionAnchor = currentSelection.location + currentSelection.length;
-            self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 1));
+            self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
             
         } else if (NSLocationInRange(loc, currentSelection) &&
                    loc < currentSelectionMidpoint) {
@@ -96,13 +96,14 @@
         } else {
             
             _selectionAnchor = currentSelection.location;
-            self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 1));
+            self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
         }
         
         
     } else {
         
         _selectionAnchor = loc;
+        self.selectedSampleRange = NSMakeRange(loc, 0);
     }
     
     _dragging = YES;
