@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+enum JHWaveformViewMouseModes {
+    selecting,
+    zooming
+};
 
 @interface JHWaveformView : NSView {
     NSColor *_foregroundColor, *_lineColor, *_backgroundColor, *_selectedColor;
@@ -15,14 +19,14 @@
     CGFloat     _lineWidth;
     CGFloat     _verticalScale;
     
+    BOOL        _allowsSelection;
     NSRange     _selectedSampleRange;
     NSUInteger  _selectionAnchor;
     BOOL        _dragging;
+    int         _mouseMode;
     
-    NSPoint *_sampleData;
-    NSUInteger _sampleDataLength;
-    
-    BOOL        _allowsSelection;
+    NSPoint     *_sampleData;
+    NSUInteger  _sampleDataLength;
 }
 
 @property (copy, readwrite) NSColor *foregroundColor, *lineColor, *backgroundColor, *selectedColor;
