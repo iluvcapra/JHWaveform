@@ -27,6 +27,8 @@ enum JHWaveformViewMouseModes {
     
     NSPoint     *_sampleData;
     NSUInteger  _sampleDataLength;
+    
+    BOOL        _displaysRuler;
 }
 
 @property (copy, readwrite) NSColor *foregroundColor, *lineColor, *backgroundColor, *selectedColor;
@@ -37,7 +39,7 @@ enum JHWaveformViewMouseModes {
 
 @property (assign) NSRange selectedSampleRange;
 
-@property (assign) BOOL allowsSelection;
+@property (assign) BOOL allowsSelection, displaysRuler;
 
 -(void)setWaveform:(float*)samples length:(NSUInteger)length;
 

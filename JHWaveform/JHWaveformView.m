@@ -8,6 +8,8 @@
 
 #import "JHWaveformView.h"
 
+static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedisplayObserverContext";
+
 @implementation JHWaveformView
 
 @synthesize foregroundColor =       _foregroundColor;
@@ -18,6 +20,7 @@
 @synthesize selectedSampleRange =   _selectedSampleRange;
 @synthesize allowsSelection =       _allowsSelection;
 @synthesize verticalScale   =       _verticalScale;
+@synthesize displaysRuler   =       _displaysRuler;
 
 
 -(CGFloat)_sampleToXPoint:(NSUInteger)sampleIdx {
@@ -44,15 +47,25 @@
         _selectionAnchor = 0;
         self.allowsSelection = YES;
         self.verticalScale = 1.0f;
+        self.displaysRuler = YES;
     }
     
-    [self addObserver:self forKeyPath:@"foregroundColor" options:NSKeyValueObservingOptionNew context:(void *)999];
-    [self addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:(void *)999];
-    [self addObserver:self forKeyPath:@"lineColor"       options:NSKeyValueObservingOptionNew context:(void *)999];
-    [self addObserver:self forKeyPath:@"lineWidth"       options:NSKeyValueObservingOptionNew context:(void *)999];
-    [self addObserver:self forKeyPath:@"selectedSampleRange"       options:NSKeyValueObservingOptionNew context:(void *)999];
-    [self addObserver:self forKeyPath:@"verticalScale"       options:NSKeyValueObservingOptionNew context:(void *)999];    
- // [self addObserver:self forKeyPath:@"lineFlatness"       options:NSKeyValueObservingOptionNew context:(void *)999];
+    [self addObserver:self forKeyPath:@"foregroundColor" options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    [self addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    [self addObserver:self forKeyPath:@"lineColor"       options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    [self addObserver:self forKeyPath:@"lineWidth"       options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    [self addObserver:self forKeyPath:@"selectedSampleRange"       options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    [self addObserver:self forKeyPath:@"verticalScale"       options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    [self addObserver:self forKeyPath:@"displaysRuler"       options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    
+ // [self addObserver:self forKeyPath:@"lineFlatness"       options:NSKeyValueObservingOptionNew context:JHWaveformViewNeedsRedisplayCtx];
     
     return self;
 }
@@ -61,7 +74,7 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath
                      ofObject:(id)object
                        change:(NSDictionary *)change context:(void *)context {
-    if (context == (void *)999) {
+    if (context == (__bridge void *)JHWaveformViewNeedsRedisplayCtx ) {
         [self setNeedsDisplay:YES];
     }
 }
@@ -160,14 +173,18 @@
 
 -(NSRect)waveformRect {
     NSRect retRect = [self bounds];
-    retRect.size.height -= 25;
+    retRect.size.height -= [self rulerRect].size.height;
     return retRect;
 }
 
 -(NSRect)rulerRect {
     NSRect retRect = [self bounds];
-    retRect.origin.y = retRect.size.height - 25;
-    retRect.size.height = 25;
+    if (_displaysRuler) {
+        retRect.origin.y = retRect.size.height - 25;
+        retRect.size.height = 25;
+    } else {
+        retRect = NSZeroRect;
+    }
     return retRect;
 }
 
@@ -214,22 +231,26 @@
     [waveformPath fill];
     
     /* ruler */
-    NSRect rulerRect = [self rulerRect];
-    [[NSColor blackColor] set];
-    [NSBezierPath strokeLineFromPoint:rulerRect.origin
-                              toPoint:NSMakePoint(rulerRect.origin.x + rulerRect.size.width,
-                                                  rulerRect.origin.y)];
-    
-    NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlLightHighlightColor]
-                                                              endingColor:[NSColor controlHighlightColor]];
-    
-    [rulerGradient drawInRect:rulerRect angle:270.0f];
-    [[NSColor blackColor] set];
-    [NSBezierPath setDefaultLineWidth:0.5f];
-    [NSBezierPath strokeRect:rulerRect];
+    if (_displaysRuler) {
+        NSRect rulerRect = [self rulerRect];
+        [[NSColor blackColor] set];
+        [NSBezierPath strokeLineFromPoint:rulerRect.origin
+                                  toPoint:NSMakePoint(rulerRect.origin.x + rulerRect.size.width,
+                                                      rulerRect.origin.y)];
+        
+        NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlLightHighlightColor]
+                                                                  endingColor:[NSColor controlHighlightColor]];
+        
+        [rulerGradient drawInRect:rulerRect angle:270.0f];
+        [[NSColor blackColor] set];
+        [NSBezierPath setDefaultLineWidth:0.5f];
+        [NSBezierPath strokeRect:rulerRect];
+    }
+
     
     /* outline */
-    [NSBezierPath setDefaultLineWidth:0.5f];
+    [NSBezierPath setDefaultLineWidth:1.0f];
+    [[NSColor controlDarkShadowColor] set];
     [NSBezierPath strokeRect:[self bounds]];
 }
 
