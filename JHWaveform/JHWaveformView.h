@@ -20,12 +20,16 @@
     
     NSPoint *_sampleData;
     NSUInteger _sampleDataLength;
+    
+    BOOL        _allowsSelection;
 }
 
 @property (copy, readwrite) NSColor *foregroundColor, *lineColor, *backgroundColor, *selectedColor;
 @property (assign) CGFloat lineWidth;
 
 @property (assign) NSRange selectedSampleRange;
+
+@property (assign) BOOL allowsSelection;
 
 -(void)setWaveform:(float*)samples length:(NSUInteger)length;
 

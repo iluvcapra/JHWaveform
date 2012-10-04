@@ -16,12 +16,15 @@
 @synthesize selectedColor   =       _selectedColor;
 @synthesize lineWidth       =       _lineWidth;
 @synthesize selectedSampleRange =   _selectedSampleRange;
+@synthesize allowsSelection =       _allowsSelection;
+
 
 -(CGFloat)_sampleToXPoint:(NSUInteger)sampleIdx {
     return (float)sampleIdx / (float)_sampleDataLength * self.bounds.size.width;
 }
 
 -(NSUInteger)_XpointToSample:(CGFloat)xPoint {
+    
     return lrint((xPoint / self.bounds.size.width) * _sampleDataLength);
 }
 
@@ -38,6 +41,7 @@
         _selectedSampleRange = NSMakeRange(NSNotFound, 0);
         _dragging = NO;
         _selectionOrigin = 0;
+        self.allowsSelection = NO;
     }
     
     [self addObserver:self forKeyPath:@"foregroundColor" options:NSKeyValueObservingOptionNew context:(void *)999];
@@ -62,7 +66,7 @@
 -(void)mouseDown:(NSEvent *)event {
     NSPoint clickDown = [self convertPoint:[event locationInWindow]
                                   fromView:nil];
-    
+        
     NSUInteger loc = [self _XpointToSample:clickDown.x];
     
     _selectionOrigin = loc;
@@ -73,18 +77,27 @@
     NSPoint clickDown = [self convertPoint:[event locationInWindow]
                                   fromView:nil];
     
+    // clamp value if the mouse is dragged off the view
+    if (clickDown.x < 0.0f) { clickDown.x = 0.0f;}
+    if (clickDown.x > self.bounds.size.width) {clickDown.x = self.bounds.size.width;}
+    
     NSUInteger loc = [self _XpointToSample:clickDown.x];
+    
+    if (self.allowsSelection) {
+        
+        if ([event modifierFlags] & NSShiftKeyMask) {
+            NSRange extend = NSMakeRange(loc, 1);
+            self.selectedSampleRange = NSUnionRange(self.selectedSampleRange, extend);
 
-    if (loc < _selectionOrigin) {
-        self.selectedSampleRange = NSMakeRange(loc, _selectionOrigin - loc);
-    } else {
-        self.selectedSampleRange = NSMakeRange(_selectionOrigin, loc - _selectionOrigin);
+        } else {
+            if (loc < _selectionOrigin) {
+                self.selectedSampleRange = NSMakeRange(loc, _selectionOrigin - loc);
+            } else {
+                self.selectedSampleRange = NSMakeRange(_selectionOrigin, loc - _selectionOrigin);
+            }
+        
+        }
     }
-    
-    
-    NSRange extend = NSMakeRange(loc, 1);
-    self.selectedSampleRange = NSUnionRange(self.selectedSampleRange, extend);
-    
 }
 
 -(void)mouseUp:(NSEvent *)event {
