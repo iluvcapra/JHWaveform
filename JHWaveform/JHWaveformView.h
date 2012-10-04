@@ -36,10 +36,10 @@ enum JHWaveformViewMouseModes {
 @property (assign) CGFloat lineWidth;
 @property (assign) CGFloat verticalScale;
 
-
+@property (assign) BOOL allowsSelection;
 @property (assign) NSRange selectedSampleRange;
 
-@property (assign) BOOL allowsSelection, displaysRuler;
+@property (assign) BOOL displaysRuler;
 
 -(void)setWaveform:(float*)samples length:(NSUInteger)length;
 
