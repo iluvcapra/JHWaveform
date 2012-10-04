@@ -25,13 +25,9 @@
 }
 
 -(NSUInteger)_XpointToSample:(CGFloat)xPoint {
-    
     return lrint((xPoint / self.bounds.size.width) * _sampleDataLength);
 }
 
-- (void)_extendSelectionToSample:(NSUInteger)loc {
-
-}
 
 -(id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
@@ -112,7 +108,6 @@
     _dragging = YES;
 }
 
-
 -(void)mouseDragged:(NSEvent *)event {
     NSPoint clickDown = [self convertPoint:[event locationInWindow]
                                   fromView:nil];
@@ -136,6 +131,7 @@
     _dragging = NO;
 }
 
+#pragma mark Set Data
 
 -(void)setWaveform:(float *)samples length:(NSUInteger)length {
     
@@ -162,12 +158,27 @@
     [self setNeedsDisplay:YES];
 }
 
+-(NSRect)waveformRect {
+    NSRect retRect = [self bounds];
+    retRect.size.height -= 25;
+    return retRect;
+}
+
+-(NSRect)rulerRect {
+    NSRect retRect = [self bounds];
+    retRect.origin.y = retRect.size.height - 25;
+    retRect.size.height = 25;
+    return retRect;
+}
+
 -(void)drawRect:(NSRect)dirtyRect {
     
     /* fill background */
     [self.backgroundColor set];
     [NSBezierPath fillRect:self.bounds];
     
+    
+    NSRect waveformRect = [self waveformRect];
     
     /* fill selection */
     
@@ -176,16 +187,17 @@
         NSRect selectedRect = NSMakeRect([self _sampleToXPoint:_selectedSampleRange.location],
                                          0,
                                          [self _sampleToXPoint:_selectedSampleRange.length],
-                                         self.bounds.size.height);
+                                         waveformRect.size.height);
         
         [NSBezierPath fillRect:selectedRect];
     }
     
     /* draw waveform outlines */
+    
     NSAffineTransform *tx = [NSAffineTransform transform];
-    [tx translateXBy:0.0f yBy:self.bounds.size.height / 2];
-    [tx scaleXBy:self.bounds.size.width / ((CGFloat)_sampleDataLength)
-             yBy:self.bounds.size.height * _verticalScale / 2];
+    [tx translateXBy:0.0f yBy:waveformRect.size.height / 2];
+    [tx scaleXBy:waveformRect.size.width / ((CGFloat)_sampleDataLength)
+             yBy:waveformRect.size.height * _verticalScale / 2];
 
     NSBezierPath *waveformPath = [NSBezierPath bezierPath];
     [waveformPath appendBezierPathWithPoints:_sampleData
@@ -200,6 +212,23 @@
     [waveformPath stroke];
     [self.foregroundColor set];
     [waveformPath fill];
+    
+    /* ruler */
+    NSRect rulerRect = [self rulerRect];
+    [[NSColor blackColor] set];
+    [NSBezierPath strokeLineFromPoint:rulerRect.origin
+                              toPoint:NSMakePoint(rulerRect.origin.x + rulerRect.size.width,
+                                                  rulerRect.origin.y)];
+    
+    NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlHighlightColor]
+                                                              endingColor:[NSColor controlLightHighlightColor]];
+    
+    [rulerGradient drawInRect:rulerRect angle:90.0f];
+    [[NSColor blackColor] set];
+    [NSBezierPath setDefaultLineWidth:0.5f];
+    [NSBezierPath strokeRect:rulerRect];
+    
+    [NSBezierPath strokeRect:[self bounds]];
 }
 
 - (void)dealloc {
