@@ -169,6 +169,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
         _sampleData[i] = NSMakePoint(i, samples[i-1]);
     }
     
+    [self setSelectedSampleRange:NSMakeRange(NSNotFound, 0)];
     [self setNeedsDisplay:YES];
 }
 
@@ -193,14 +194,15 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     
     /* fill background */
     [self.backgroundColor set];
-    [NSBezierPath fillRect:self.bounds];
+    [NSBezierPath fillRect:dirtyRect];
     
     
     NSRect waveformRect = [self waveformRect];
     
     /* fill selection */
     
-    if (_selectedSampleRange.location != NSNotFound) {
+    if (_selectedSampleRange.location != NSNotFound ||
+        _selectedSampleRange.length == 0) {
         [self.selectedColor set];
         NSRect selectedRect = NSMakeRect([self _sampleToXPoint:_selectedSampleRange.location],
                                          0,
@@ -224,7 +226,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     [waveformPath transformUsingAffineTransform:tx];
     
     [waveformPath setLineWidth:_lineWidth];
-//    [waveformPath setFlatness:_lineFlatness];
+
     
     [self.lineColor set];
     [waveformPath stroke];
