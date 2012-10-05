@@ -18,13 +18,32 @@
 #define TIME_SCALE_FACTOR   ( lrintf(50* secondsDuration) )
 
 
+
+- (NSData *)_coalesceData:(NSMutableData *)floatData {
+    NSUInteger i,j;
+    Float64 secondsDuration = CMTimeGetSeconds(_player.currentItem.duration);
+    Float32 *samples = (Float32 *)[floatData bytes];
+    NSMutableData *coalescedData = [NSMutableData new];
+    for (i = 0; i < [floatData length] / sizeof(Float32); i += TIME_SCALE_FACTOR) {
+        float *max = malloc(sizeof(float));
+        float *min = malloc(sizeof(float));
+        for (j = 0; j < TIME_SCALE_FACTOR; j++) {
+            *max = MAX(*max, samples[i+j]);
+            *min = MIN(*min, samples[i+j]);
+        }
+        [coalescedData appendBytes:max length:sizeof(float)];
+        [coalescedData appendBytes:min length:sizeof(float)];
+        free(max);
+        free(min);
+    }
+    return [NSData dataWithData:coalescedData];
+}
+
 -(void)_readSamplesFromAsset:(AVAsset *)asset {
     NSError *error = nil;
     AVAssetReader *sampleReader = [[AVAssetReader alloc] initWithAsset:_player.currentItem.asset
                                                                  error:&error];
     NSAssert(error == nil, @"could not initialize asset reader: %@", error);
-    
-    Float64 secondsDuration = CMTimeGetSeconds(_player.currentItem.duration);
     
     NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
     AVAssetTrack *theTrack = [audioTracks objectAtIndex:0];
@@ -73,21 +92,8 @@
     
     [sampleReader cancelReading];
     
-    NSUInteger i,j;
-    Float32 *samples = (Float32 *)[floatData bytes];
-    NSMutableData *coalescedData = [NSMutableData new];
-    for (i = 0; i < [floatData length] / sizeof(Float32); i += TIME_SCALE_FACTOR) {
-        float *max = malloc(sizeof(float));
-        float *min = malloc(sizeof(float));
-        for (j = 0; j < TIME_SCALE_FACTOR; j++) {
-            *max = MAX(*max, samples[i+j]);
-            *min = MIN(*min, samples[i+j]);
-        }
-        [coalescedData appendBytes:max length:sizeof(float)];
-        [coalescedData appendBytes:min length:sizeof(float)];
-        free(max);
-        free(min);
-    }
+    NSData *coalescedData;
+    coalescedData = [self _coalesceData:floatData];
     
     [self setWaveform:(float *)[coalescedData bytes] length:[coalescedData length] / sizeof(float)];
 }
