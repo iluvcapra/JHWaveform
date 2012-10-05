@@ -28,6 +28,8 @@
     for (i = 0; i < [floatData length] / sizeof(Float32); i += coalesceStride) {
         float *max = malloc(sizeof(float));
         float *min = malloc(sizeof(float));
+        *max = 0;
+        *min = 0;
         for (j = 0; j < coalesceStride; j++) {
             *max = MAX(*max, samples[i+j]);
             *min = MIN(*min, samples[i+j]);
