@@ -18,6 +18,6 @@
 
 @property (readonly) AVPlayer *player;
 
--(void)setURL:(NSURL *)url;
+-(void)setURL:(NSURL *)url error:(NSError *__autoreleasing *)loadError;
 
 @end

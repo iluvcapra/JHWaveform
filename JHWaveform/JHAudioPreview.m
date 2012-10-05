@@ -140,19 +140,23 @@
     return self;
 }
 
--(void)setURL:(NSURL *)url {
+-(void)setURL:(NSURL *)url error:(NSError *__autoreleasing *)loadError {
     _player = [AVPlayer playerWithURL:url];
-    if (_player != nil) {
-        NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
-        if ([audioTracks count] == 0) {
-            _player = nil;
-        } else {
-            [self _observePlayer];
-        }
+    if (_player.status == AVPlayerStatusFailed) {
+        *loadError = _player.error;
     } else {
-        [self _stopObservingPlayer];
+        if (_player != nil) {
+            NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
+            if ([audioTracks count] == 0) {
+                _player = nil;
+            } else {
+                [self _observePlayer];
+            }
+        } else {
+            [self _stopObservingPlayer];
+        }
+        [self _readSamplesFromAsset:_player.currentItem.asset];
     }
-    [self _readSamplesFromAsset:_player.currentItem.asset];
 }
 
 -(void)drawRect:(NSRect)dirtyRect {
