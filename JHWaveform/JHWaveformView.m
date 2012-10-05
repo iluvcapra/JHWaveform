@@ -287,6 +287,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [waveformPath setLineWidth:_lineWidth];
 
     
+    [NSBezierPath setDefaultLineWidth:0.5f];
     [self.lineColor set];
     [waveformPath stroke];
     [self.foregroundColor set];
