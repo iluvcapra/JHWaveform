@@ -15,19 +15,20 @@
 
 // 10,000 samples total
 
-#define TIME_SCALE_FACTOR   ( lrintf(50* secondsDuration) )
-
+#define TIME_SCALE_FACTOR   ( 50 )
 
 
 - (NSData *)_coalesceData:(NSMutableData *)floatData {
     NSUInteger i,j;
     Float64 secondsDuration = CMTimeGetSeconds(_player.currentItem.duration);
+    NSUInteger coalesceStride = lrintf(TIME_SCALE_FACTOR * secondsDuration);
+    
     Float32 *samples = (Float32 *)[floatData bytes];
     NSMutableData *coalescedData = [NSMutableData new];
-    for (i = 0; i < [floatData length] / sizeof(Float32); i += TIME_SCALE_FACTOR) {
+    for (i = 0; i < [floatData length] / sizeof(Float32); i += coalesceStride) {
         float *max = malloc(sizeof(float));
         float *min = malloc(sizeof(float));
-        for (j = 0; j < TIME_SCALE_FACTOR; j++) {
+        for (j = 0; j < coalesceStride; j++) {
             *max = MAX(*max, samples[i+j]);
             *min = MIN(*min, samples[i+j]);
         }
