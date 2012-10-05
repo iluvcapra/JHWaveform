@@ -15,7 +15,7 @@
 
 // 10,000 samples total
 
-#define TIME_SCALE_FACTOR   ( lrintf(10* secondsDuration) )
+#define TIME_SCALE_FACTOR   ( lrintf(50* secondsDuration) )
 
 
 -(void)_readSamplesFromAsset:(AVAsset *)asset {
@@ -31,7 +31,7 @@
     
     NSDictionary *lpcmOutputSetting = @{
     AVFormatIDKey : @( kAudioFormatLinearPCM ),
-    AVSampleRateKey : @10000,
+    AVSampleRateKey : @48000,
     AVLinearPCMIsFloatKey : @YES,
     AVLinearPCMBitDepthKey : @32,
     AVLinearPCMIsNonInterleaved : @NO,
