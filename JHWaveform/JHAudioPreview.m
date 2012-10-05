@@ -102,10 +102,10 @@
         NSData *floatData;
         floatData = [self _assetSamplesAsFloatArray];
         
-        NSData *coalescedData;
-        coalescedData = [self _coalesceData:floatData];
-        
         dispatch_sync(dispatch_get_main_queue(), ^{
+            NSData *coalescedData;
+            coalescedData = [self _coalesceData:floatData];
+            
             [self setWaveform:(float *)[coalescedData bytes] length:[coalescedData length] / sizeof(float)];
         });
     });
