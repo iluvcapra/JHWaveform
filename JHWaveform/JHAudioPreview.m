@@ -13,7 +13,9 @@
 
 @synthesize player = _player;
 
-#define TIME_SCALE_FACTOR   (800)
+// 10,000 samples total
+
+#define TIME_SCALE_FACTOR   ( lrintf(10* secondsDuration) )
 
 
 -(void)_readSamplesFromAsset:(AVAsset *)asset {
@@ -22,12 +24,14 @@
                                                                  error:&error];
     NSAssert(error == nil, @"could not initialize asset reader: %@", error);
     
+    Float64 secondsDuration = CMTimeGetSeconds(_player.currentItem.duration);
+    
     NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
     AVAssetTrack *theTrack = [audioTracks objectAtIndex:0];
     
     NSDictionary *lpcmOutputSetting = @{
     AVFormatIDKey : @( kAudioFormatLinearPCM ),
-    AVSampleRateKey : @8000,
+    AVSampleRateKey : @10000,
     AVLinearPCMIsFloatKey : @YES,
     AVLinearPCMBitDepthKey : @32,
     AVLinearPCMIsNonInterleaved : @NO,
