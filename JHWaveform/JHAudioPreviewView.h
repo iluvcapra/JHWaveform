@@ -9,7 +9,7 @@
 #import "JHWaveformView.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface JHAudioPreview : JHWaveformView {
+@interface JHAudioPreviewView : JHWaveformView {
     AVPlayer *_player;
     
     id _timeObserverDescriptor;

@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "JHWaveformView.h"
-#import "JHAudioPreview.h"
+#import "JHAudioPreviewView.h"
 
 enum testSignals {
     sine = 1001,
@@ -16,7 +16,7 @@ enum testSignals {
     };
 
 @interface JHAppDelegate : NSObject <NSApplicationDelegate> {
-    JHAudioPreview *_waveformView;
+    JHAudioPreviewView *_waveformView;
 
     NSUInteger _numberOfSamples;
     NSUInteger _testSignal;

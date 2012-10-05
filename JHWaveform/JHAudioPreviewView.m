@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Jamie Hardt. All rights reserved.
 //
 
-#import "JHAudioPreview.h"
+#import "JHAudioPreviewView.h"
 #import <CoreMedia/CoreMedia.h>
 
-@implementation JHAudioPreview
+@implementation JHAudioPreviewView
 
 @synthesize player = _player;
 

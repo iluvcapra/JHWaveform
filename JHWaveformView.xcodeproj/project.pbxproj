@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7DCF710F161E3440007AF2A0 /* JHAudioPreview.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DCF710D161E3440007AF2A0 /* JHAudioPreview.h */; };
-		7DCF7110161E3440007AF2A0 /* JHAudioPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreview.m */; };
-		7DCF7111161E3440007AF2A0 /* JHAudioPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreview.m */; };
+		7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */; };
+		7DCF7110161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */; };
+		7DCF7111161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */; };
 		7DCF7114161E34CF007AF2A0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */; };
 		7DCF7116161E4464007AF2A0 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7115161E4464007AF2A0 /* CoreMedia.framework */; };
 		7DD05463161CF5950019D540 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD053FB161CEAFB0019D540 /* Cocoa.framework */; };
@@ -48,8 +48,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7DCF710D161E3440007AF2A0 /* JHAudioPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHAudioPreview.h; sourceTree = "<group>"; };
-		7DCF710E161E3440007AF2A0 /* JHAudioPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHAudioPreview.m; sourceTree = "<group>"; };
+		7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHAudioPreviewView.h; sourceTree = "<group>"; };
+		7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHAudioPreviewView.m; sourceTree = "<group>"; };
 		7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7DCF7115161E4464007AF2A0 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		7DD053FB161CEAFB0019D540 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -185,8 +185,8 @@
 			children = (
 				7DD0543D161CEB6B0019D540 /* JHWaveformView.h */,
 				7DD0543E161CEB6B0019D540 /* JHWaveformView.m */,
-				7DCF710D161E3440007AF2A0 /* JHAudioPreview.h */,
-				7DCF710E161E3440007AF2A0 /* JHAudioPreview.m */,
+				7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */,
+				7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */,
 				7DD0548A161CF66A0019D540 /* JHWaveform.h */,
 				7DD0548B161CF66A0019D540 /* JHWaveform.m */,
 				7DD05484161CF66A0019D540 /* Supporting Files */,
@@ -230,7 +230,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DCF710F161E3440007AF2A0 /* JHAudioPreview.h in Headers */,
+				7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,7 +382,7 @@
 			files = (
 				7DD054AA161CF7110019D540 /* JHWaveformView.m in Sources */,
 				7DD0548C161CF66B0019D540 /* JHWaveform.m in Sources */,
-				7DCF7110161E3440007AF2A0 /* JHAudioPreview.m in Sources */,
+				7DCF7110161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,7 +391,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DD054A0161CF66B0019D540 /* JHWaveformTests.m in Sources */,
-				7DCF7111161E3440007AF2A0 /* JHAudioPreview.m in Sources */,
+				7DCF7111161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
