@@ -240,20 +240,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     
     NSRect waveformRect = [self waveformRect];
     
-    /* gridlines */
-    
-    if (_displaysGrid) {
-        [self.gridColor set];
-        [NSBezierPath setDefaultLineWidth:0.5f];
-        NSUInteger i, xpt;
-        for (i = 0; i < _sampleDataLength; i += _gridTicks) {
-            xpt = [self _sampleToXPoint:i];
-            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
-                                      toPoint:NSMakePoint(xpt, [self bounds].size.height)];
-        }
-        
-    }
-    
     /* fill selection */
     
     if (_selectedSampleRange.location != NSNotFound ||
@@ -269,6 +255,20 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         [self.selectedBorderColor set];
         [NSBezierPath setDefaultLineWidth:2.0];
         [NSBezierPath strokeRect:selectedRect];
+    }
+    
+    /* gridlines */
+    
+    if (_displaysGrid) {
+        [self.gridColor set];
+        [NSBezierPath setDefaultLineWidth:0.5f];
+        NSUInteger i, xpt;
+        for (i = 0; i < _sampleDataLength; i += _gridTicks) {
+            xpt = [self _sampleToXPoint:i];
+            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
+                                      toPoint:NSMakePoint(xpt, [self bounds].size.height)];
+        }
+        
     }
     
     /* draw waveform outlines */

@@ -1950,7 +1950,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											<string key="NSFrame">{{154, 42}, {44, 23}}</string>
 											<reference key="NSSuperview" ref="988045483"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:1116</string>
 											<int key="NSTag">1</int>
 											<bool key="NSEnabled">YES</bool>
