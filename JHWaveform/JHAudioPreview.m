@@ -98,6 +98,7 @@
 
 -(void)_stopObservingPlayer {
     [_player removeTimeObserver:_timeObserverDescriptor];
+    _timeObserverDescriptor = nil;
 }
 
 - (id)initWithFrame:(NSRect)frame
@@ -133,6 +134,14 @@
     
     /* draw playhead */
     
+}
+
+- (void)dealloc
+{
+    if (_timeObserverDescriptor) {
+        [self _stopObservingPlayer];
+        _player = nil;
+    }
 }
 
 @end
