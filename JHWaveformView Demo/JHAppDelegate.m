@@ -59,7 +59,12 @@
     [op beginSheetModalForWindow:self.window
                completionHandler:^(NSInteger result) {
                    if (result == NSFileHandlingPanelOKButton) {
-                           [_waveformView setURL:[op URL]];
+                       NSError *error = nil;
+                       [_waveformView setURL:[op URL] error:&error];
+                       
+                       if (error != nil) {
+                           [NSApp presentError:error];
+                       }
                    }
     }];
     

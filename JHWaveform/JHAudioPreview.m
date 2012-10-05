@@ -42,67 +42,71 @@
     return [NSData dataWithData:coalescedData];
 }
 
-- (NSMutableData *)_assetSamplesAsFloatArray {
-    NSError *error = nil;
+- (NSMutableData *)_assetSamplesAsFloatArrayOrError:(NSError **)error {
+
     AVAssetReader *sampleReader = [[AVAssetReader alloc] initWithAsset:_player.currentItem.asset
-                                                                 error:&error];
-    NSAssert(error == nil, @"could not initialize asset reader: %@", error);
+                                                                 error:error];
+    NSMutableData *floatData = nil;
     
-    NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
-    AVAssetTrack *theTrack = [audioTracks objectAtIndex:0];
-    
-    NSDictionary *lpcmOutputSetting = @{
-    AVFormatIDKey : @( kAudioFormatLinearPCM ),
-    AVSampleRateKey : @48000,
-    AVLinearPCMIsFloatKey : @YES,
-    AVLinearPCMBitDepthKey : @32,
-    AVLinearPCMIsNonInterleaved : @NO,
-    AVNumberOfChannelsKey : @1
-    };
-    
-    
-    AVAssetReaderTrackOutput *trackOutput =
-    [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack: theTrack
-                                               outputSettings: lpcmOutputSetting];
-    [sampleReader addOutput:trackOutput ];
-    
-    [sampleReader startReading];
-    
-    CMSampleBufferRef buf;
-    NSMutableData *floatData = [NSMutableData new];
-    while ((buf = [trackOutput copyNextSampleBuffer])) {
+    if (*error == nil) {
+        NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
+        AVAssetTrack *theTrack = [audioTracks objectAtIndex:0];
         
-        AudioBufferList audioBufferList;
-        CMBlockBufferRef blockBuffer;
-        CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(buf,
-                                                                NULL,
-                                                                &audioBufferList,
-                                                                sizeof(audioBufferList),
-                                                                NULL,
-                                                                NULL,
-                                                                0,
-                                                                &blockBuffer);
+        NSDictionary *lpcmOutputSetting = @{
+        AVFormatIDKey : @( kAudioFormatLinearPCM ),
+        AVSampleRateKey : @48000,
+        AVLinearPCMIsFloatKey : @YES,
+        AVLinearPCMBitDepthKey : @32,
+        AVLinearPCMIsNonInterleaved : @NO,
+        AVNumberOfChannelsKey : @1
+        };
         
-        AudioBuffer audioBuffer = audioBufferList.mBuffers[0];
-        Float32 *frame = (Float32*)audioBuffer.mData;
-        [floatData appendBytes:frame length:audioBuffer.mDataByteSize];
         
-        CFRelease(blockBuffer);
-        CFRelease(buf);
-        blockBuffer = NULL;
-        buf = NULL;
+        AVAssetReaderTrackOutput *trackOutput =
+        [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack: theTrack
+                                                   outputSettings: lpcmOutputSetting];
+        [sampleReader addOutput:trackOutput ];
+        
+        [sampleReader startReading];
+        
+        CMSampleBufferRef buf;
+        floatData = [NSMutableData new];
+        while ((buf = [trackOutput copyNextSampleBuffer])) {
+            
+            AudioBufferList audioBufferList;
+            CMBlockBufferRef blockBuffer;
+            CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(buf,
+                                                                    NULL,
+                                                                    &audioBufferList,
+                                                                    sizeof(audioBufferList),
+                                                                    NULL,
+                                                                    NULL,
+                                                                    0,
+                                                                    &blockBuffer);
+            
+            AudioBuffer audioBuffer = audioBufferList.mBuffers[0];
+            Float32 *frame = (Float32*)audioBuffer.mData;
+            [floatData appendBytes:frame length:audioBuffer.mDataByteSize];
+            
+            CFRelease(blockBuffer);
+            CFRelease(buf);
+            blockBuffer = NULL;
+            buf = NULL;
+        }
+        
+        [sampleReader cancelReading];
     }
     
-    [sampleReader cancelReading];
+
     return floatData;
 }
 
--(void)_readSamplesFromAsset:(AVAsset *)asset {
+-(void)_readSamplesFromAsset:(AVAsset *)asset error:(NSError **)error {
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         NSData *floatData;
-        floatData = [self _assetSamplesAsFloatArray];
+        floatData = [self _assetSamplesAsFloatArrayOrError:error];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             NSData *coalescedData;
@@ -141,21 +145,33 @@
 }
 
 -(void)setURL:(NSURL *)url error:(NSError *__autoreleasing *)loadError {
+    if (_player) {
+        [self _stopObservingPlayer];
+        _player = nil;
+    }
+    
     _player = [AVPlayer playerWithURL:url];
-    if (_player.status == AVPlayerStatusFailed) {
-        *loadError = _player.error;
-    } else {
-        if (_player != nil) {
+    if (_player) {
+        if (_player.status == AVPlayerStatusFailed) {
+            *loadError = _player.error;
+        } else {
             NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
             if ([audioTracks count] == 0) {
                 _player = nil;
+                *loadError = [NSError errorWithDomain:@"JHWaveFromErrorDomain" code:-1 userInfo:@{
+                                       NSURLErrorKey : url,
+                    NSLocalizedDescriptionKey : @"Selected media asset contains no audio tracks.",
+                NSLocalizedRecoverySuggestionErrorKey: @"Try selecting a different file."}];
             } else {
                 [self _observePlayer];
+                [self _readSamplesFromAsset:_player.currentItem.asset error:loadError];
             }
-        } else {
-            [self _stopObservingPlayer];
         }
-        [self _readSamplesFromAsset:_player.currentItem.asset];
+    } else {
+        *loadError = [NSError errorWithDomain:@"JHWaveFromErrorDomain" code:-1 userInfo:@{
+                               NSURLErrorKey : url,
+            NSLocalizedDescriptionKey : @"Failed to create a media player for seleceted media.",
+                      NSLocalizedRecoverySuggestionErrorKey: @"Selected file may be currupt."}];
     }
 }
 
