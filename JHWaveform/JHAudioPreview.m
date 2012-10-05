@@ -18,7 +18,7 @@
 #define TIME_SCALE_FACTOR   ( 50 )
 
 
-- (NSData *)_coalesceData:(NSMutableData *)floatData {
+- (NSData *)_coalesceData:(NSData *)floatData {
     NSUInteger i,j;
     Float64 secondsDuration = CMTimeGetSeconds(_player.currentItem.duration);
     NSUInteger coalesceStride = lrintf(TIME_SCALE_FACTOR * secondsDuration);
@@ -40,7 +40,7 @@
     return [NSData dataWithData:coalescedData];
 }
 
--(void)_readSamplesFromAsset:(AVAsset *)asset {
+- (NSMutableData *)_assetSamplesAsFloatArray {
     NSError *error = nil;
     AVAssetReader *sampleReader = [[AVAssetReader alloc] initWithAsset:_player.currentItem.asset
                                                                  error:&error];
@@ -92,11 +92,24 @@
     }
     
     [sampleReader cancelReading];
+    return floatData;
+}
+
+-(void)_readSamplesFromAsset:(AVAsset *)asset {
     
-    NSData *coalescedData;
-    coalescedData = [self _coalesceData:floatData];
-    
-    [self setWaveform:(float *)[coalescedData bytes] length:[coalescedData length] / sizeof(float)];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        NSData *floatData;
+        floatData = [self _assetSamplesAsFloatArray];
+        
+        NSData *coalescedData;
+        coalescedData = [self _coalesceData:floatData];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self setWaveform:(float *)[coalescedData bytes] length:[coalescedData length] / sizeof(float)];
+        });
+    });
+
 }
 
 -(void)_observePlayer {
