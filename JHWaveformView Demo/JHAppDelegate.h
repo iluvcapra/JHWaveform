@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "JHWaveformView.h"
 #import "JHAudioPreviewView.h"
+#import <CoreMedia/CoreMedia.h>
 
 enum testSignals {
     sine = 1001,
@@ -32,5 +33,8 @@ enum testSignals {
 -(IBAction)openTestAudioFile:(id)sender;
 -(IBAction)playTestFile:(id)sender;
 -(IBAction)pauseTestFile:(id)sender;
+
+-(IBAction)rtzTestFile:(id)sender;
+-(IBAction)speedPlayTestFile:(id)sender;
 
 @end

@@ -70,12 +70,20 @@
 }
 
 -(IBAction)playTestFile:(id)sender {
-    [_waveformView.player play];
+    _waveformView.player.rate = 1.0f;
 }
 
 
 -(IBAction)pauseTestFile:(id)sender {
     [_waveformView.player pause];
+}
+
+-(IBAction)rtzTestFile:(id)sender {
+    [_waveformView.player seekToTime:CMTimeMake(0, 1)];
+}
+-(IBAction)speedPlayTestFile:(id)sender {
+    _waveformView.player.rate = 2.0f;
+    
 }
 
 @end

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D516F09161FB1B700742DCF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7115161E4464007AF2A0 /* CoreMedia.framework */; };
+		7D516F0A161FB1C000742DCF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */; };
 		7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */; };
 		7DCF7110161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */; };
 		7DCF7111161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */; };
@@ -86,6 +88,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D516F0A161FB1C000742DCF /* AVFoundation.framework in Frameworks */,
+				7D516F09161FB1B700742DCF /* CoreMedia.framework in Frameworks */,
 				7DD054A9161CF6DB0019D540 /* JHWaveform.framework in Frameworks */,
 				7DD05463161CF5950019D540 /* Cocoa.framework in Frameworks */,
 			);
