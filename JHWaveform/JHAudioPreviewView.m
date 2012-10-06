@@ -183,9 +183,9 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
             [self seekToSelectedSampleLocation];
         }
     } else if (context == (__bridge void *)JHAudioPreviewPlayerSampleRangeObservingCtx) {
-        if (_player.rate == 0.0f) {
+//        if (_player.rate == 0.0f) {
             [self seekToSelectedSampleLocation];
-        }
+//        }
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
