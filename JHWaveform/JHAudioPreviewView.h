@@ -18,8 +18,10 @@
 
 }
 
-@property (readonly) AVPlayer *player;
+@property (readwrite) AVPlayer *player;
 
--(void)setURL:(NSURL *)url error:(NSError *__autoreleasing *)loadError;
+
+
+//-(void)setURL:(NSURL *)url error:(NSError *__autoreleasing *)loadError;
 
 @end

@@ -22,6 +22,8 @@ enum testSignals {
     NSUInteger _numberOfSamples;
     NSUInteger _testSignal;
     
+    AVPlayer *_player;
+    
 }
 
 @property (assign) IBOutlet NSWindow *window;

@@ -38,6 +38,7 @@
     float testSignal[] = {0.0f,1.0f,-1.0f,1.0f,-1.0f,0.0f};
     [_waveformView setWaveform:testSignal length:6];
     _numberOfSamples = 1000;
+    _player = nil;
 }
 
 
@@ -59,12 +60,9 @@
     [op beginSheetModalForWindow:self.window
                completionHandler:^(NSInteger result) {
                    if (result == NSFileHandlingPanelOKButton) {
-                       NSError *error = nil;
-                       [_waveformView setURL:[op URL] error:&error];
-                       
-                       if (error != nil) {
-                           [NSApp presentError:error];
-                       }
+                       _player = nil;
+                       _player = [AVPlayer playerWithURL:[op URL]];
+                       [_waveformView setPlayer:_player];
                    }
     }];
 }

@@ -11,8 +11,6 @@
 
 @implementation JHAudioPreviewView
 
-@synthesize player = _player;
-
 // 10,000 samples total
 
 #define TIME_SCALE_FACTOR   ( 50 )
@@ -104,12 +102,13 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
     return floatData;
 }
 
--(void)_readSamplesFromAsset:(AVAsset *)asset error:(NSError **)error {
+-(void)_readSamplesFromAsset:(AVAsset *)asset {
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         NSData *floatData;
-        floatData = [self _assetSamplesAsFloatArrayOrError:error];
+        NSError *error;
+        floatData = [self _assetSamplesAsFloatArrayOrError:&error];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             NSData *coalescedData;
@@ -191,40 +190,63 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
     }
 }
 
--(void)setURL:(NSURL *)url error:(NSError *__autoreleasing *)loadError {
-    
-    [self willChangeValueForKey:@"player"];
+-(AVPlayer *)player {
+    return _player;
+}
+
+-(void)setPlayer:(AVPlayer *)player {
     if (_player) {
         [self _stopObservingPlayer];
         _player = nil;
     }
+    _player = player;
     
-    _player = [AVPlayer playerWithURL:url];
     if (_player) {
-        if (_player.status == AVPlayerStatusFailed) {
-            *loadError = _player.error;
-        } else {
-            NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
-            if ([audioTracks count] == 0) {
-                _player = nil;
-                *loadError = [NSError errorWithDomain:@"JHWaveFromErrorDomain" code:-1 userInfo:@{
-                                       NSURLErrorKey : url,
-                           NSLocalizedDescriptionKey : @"Selected file contains no audio tracks.",
-                NSLocalizedRecoverySuggestionErrorKey: @"Try selecting a different file."}];
-            } else {
-                _assetDuration = CMTimeGetSeconds(_player.currentItem.duration);
-                [self _observePlayer];
-                [self _readSamplesFromAsset:_player.currentItem.asset error:loadError];
-            }
+        NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
+        if ([audioTracks count] == 0) {
+            _player = nil;
+         } else {
+            _assetDuration = CMTimeGetSeconds(_player.currentItem.duration);
+            [self _observePlayer];
+            [self _readSamplesFromAsset:_player.currentItem.asset];
         }
-    } else {
-        *loadError = [NSError errorWithDomain:@"JHWaveFromErrorDomain" code:-1 userInfo:@{
-                               NSURLErrorKey : url,
-                   NSLocalizedDescriptionKey : @"Failed to create a media player for seleceted media.",
-        NSLocalizedRecoverySuggestionErrorKey: @"Selected file may be currupt."}];
     }
-    [self didChangeValueForKey:@"player"];
 }
+
+//-(void)setURL:(NSURL *)url error:(NSError *__autoreleasing *)loadError {
+//    
+//    [self willChangeValueForKey:@"player"];
+//    if (_player) {
+//        [self _stopObservingPlayer];
+//        _player = nil;
+//    }
+//    
+//    _player = [AVPlayer playerWithURL:url];
+//    if (_player) {
+//        if (_player.status == AVPlayerStatusFailed) {
+//            *loadError = _player.error;
+//        } else {
+//            NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
+//            if ([audioTracks count] == 0) {
+//                _player = nil;
+//                *loadError = [NSError errorWithDomain:@"JHWaveFromErrorDomain" code:-1 userInfo:@{
+//                                       NSURLErrorKey : url,
+//                           NSLocalizedDescriptionKey : @"Selected file contains no audio tracks.",
+//                NSLocalizedRecoverySuggestionErrorKey: @"Try selecting a different file."}];
+//            } else {
+//                _assetDuration = CMTimeGetSeconds(_player.currentItem.duration);
+//                [self _observePlayer];
+//                [self _readSamplesFromAsset:_player.currentItem.asset error:loadError];
+//            }
+//        }
+//    } else {
+//        *loadError = [NSError errorWithDomain:@"JHWaveFromErrorDomain" code:-1 userInfo:@{
+//                               NSURLErrorKey : url,
+//                   NSLocalizedDescriptionKey : @"Failed to create a media player for seleceted media.",
+//        NSLocalizedRecoverySuggestionErrorKey: @"Selected file may be currupt."}];
+//    }
+//    [self didChangeValueForKey:@"player"];
+//}
 
 -(void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
