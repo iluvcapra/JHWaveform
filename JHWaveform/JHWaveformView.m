@@ -34,11 +34,11 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 #define RULER_TICK_INSET        3
 #define RULER_MINOR_TICK_FACTOR 0.5f
 
--(CGFloat)_sampleToXPoint:(NSUInteger)sampleIdx {
+-(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx {
     return (float)sampleIdx / (float)_sampleDataLength * self.bounds.size.width;
 }
 
--(NSUInteger)_XpointToSample:(CGFloat)xPoint {
+-(NSUInteger)xPointToSample:(CGFloat)xPoint {
     return lrint((xPoint / self.bounds.size.width) * _sampleDataLength);
 }
 
@@ -118,7 +118,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     NSPoint clickDown = [self convertPoint:[event locationInWindow]
                                   fromView:nil];
         
-    NSUInteger loc = [self _XpointToSample:clickDown.x];
+    NSUInteger loc = [self xPointToSample:clickDown.x];
     
     if (self.allowsSelection) {
         if (([event modifierFlags] & NSShiftKeyMask) && self.selectedSampleRange.location != NSNotFound) {
@@ -168,7 +168,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     if (clickDown.x < 0.0f) { clickDown.x = 0.0f;}
     if (clickDown.x > self.bounds.size.width) {clickDown.x = self.bounds.size.width;}
     
-    NSUInteger loc = [self _XpointToSample:clickDown.x];
+    NSUInteger loc = [self xPointToSample:clickDown.x];
     
     if (self.allowsSelection) {
         if (loc < _selectionAnchor) {
@@ -245,9 +245,9 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     if (_selectedSampleRange.location != NSNotFound ||
         _selectedSampleRange.length == 0) {
         [self.selectedColor set];
-        NSRect selectedRect = NSMakeRect([self _sampleToXPoint:_selectedSampleRange.location],
+        NSRect selectedRect = NSMakeRect([self sampleToXPoint:_selectedSampleRange.location],
                                          0,
-                                         [self _sampleToXPoint:_selectedSampleRange.length],
+                                         [self sampleToXPoint:_selectedSampleRange.length],
                                          waveformRect.size.height);
         
         [NSBezierPath fillRect:selectedRect];
@@ -264,7 +264,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         [NSBezierPath setDefaultLineWidth:0.5f];
         NSUInteger i, xpt;
         for (i = 0; i < _sampleDataLength; i += _gridTicks) {
-            xpt = [self _sampleToXPoint:i];
+            xpt = [self sampleToXPoint:i];
             [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
                                       toPoint:NSMakePoint(xpt, [self bounds].size.height)];
         }
@@ -313,13 +313,13 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         [[NSColor controlDarkShadowColor] set];
         [NSBezierPath setDefaultLineWidth:1.0f];
         for (i = 0; i < _sampleDataLength; i += _rulerMajorTicks) {
-            xpt = [self _sampleToXPoint:i];
+            xpt = [self sampleToXPoint:i];
             [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
                                       toPoint:NSMakePoint(xpt, rulerRect.origin.y+ tickHeight)];
         }
         for (i = 0; i < _sampleDataLength; i += _rulerMinorTicks) {
             if (i % _rulerMajorTicks) {
-                xpt = [self _sampleToXPoint:i];
+                xpt = [self sampleToXPoint:i];
                 [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
                                           toPoint:NSMakePoint(xpt, rulerRect.origin.y+ minorTickHeight)];
             }

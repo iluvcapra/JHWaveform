@@ -67,9 +67,15 @@
                        }
                    }
     }];
-    
-    
+}
 
+-(IBAction)playTestFile:(id)sender {
+    [_waveformView.player play];
+}
+
+
+-(IBAction)pauseTestFile:(id)sender {
+    [_waveformView.player pause];
 }
 
 @end

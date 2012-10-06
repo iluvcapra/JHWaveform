@@ -20,8 +20,7 @@
 
 - (NSData *)_coalesceData:(NSData *)floatData {
     NSUInteger i,j;
-    Float64 secondsDuration = CMTimeGetSeconds(_player.currentItem.duration);
-    NSUInteger coalesceStride = lrintf(TIME_SCALE_FACTOR * secondsDuration);
+    NSUInteger coalesceStride = lrintf(TIME_SCALE_FACTOR * _assetDuration);
     
     Float32 *samples = (Float32 *)[floatData bytes];
     NSMutableData *coalescedData = [NSMutableData new];
@@ -118,11 +117,18 @@
 
 }
 
+-(void)_setPlayheadPosition:(float)seconds {
+    float prop = seconds / _assetDuration;
+    _playheadPosition = lrintf(_sampleDataLength * prop);
+    [self setNeedsDisplay:YES];
+}
+
 -(void)_observePlayer {
+    __block JHAudioPreviewView *me = self;
     _timeObserverDescriptor = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 10)
-                                          queue:dispatch_get_current_queue()
+                                          queue:dispatch_get_main_queue()
                                      usingBlock:^(CMTime currentTime){
-                                         
+                                         [me _setPlayheadPosition: CMTimeGetSeconds(currentTime)];
                                      }];
 }
 
@@ -137,6 +143,8 @@
     if (self) {
         _player = nil;
         _timeObserverDescriptor = nil;
+        _playheadPosition = 100;
+        _assetDuration = 0.0;
         self.gridTicks = 100;
         self.rulerMajorTicks = 100;
         self.rulerMinorTicks = 10;
@@ -145,6 +153,8 @@
 }
 
 -(void)setURL:(NSURL *)url error:(NSError *__autoreleasing *)loadError {
+    
+    [self willChangeValueForKey:@"player"];
     if (_player) {
         [self _stopObservingPlayer];
         _player = nil;
@@ -160,9 +170,10 @@
                 _player = nil;
                 *loadError = [NSError errorWithDomain:@"JHWaveFromErrorDomain" code:-1 userInfo:@{
                                        NSURLErrorKey : url,
-                    NSLocalizedDescriptionKey : @"Selected media asset contains no audio tracks.",
+                           NSLocalizedDescriptionKey : @"Selected file contains no audio tracks.",
                 NSLocalizedRecoverySuggestionErrorKey: @"Try selecting a different file."}];
             } else {
+                _assetDuration = CMTimeGetSeconds(_player.currentItem.duration);
                 [self _observePlayer];
                 [self _readSamplesFromAsset:_player.currentItem.asset error:loadError];
             }
@@ -170,16 +181,22 @@
     } else {
         *loadError = [NSError errorWithDomain:@"JHWaveFromErrorDomain" code:-1 userInfo:@{
                                NSURLErrorKey : url,
-            NSLocalizedDescriptionKey : @"Failed to create a media player for seleceted media.",
-                      NSLocalizedRecoverySuggestionErrorKey: @"Selected file may be currupt."}];
+                   NSLocalizedDescriptionKey : @"Failed to create a media player for seleceted media.",
+        NSLocalizedRecoverySuggestionErrorKey: @"Selected file may be currupt."}];
     }
+    [self didChangeValueForKey:@"player"];
 }
 
 -(void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     
     /* draw playhead */
-    
+    if (_playheadPosition > 0) { // don't draw the playhead if we're at the head
+        [[NSColor greenColor] set];
+        CGFloat xPos = [self sampleToXPoint:_playheadPosition];
+        [NSBezierPath strokeLineFromPoint:NSMakePoint(xPos, 0)
+                                  toPoint:NSMakePoint(xPos, self.bounds.size.height)];
+    }
 }
 
 - (void)dealloc

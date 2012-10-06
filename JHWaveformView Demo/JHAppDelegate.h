@@ -30,5 +30,7 @@ enum testSignals {
 -(IBAction)setNumberOfSamples:(id)sender;
 
 -(IBAction)openTestAudioFile:(id)sender;
+-(IBAction)playTestFile:(id)sender;
+-(IBAction)pauseTestFile:(id)sender;
 
 @end

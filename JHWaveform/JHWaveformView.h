@@ -49,6 +49,10 @@ enum JHWaveformViewMouseModes {
 
 -(void)setWaveform:(float*)samples length:(NSUInteger)length;
 
+-(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx;
+
+-(NSUInteger)xPointToSample:(CGFloat)xPoint;
+
 
 @end
 

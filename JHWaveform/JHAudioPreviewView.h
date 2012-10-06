@@ -13,6 +13,8 @@
     AVPlayer *_player;
     
     id _timeObserverDescriptor;
+    NSUInteger  _playheadPosition;
+    Float64     _assetDuration;
 
 }
 
