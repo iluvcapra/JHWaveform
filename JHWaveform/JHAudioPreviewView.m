@@ -27,7 +27,7 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
     return sample * TIME_SCALE_FACTOR * MAX(lrintf(_assetDuration),1) * 0.5;
 }
 
-- (NSData *)_coalesceData:(NSData *)floatData {
+- (NSData *)coalesceData:(NSData *)floatData {
     NSUInteger i,j;
     NSUInteger coalesceStride = TIME_SCALE_FACTOR * MAX(lrintf(_assetDuration),1);
     
@@ -113,7 +113,7 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             NSData *coalescedData;
-            coalescedData = [self _coalesceData:floatData];
+            coalescedData = [self coalesceData:floatData];
             
             [self setWaveform:(float *)[coalescedData bytes] length:[coalescedData length] / sizeof(float)];
         });
