@@ -214,6 +214,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [self setNeedsDisplay:YES];
 }
 
+#pragma mark Drawing Methods
+
 -(NSRect)waveformRect {
     NSRect retRect = [self bounds];
     retRect.size.height -= [self rulerRect].size.height;
@@ -231,15 +233,13 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     return retRect;
 }
 
--(void)drawRect:(NSRect)dirtyRect {
-    
+- (void)drawBackground:(NSRect)dirtyRect {
     /* fill background */
     [self.backgroundColor set];
     [NSBezierPath fillRect:dirtyRect];
-    
-    
-    NSRect waveformRect = [self waveformRect];
-    
+}
+
+- (void)drawSelectionBox {
     /* fill selection */
     
     if (_selectedSampleRange.location != NSNotFound ||
@@ -248,7 +248,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         NSRect selectedRect = NSMakeRect([self sampleToXPoint:_selectedSampleRange.location],
                                          0,
                                          [self sampleToXPoint:_selectedSampleRange.length],
-                                         waveformRect.size.height);
+                                         [self waveformRect].size.height);
         
         [NSBezierPath fillRect:selectedRect];
         
@@ -256,28 +256,29 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         [NSBezierPath setDefaultLineWidth:2.0];
         [NSBezierPath strokeRect:selectedRect];
     }
-    
+}
+
+- (void)drawGridlines {
     /* gridlines */
     
-    if (_displaysGrid) {
-        [self.gridColor set];
-        [NSBezierPath setDefaultLineWidth:0.5f];
-        NSUInteger i, xpt;
-        for (i = 0; i < _sampleDataLength; i += _gridTicks) {
-            xpt = [self sampleToXPoint:i];
-            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
-                                      toPoint:NSMakePoint(xpt, [self bounds].size.height)];
-        }
-        
+    [self.gridColor set];
+    [NSBezierPath setDefaultLineWidth:0.5f];
+    NSUInteger i, xpt;
+    for (i = 0; i < _sampleDataLength; i += _gridTicks) {
+        xpt = [self sampleToXPoint:i];
+        [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
+                                  toPoint:NSMakePoint(xpt, [self bounds].size.height)];
     }
-    
-    /* draw waveform outlines */
-    
+}
+
+- (void)drawWaveform {
+    /* draw waveform */
+    NSRect waveformRect = [self waveformRect];
     NSAffineTransform *tx = [NSAffineTransform transform];
     [tx translateXBy:0.0f yBy:waveformRect.size.height / 2];
     [tx scaleXBy:waveformRect.size.width / ((CGFloat)_sampleDataLength)
              yBy:waveformRect.size.height * _verticalScale / 2];
-
+    
     NSBezierPath *waveformPath = [NSBezierPath bezierPath];
     [waveformPath appendBezierPathWithPoints:_sampleData
                                        count:_sampleDataLength];
@@ -285,57 +286,79 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [waveformPath transformUsingAffineTransform:tx];
     
     [waveformPath setLineWidth:_lineWidth];
-
+    
     
     [NSBezierPath setDefaultLineWidth:0.5f];
     [self.lineColor set];
     [waveformPath stroke];
     [self.foregroundColor set];
     [waveformPath fill];
-    
+}
+
+- (void)drawRuler {
     /* ruler */
-    if (_displaysRuler) {
-        NSRect rulerRect = [self rulerRect];
 
-
-        
-        NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlLightHighlightColor]
-                                                                  endingColor:[NSColor controlHighlightColor]];
-        
-        [rulerGradient drawInRect:rulerRect angle:270.0f];
-        
-
-        
-        CGFloat tickHeight = rulerRect.size.height - (RULER_TICK_INSET * 2);
-        CGFloat minorTickHeight = tickHeight * RULER_MINOR_TICK_FACTOR;
-        NSUInteger i, xpt;
-        
-        [[NSColor controlDarkShadowColor] set];
-        [NSBezierPath setDefaultLineWidth:1.0f];
-        for (i = 0; i < _sampleDataLength; i += _rulerMajorTicks) {
+    NSRect rulerRect = [self rulerRect];
+    
+    
+    
+    NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlLightHighlightColor]
+                                                              endingColor:[NSColor controlHighlightColor]];
+    
+    [rulerGradient drawInRect:rulerRect angle:270.0f];
+    
+    
+    
+    CGFloat tickHeight = rulerRect.size.height - (RULER_TICK_INSET * 2);
+    CGFloat minorTickHeight = tickHeight * RULER_MINOR_TICK_FACTOR;
+    NSUInteger i, xpt;
+    
+    [[NSColor controlDarkShadowColor] set];
+    [NSBezierPath setDefaultLineWidth:1.0f];
+    for (i = 0; i < _sampleDataLength; i += _rulerMajorTicks) {
+        xpt = [self sampleToXPoint:i];
+        [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
+                                  toPoint:NSMakePoint(xpt, rulerRect.origin.y+ tickHeight)];
+    }
+    for (i = 0; i < _sampleDataLength; i += _rulerMinorTicks) {
+        if (i % _rulerMajorTicks) {
             xpt = [self sampleToXPoint:i];
             [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
-                                      toPoint:NSMakePoint(xpt, rulerRect.origin.y+ tickHeight)];
+                                      toPoint:NSMakePoint(xpt, rulerRect.origin.y+ minorTickHeight)];
         }
-        for (i = 0; i < _sampleDataLength; i += _rulerMinorTicks) {
-            if (i % _rulerMajorTicks) {
-                xpt = [self sampleToXPoint:i];
-                [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
-                                          toPoint:NSMakePoint(xpt, rulerRect.origin.y+ minorTickHeight)];
-            }
-        }
-        /* draw border around ruler rect */
-        [[NSColor controlDarkShadowColor] set];
-        [NSBezierPath setDefaultLineWidth:0.5f];
-        [NSBezierPath strokeRect:rulerRect];
-    
     }
-
+    /* draw border around ruler rect */
+    [[NSColor controlDarkShadowColor] set];
+    [NSBezierPath setDefaultLineWidth:0.5f];
+    [NSBezierPath strokeRect:rulerRect];
     
+}
+
+- (void)drawOutline {
     /* outline */
     [NSBezierPath setDefaultLineWidth:1.0f];
     [[NSColor controlDarkShadowColor] set];
     [NSBezierPath strokeRect:[self bounds]];
+}
+
+-(void)drawRect:(NSRect)dirtyRect {
+    
+    [self drawBackground:dirtyRect];
+
+    if (NSIntersectsRect(dirtyRect, [self waveformRect])) {
+        [self drawSelectionBox];
+        if (_displaysGrid) {
+            [self drawGridlines];
+        }
+        
+        [self drawWaveform];
+    }
+    
+    if (_displaysRuler && NSIntersectsRect(dirtyRect, [self rulerRect])) {
+        [self drawRuler];
+    }
+    
+    [self drawOutline];
 }
 
 - (void)dealloc {
