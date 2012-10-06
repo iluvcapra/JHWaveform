@@ -16,7 +16,10 @@
 // 10,000 samples total
 
 #define TIME_SCALE_FACTOR   ( 50 )
+#define ASSET_SAMPLE_RATE   ( 48000 )
 
+static NSString *JHAudioPreviewPlayerRateObservingCtx = @"JHAudioPreviewPlayerRateObservingCtx";
+static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx = @"JHAudioPreviewPlayerSampleRangeObservingCtx";
 
 - (NSData *)_coalesceData:(NSData *)floatData {
     NSUInteger i,j;
@@ -53,7 +56,7 @@
         
         NSDictionary *lpcmOutputSetting = @{
         AVFormatIDKey : @( kAudioFormatLinearPCM ),
-        AVSampleRateKey : @48000,
+        AVSampleRateKey : @( ASSET_SAMPLE_RATE ),
         AVLinearPCMIsFloatKey : @YES,
         AVLinearPCMBitDepthKey : @32,
         AVLinearPCMIsNonInterleaved : @NO,
@@ -130,10 +133,16 @@
                                      usingBlock:^(CMTime currentTime){
                                          [me _setPlayheadPosition: CMTimeGetSeconds(currentTime)];
                                      }];
+    
+    [_player addObserver:self
+              forKeyPath:@"rate"
+                 options:NSKeyValueObservingOptionNew
+                 context:(__bridge void *)(JHAudioPreviewPlayerRateObservingCtx)];
 }
 
 -(void)_stopObservingPlayer {
     [_player removeTimeObserver:_timeObserverDescriptor];
+    [_player removeObserver:self forKeyPath:@"rate"];
     _timeObserverDescriptor = nil;
 }
 
@@ -143,13 +152,46 @@
     if (self) {
         _player = nil;
         _timeObserverDescriptor = nil;
-        _playheadPosition = 100;
+        _playheadPosition = 0;
         _assetDuration = 0.0;
         self.gridTicks = 100;
         self.rulerMajorTicks = 100;
         self.rulerMinorTicks = 10;
     }
+    
+    [self addObserver:self
+           forKeyPath:@"selectedSampleRange"
+              options:NSKeyValueObservingOptionNew
+              context:(__bridge void *)(JHAudioPreviewPlayerSampleRangeObservingCtx)];
+    
     return self;
+}
+
+
+
+- (void)seekToSelectedSampleLocation {
+    NSUInteger loc = self.selectedSampleRange.location;
+    if (loc != NSNotFound) {
+    //    [_player seekToTime:CMTimeMake(loc, (uint32_t)_sampleDataLength)];
+    }
+
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    if (context == (__bridge void *)(JHAudioPreviewPlayerRateObservingCtx)) {
+        if ([change[NSKeyValueChangeNewKey] isEqual:@(0.0f) ]) {
+            [self seekToSelectedSampleLocation];
+        }
+    } else if (context == (__bridge void *)JHAudioPreviewPlayerSampleRangeObservingCtx) {
+        if (_player.rate == 0.0f) {
+            [self seekToSelectedSampleLocation];
+        }
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 -(void)setURL:(NSURL *)url error:(NSError *__autoreleasing *)loadError {
@@ -199,9 +241,9 @@
     }
 }
 
-- (void)dealloc
-{
-    if (_timeObserverDescriptor) {
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"selectedSampleRange"];
+    if (_player) {
         [self _stopObservingPlayer];
         _player = nil;
     }
