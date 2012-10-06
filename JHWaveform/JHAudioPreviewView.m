@@ -18,33 +18,35 @@
 #define TIME_SCALE_FACTOR   ( 50 )
 #define ASSET_SAMPLE_RATE   ( 48000 )
 
-static NSString *JHAudioPreviewPlayerRateObservingCtx = @"JHAudioPreviewPlayerRateObservingCtx";
-static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx = @"JHAudioPreviewPlayerSampleRangeObservingCtx";
+static NSString *JHAudioPreviewPlayerRateObservingCtx           = @"JHAudioPreviewPlayerRateObservingCtx";
+static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPreviewPlayerSampleRangeObservingCtx";
+
+- (NSUInteger)_audioSampleAtWaveformSample:(NSUInteger)sample {
+    
+    /* we coalesce each stride into _TWO_ samples, hence the 0.5 */
+    return sample * TIME_SCALE_FACTOR * MAX(lrintf(_assetDuration),1) * 0.5;
+}
 
 - (NSData *)_coalesceData:(NSData *)floatData {
     NSUInteger i,j;
-    NSUInteger coalesceStride = lrintf(TIME_SCALE_FACTOR * _assetDuration);
+    NSUInteger coalesceStride = TIME_SCALE_FACTOR * MAX(lrintf(_assetDuration),1);
     
     Float32 *samples = (Float32 *)[floatData bytes];
     NSMutableData *coalescedData = [NSMutableData new];
     for (i = 0; i < [floatData length] / sizeof(Float32); i += coalesceStride) {
-        float *max = malloc(sizeof(float));
-        float *min = malloc(sizeof(float));
-        *max = 0;
-        *min = 0;
+        float max = 0;
+        float min = 0;
         for (j = 0; j < coalesceStride; j++) {
-            *max = MAX(*max, samples[i+j]);
-            *min = MIN(*min, samples[i+j]);
+            max = MAX(max, samples[i+j]);
+            min = MIN(min, samples[i+j]);
         }
-        [coalescedData appendBytes:max length:sizeof(float)];
-        [coalescedData appendBytes:min length:sizeof(float)];
-        free(max);
-        free(min);
+        [coalescedData appendBytes:&max length:sizeof(float)];
+        [coalescedData appendBytes:&min length:sizeof(float)];
     }
     return [NSData dataWithData:coalescedData];
 }
 
-- (NSMutableData *)_assetSamplesAsFloatArrayOrError:(NSError **)error {
+- (NSData *)_assetSamplesAsFloatArrayOrError:(NSError **)error {
 
     AVAssetReader *sampleReader = [[AVAssetReader alloc] initWithAsset:_player.currentItem.asset
                                                                  error:error];
@@ -99,7 +101,6 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx = @"JHAudioPreviewP
         [sampleReader cancelReading];
     }
     
-
     return floatData;
 }
 
@@ -146,8 +147,7 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx = @"JHAudioPreviewP
     _timeObserverDescriptor = nil;
 }
 
-- (id)initWithFrame:(NSRect)frame
-{
+- (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         _player = nil;
@@ -167,14 +167,11 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx = @"JHAudioPreviewP
     return self;
 }
 
-
-
 - (void)seekToSelectedSampleLocation {
     NSUInteger loc = self.selectedSampleRange.location;
     if (loc != NSNotFound) {
-    //    [_player seekToTime:CMTimeMake(loc, (uint32_t)_sampleDataLength)];
+        [_player seekToTime:CMTimeMake([self _audioSampleAtWaveformSample:loc], ASSET_SAMPLE_RATE)];
     }
-
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
