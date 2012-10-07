@@ -39,7 +39,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 -(NSUInteger)xPointToSample:(CGFloat)xPoint {
-    return lrint((xPoint / self.bounds.size.width) * _sampleDataLength);
+    return lrint(floorf((xPoint / self.bounds.size.width) * _sampleDataLength));
 }
 
 
@@ -112,6 +112,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     }
 }
+
+#pragma mark Handle Events
 
 -(void)mouseDown:(NSEvent *)event {
     NSPoint clickDown = [self convertPoint:[event locationInWindow]
@@ -198,15 +200,11 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     NSAssert(_sampleData != NULL,
              @"Could not allocate memory for sample buffer");
     
-    _sampleDataLength = length + 2;
-    
-    _sampleData[0] = NSMakePoint(0.0f, 0.0f); /* start with a zero */
-    _sampleData[_sampleDataLength - 1] = NSMakePoint(_sampleDataLength, 0.0f); /* end with a zero */
-    /* we start and end with a zero to make the path fill properly */
+    _sampleDataLength = length;
     
     NSUInteger i;
-    for (i = 1; i < _sampleDataLength - 1; i++) {
-        _sampleData[i] = NSMakePoint(i, samples[i-1]);
+    for (i = 0; i < _sampleDataLength; i++) {
+        _sampleData[i] = NSMakePoint(i, samples[i]);
     }
     
     [self setSelectedSampleRange:NSMakeRange(NSNotFound, 0)];
@@ -214,6 +212,21 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 #pragma mark Drawing Methods
+
+-(NSRect)rectForSampleSelection:(NSRange)aSelection {
+    NSRect retRect = [self waveformRect];
+    if (aSelection.location != NSNotFound) {
+        retRect.origin.x = [self sampleToXPoint:aSelection.location];
+        retRect.size.width = [self sampleToXPoint:aSelection.length];
+    } else {
+        retRect = NSZeroRect;
+    }
+    return retRect;
+}
+
+-(NSRect)selectionRect {
+    return [self rectForSampleSelection:_selectedSampleRange];
+}
 
 -(NSRect)waveformRect {
     NSRect retRect = [self bounds];
@@ -224,7 +237,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 -(NSRect)rulerRect {
     NSRect retRect = [self bounds];
     if (_displaysRuler) {
-        retRect.origin.y = retRect.size.height - 25;
+        retRect.origin.y = retRect.size.height - RULER_HEIGHT;
         retRect.size.height = RULER_HEIGHT;
     } else {
         retRect = NSZeroRect;
@@ -244,10 +257,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     if (_selectedSampleRange.location != NSNotFound ||
         _selectedSampleRange.length == 0) {
         [self.selectedColor set];
-        NSRect selectedRect = NSMakeRect([self sampleToXPoint:_selectedSampleRange.location],
-                                         0,
-                                         [self sampleToXPoint:_selectedSampleRange.length],
-                                         [self waveformRect].size.height);
+        NSRect selectedRect = [self selectionRect];
         
         [NSBezierPath fillRect:selectedRect];
         
@@ -270,7 +280,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     }
 }
 
-- (void)drawWaveform {
+- (void)drawWaveformInRect:(NSRect)dirtyRect {
     /* draw waveform */
     NSRect waveformRect = [self waveformRect];
     NSAffineTransform *tx = [NSAffineTransform transform];
@@ -283,11 +293,9 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
                                        count:_sampleDataLength];
     
     [waveformPath transformUsingAffineTransform:tx];
-    
     [waveformPath setLineWidth:_lineWidth];
     
     
-    [NSBezierPath setDefaultLineWidth:0.5f];
     [self.lineColor set];
     [waveformPath stroke];
     [self.foregroundColor set];
@@ -350,7 +358,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
             [self drawGridlines];
         }
         
-        [self drawWaveform];
+        [self drawWaveformInRect:dirtyRect];
     }
     
     if (_displaysRuler && NSIntersectsRect(dirtyRect, [self rulerRect])) {
