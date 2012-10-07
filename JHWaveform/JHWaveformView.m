@@ -285,7 +285,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     NSRect waveformRect = [self waveformRect];
     NSAffineTransform *tx = [NSAffineTransform transform];
     [tx translateXBy:0.0f yBy:waveformRect.size.height / 2];
-    [tx scaleXBy:waveformRect.size.width / ((CGFloat)_sampleDataLength)
+    [tx scaleXBy:waveformRect.size.width / (((CGFloat)_sampleDataLength - 1 /*we're couting rungs, not fenceposts */ ))
              yBy:waveformRect.size.height * _verticalScale / 2];
     
     NSBezierPath *waveformPath = [NSBezierPath bezierPath];
