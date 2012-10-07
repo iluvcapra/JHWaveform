@@ -103,7 +103,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     return self;
 }
 
-
 -(void)observeValueForKeyPath:(NSString *)keyPath
                      ofObject:(id)object
                        change:(NSDictionary *)change context:(void *)context {
@@ -362,6 +361,20 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 - (void)dealloc {
+    
+    [self removeObserver:self forKeyPath:@"foregroundColor"];
+    [self removeObserver:self forKeyPath:@"backgroundColor"];
+    [self removeObserver:self forKeyPath:@"linecColor"];
+    [self removeObserver:self forKeyPath:@"selectedColor"];
+    [self removeObserver:self forKeyPath:@"selectedBorderColor"];
+    [self removeObserver:self forKeyPath:@"gridColor"];
+    [self removeObserver:self forKeyPath:@"lineWidth"];
+    [self removeObserver:self forKeyPath:@"selecetedSampleRange"];
+    [self removeObserver:self forKeyPath:@"verticalScale"];
+    [self removeObserver:self forKeyPath:@"displaysRuler"];
+    [self removeObserver:self forKeyPath:@"displaysGrid"];
+    [self removeObserver:self forKeyPath:@"allowsSelection"];
+
     free(_sampleData);
 }
 
