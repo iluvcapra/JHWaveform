@@ -44,15 +44,16 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
     return [NSData dataWithData:coalescedData];
 }
 
-- (NSData *)_assetSamplesAsFloatArrayOrError:(NSError **)error {
+- (NSData *)_assetSamplesFromTrack:(AVAssetTrack *)track
+                           ofAsset:(AVAsset *)asset
+               asFloatArrayOrError:(NSError **)error {
 
-    AVAssetReader *sampleReader = [[AVAssetReader alloc] initWithAsset:_player.currentItem.asset
+    AVAssetReader *sampleReader = [[AVAssetReader alloc] initWithAsset:asset
                                                                  error:error];
     NSMutableData *floatData = nil;
     
     if (*error == nil) {
-        NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
-        AVAssetTrack *theTrack = [audioTracks objectAtIndex:0];
+        AVAssetTrack *theTrack = track;
         
         NSDictionary *lpcmOutputSetting = @{
         AVFormatIDKey : @( kAudioFormatLinearPCM ),
@@ -102,13 +103,13 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
     return floatData;
 }
 
--(void)_readSamplesFromAsset:(AVAsset *)asset {
+-(void)_readSamplesFromTrack:(AVAssetTrack *)track ofAsset:(AVAsset *)asset {
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         NSData *floatData;
         NSError *error;
-        floatData = [self _assetSamplesAsFloatArrayOrError:&error];
+        floatData = [self _assetSamplesFromTrack:track ofAsset:asset asFloatArrayOrError:&error];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             NSData *coalescedData;
@@ -198,22 +199,25 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
 }
 
 -(void)setPlayer:(AVPlayer *)player {
-    if (_player) {
-        [self _stopObservingPlayer];
-        _player = nil;
-    }
-    _player = player;
-    
-    if (_player) {
-        NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
-        if ([audioTracks count] == 0) {
+    if (player != _player) {
+        if (_player) {
+            [self _stopObservingPlayer];
             _player = nil;
-         } else {
-            _assetDuration = CMTimeGetSeconds(_player.currentItem.duration);
-            [self _observePlayer];
-            [self _readSamplesFromAsset:_player.currentItem.asset];
+        }
+        _player = player;
+        
+        if (_player) {
+            NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
+            if ([audioTracks count] == 0) {
+                _player = nil;
+            } else {
+                _assetDuration = CMTimeGetSeconds(_player.currentItem.duration);
+                [self _observePlayer];
+                [self _readSamplesFromTrack:audioTracks[0] ofAsset:_player.currentItem.asset];
+            }
         }
     }
+
 }
 
 -(void)mouseDown:(NSEvent *)theEvent {
