@@ -216,41 +216,6 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
     }
 }
 
-//-(void)setURL:(NSURL *)url error:(NSError *__autoreleasing *)loadError {
-//    
-//    [self willChangeValueForKey:@"player"];
-//    if (_player) {
-//        [self _stopObservingPlayer];
-//        _player = nil;
-//    }
-//    
-//    _player = [AVPlayer playerWithURL:url];
-//    if (_player) {
-//        if (_player.status == AVPlayerStatusFailed) {
-//            *loadError = _player.error;
-//        } else {
-//            NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
-//            if ([audioTracks count] == 0) {
-//                _player = nil;
-//                *loadError = [NSError errorWithDomain:@"JHWaveFromErrorDomain" code:-1 userInfo:@{
-//                                       NSURLErrorKey : url,
-//                           NSLocalizedDescriptionKey : @"Selected file contains no audio tracks.",
-//                NSLocalizedRecoverySuggestionErrorKey: @"Try selecting a different file."}];
-//            } else {
-//                _assetDuration = CMTimeGetSeconds(_player.currentItem.duration);
-//                [self _observePlayer];
-//                [self _readSamplesFromAsset:_player.currentItem.asset error:loadError];
-//            }
-//        }
-//    } else {
-//        *loadError = [NSError errorWithDomain:@"JHWaveFromErrorDomain" code:-1 userInfo:@{
-//                               NSURLErrorKey : url,
-//                   NSLocalizedDescriptionKey : @"Failed to create a media player for seleceted media.",
-//        NSLocalizedRecoverySuggestionErrorKey: @"Selected file may be currupt."}];
-//    }
-//    [self didChangeValueForKey:@"player"];
-//}
-
 -(void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     
