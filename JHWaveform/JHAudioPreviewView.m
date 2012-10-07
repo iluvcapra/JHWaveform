@@ -136,8 +136,8 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
         _playheadPosition = 0;
         _assetDuration = 0.0;
         self.gridTicks = 100;
-        self.rulerMajorTicks = 100;
-        self.rulerMinorTicks = 10;
+        self.rulerMajorTicks = ASSET_SAMPLE_RATE * 10 / 2000;
+        self.rulerMinorTicks = ASSET_SAMPLE_RATE / 2000;
     }
     
     [self addObserver:self
