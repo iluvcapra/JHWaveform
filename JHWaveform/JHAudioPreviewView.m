@@ -131,7 +131,7 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
 
 -(void)_observePlayer {
     __block JHAudioPreviewView *me = self;
-    _timeObserverDescriptor = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 10)
+    _timeObserverDescriptor = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 30)
                                           queue:dispatch_get_main_queue()
                                      usingBlock:^(CMTime currentTime){
                                          [me _setPlayheadPosition: CMTimeGetSeconds(currentTime)];
