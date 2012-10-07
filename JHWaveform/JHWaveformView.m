@@ -289,8 +289,10 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
              yBy:waveformRect.size.height * _verticalScale / 2];
     
     NSBezierPath *waveformPath = [NSBezierPath bezierPath];
+    [waveformPath moveToPoint:NSMakePoint(0, 0)];
     [waveformPath appendBezierPathWithPoints:_sampleData
                                        count:_sampleDataLength];
+    [waveformPath lineToPoint:NSMakePoint(_sampleDataLength, 0)];
     
     [waveformPath transformUsingAffineTransform:tx];
     [waveformPath setLineWidth:_lineWidth];
