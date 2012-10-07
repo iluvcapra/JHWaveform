@@ -121,8 +121,8 @@
 		7DD053EC161CEAFB0019D540 = {
 			isa = PBXGroup;
 			children = (
-				7DCF7115161E4464007AF2A0 /* CoreMedia.framework */,
 				7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */,
+				7DCF7115161E4464007AF2A0 /* CoreMedia.framework */,
 				7DD05464161CF5950019D540 /* JHWaveformView Demo */,
 				7DD05483161CF66A0019D540 /* JHWaveform */,
 				7DD05498161CF66B0019D540 /* JHWaveformTests */,
