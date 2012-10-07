@@ -122,8 +122,11 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
 
 -(void)_setPlayheadPosition:(float)seconds {
     float prop = seconds / _assetDuration;
+    [self setNeedsDisplayInRect:NSMakeRect([self sampleToXPoint:_playheadPosition] - 10.0f, 0.0f,
+                                           20.0f, [self bounds].size.height)];
     _playheadPosition = lrintf(_sampleDataLength * prop);
-    [self setNeedsDisplay:YES];
+    [self setNeedsDisplayInRect:NSMakeRect([self sampleToXPoint:_playheadPosition] - 10.0f, 0.0f,
+                                           20.0f, [self bounds].size.height)];
 }
 
 -(void)_observePlayer {
