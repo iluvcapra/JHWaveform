@@ -169,8 +169,8 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
     return self;
 }
 
-- (void)seekToSelectedSampleLocation {
-    NSUInteger loc = self.selectedSampleRange.location;
+- (void)seekPlayerToXPoint:(CGFloat)xPoint {
+    NSUInteger loc = [self xPointToSample:xPoint];
     if (loc != NSNotFound) {
         [_player seekToTime:CMTimeMake([self _audioSampleAtWaveformSample:loc], ASSET_SAMPLE_RATE)];
     }
@@ -181,12 +181,12 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
                         change:(NSDictionary *)change
                        context:(void *)context {
     if (context == (__bridge void *)(JHAudioPreviewPlayerRateObservingCtx)) {
-        if ([change[NSKeyValueChangeNewKey] isEqual:@(0.0f) ]) {
-            [self seekToSelectedSampleLocation];
-        }
-    } else if (context == (__bridge void *)JHAudioPreviewPlayerSampleRangeObservingCtx) {
+//        if ([change[NSKeyValueChangeNewKey] isEqual:@(0.0f) ]) {
+//            [self seekToSelectedSampleLocation];
+//        }
+//    } else if (context == (__bridge void *)JHAudioPreviewPlayerSampleRangeObservingCtx) {
 //        if (_player.rate == 0.0f) {
-            [self seekToSelectedSampleLocation];
+//            [self seekToSelectedSampleLocation];
 //        }
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -214,6 +214,13 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
             [self _readSamplesFromAsset:_player.currentItem.asset];
         }
     }
+}
+
+-(void)mouseDown:(NSEvent *)theEvent {
+    NSPoint click = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    
+    [self seekPlayerToXPoint:click.x];
+    [super mouseDown:theEvent];
 }
 
 -(void)drawRect:(NSRect)dirtyRect {
