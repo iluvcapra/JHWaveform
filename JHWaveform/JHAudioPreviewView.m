@@ -35,8 +35,6 @@
 
 @implementation JHAudioPreviewView
 
-// 10,000 samples total
-
 #define ASSET_SAMPLE_RATE   ( 48000 )
 
 static NSString *JHAudioPreviewPlayerRateObservingCtx           = @"JHAudioPreviewPlayerRateObservingCtx";
