@@ -13,7 +13,6 @@
 
 // 10,000 samples total
 
-#define TIME_SCALE_FACTOR   ( 50 )
 #define ASSET_SAMPLE_RATE   ( 48000 )
 
 static NSString *JHAudioPreviewPlayerRateObservingCtx           = @"JHAudioPreviewPlayerRateObservingCtx";
@@ -22,26 +21,7 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
 - (NSUInteger)_audioSampleAtWaveformSample:(NSUInteger)sample {
     
     /* we coalesce each stride into _TWO_ samples, hence the 0.5 */
-    return sample * TIME_SCALE_FACTOR * MAX(lrintf(_assetDuration),1) * 0.5;
-}
-
-- (NSData *)coalesceData:(NSData *)floatData {
-    NSUInteger i,j;
-    NSUInteger coalesceStride = TIME_SCALE_FACTOR * MAX(lrintf(_assetDuration),1);
-    
-    Float32 *samples = (Float32 *)[floatData bytes];
-    NSMutableData *coalescedData = [NSMutableData new];
-    for (i = 0; i < [floatData length] / sizeof(Float32); i += coalesceStride) {
-        float max = 0;
-        float min = 0;
-        for (j = 0; j < coalesceStride; j++) {
-            max = MAX(max, samples[i+j]);
-            min = MIN(min, samples[i+j]);
-        }
-        [coalescedData appendBytes:&max length:sizeof(float)];
-        [coalescedData appendBytes:&min length:sizeof(float)];
-    }
-    return [NSData dataWithData:coalescedData];
+    return (sample / (float)_sampleDataLength) *  (_assetDuration * (float)ASSET_SAMPLE_RATE);
 }
 
 - (NSData *)_assetSamplesFromTrack:(AVAssetTrack *)track
@@ -112,10 +92,8 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
         floatData = [self _assetSamplesFromTrack:track ofAsset:asset asFloatArrayOrError:&error];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            NSData *coalescedData;
-            coalescedData = [self coalesceData:floatData];
             
-            [self setWaveform:(float *)[coalescedData bytes] length:[coalescedData length] / sizeof(float)];
+            [self setWaveform:(float *)[floatData bytes] length:[floatData length] / sizeof(float)];
         });
     });
 

@@ -34,6 +34,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 #define RULER_TICK_INSET        3
 #define RULER_MINOR_TICK_FACTOR 0.5f
 
+#define MAX_SAMPLE_DATA         2000
+
 
 -(id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
@@ -46,6 +48,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         self.gridColor       = [NSColor gridColor];
         _sampleData = NULL;
         _sampleDataLength = 0;
+        _originalSampleDataLength = 0;
         
         self.lineWidth = 1.0f;
         self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
@@ -193,26 +196,58 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 #pragma mark Set Data
 
+-(void)coalesceSamples:(float *)inSamples length:(NSUInteger)inSamplesLength
+           intoSamples:(float *)outSamples length:(NSUInteger)inOutSamplesLength {
+    NSUInteger i,j;
+    float stride = (float)inSamplesLength / ((float)inOutSamplesLength / 2);
+        // for each stride samples, gather one max value,and one min value
+    for (i = 0; i < (inOutSamplesLength / 2); i++ ) {
+        outSamples[2 * i    ] = 0.0f;
+        outSamples[2 * i + 1] = 0.0f;
+        
+        for (j = lrintf((float)i * stride);
+             j < lrintf(((float)i+1) * stride) && j < inSamplesLength;
+             j++) {
+            outSamples[2 * i   ] = MAX(outSamples[2*i],inSamples[j]);
+            outSamples[2 * i +1] = MIN(outSamples[2*i+1],inSamples[j]);
+        }
+    }
+}
+
 -(void)setWaveform:(float *)samples length:(NSUInteger)length {
     
+    _originalSampleDataLength = length;
+    _sampleDataLength = MIN(length, MAX_SAMPLE_DATA);
+    
     if (_sampleData) {
-        _sampleData = realloc(_sampleData, (length +2) * sizeof(NSPoint));
+        _sampleData = realloc(_sampleData, _sampleDataLength * sizeof(NSPoint));
     } else {
-        _sampleData = calloc((length +2), sizeof(NSPoint));
+        _sampleData = calloc( _sampleDataLength , sizeof(NSPoint));
     }
     
     NSAssert(_sampleData != NULL,
              @"Could not allocate memory for sample buffer");
     
-    _sampleDataLength = length;
+    float *coalescedSamples = NULL;
+    BOOL freeCoalescedSamples = NO;
+    if (_originalSampleDataLength != _sampleDataLength) {
+        coalescedSamples = malloc( sizeof(float) * _sampleDataLength);
+        freeCoalescedSamples = YES;
+        [self coalesceSamples:samples length:length
+                  intoSamples:coalescedSamples length:_sampleDataLength];
+        
+    } else {
+        coalescedSamples = samples;
+    }
     
     NSUInteger i;
     for (i = 0; i < _sampleDataLength; i++) {
-        _sampleData[i] = NSMakePoint(i, samples[i]);
+        _sampleData[i] = NSMakePoint(i, coalescedSamples[i]);
     }
     
     [self setSelectedSampleRange:NSMakeRange(NSNotFound, 0)];
     [self setNeedsDisplay:YES];
+    if (freeCoalescedSamples){free(coalescedSamples);}
 }
 
 #pragma mark Drawing Methods

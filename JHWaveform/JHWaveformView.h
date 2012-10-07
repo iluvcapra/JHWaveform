@@ -28,6 +28,7 @@ enum JHWaveformViewMouseModes {
     
     NSPoint     *_sampleData;
     NSUInteger  _sampleDataLength;
+    NSUInteger  _originalSampleDataLength;
     
     BOOL        _displaysRuler;
     BOOL        _displaysGrid;
