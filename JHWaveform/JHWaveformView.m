@@ -81,14 +81,10 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
     [self addObserver:self forKeyPath:@"gridColor"       options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    
-    
     [self addObserver:self forKeyPath:@"lineWidth"       options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    
-    
-    
-    [self addObserver:self forKeyPath:@"selectedSampleRange"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"selectedSampleRange"
+              options:NSKeyValueObservingOptionNew ^ NSKeyValueObservingOptionOld
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
     [self addObserver:self forKeyPath:@"verticalScale"       options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
@@ -107,7 +103,20 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
                      ofObject:(id)object
                        change:(NSDictionary *)change context:(void *)context {
     if (context == (__bridge void *)JHWaveformViewNeedsRedisplayCtx ) {
-        [self setNeedsDisplay:YES];
+        if ([keyPath isEqualToString:@"selectedSampleRange"]) {
+            NSRange oldSelection = [change[NSKeyValueChangeOldKey] rangeValue];
+            NSRange newselection = [change[NSKeyValueChangeNewKey] rangeValue];
+            
+            [self setNeedsDisplayInRect:NSInsetRect([self rectForSampleSelection:oldSelection], -10.f, -10.0f)];
+            
+            if (newselection.location == NSNotFound) {
+                [self setNeedsDisplay:YES];
+            } else {
+                [self setNeedsDisplayInRect:NSInsetRect([self rectForSampleSelection:newselection], -10.0f,-10.0f)];
+            }
+        } else {
+            [self setNeedsDisplay:YES];
+        }
     } else if (context == (__bridge void *)JHWaveformViewAllowsSelectionCtx) {
         self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     }
