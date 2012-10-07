@@ -34,14 +34,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 #define RULER_TICK_INSET        3
 #define RULER_MINOR_TICK_FACTOR 0.5f
 
--(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx {
-    return (float)sampleIdx / (float)_sampleDataLength * self.bounds.size.width;
-}
-
--(NSUInteger)xPointToSample:(CGFloat)xPoint {
-    return lrint(floorf((xPoint / self.bounds.size.width) * _sampleDataLength));
-}
-
 
 -(id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
@@ -54,6 +46,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         self.gridColor       = [NSColor gridColor];
         _sampleData = NULL;
         _sampleDataLength = 0;
+        
         self.lineWidth = 1.0f;
         self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
         _dragging = NO;
@@ -162,6 +155,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         } else {
             
             _selectionAnchor = loc;
+            [self setNeedsDisplay:YES];
+            
             _selectedSampleRange = NSMakeRange(loc, 0);
         }
     }
@@ -222,11 +217,36 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 #pragma mark Drawing Methods
 
+#define SAMPLE_TO_X_POINT( sample )    ([[self sampleTransform] transformPoint:NSMakePoint( sample , 0.0f)].x)
+#define SAMPLE_WIDTH_TO_WIDTH( width ) ([[self sampleTransform] transformSize:NSMakeSize(   width , 0.0f)].width)
+
+-(NSAffineTransform *)sampleTransform {
+    NSAffineTransform *retXform = [NSAffineTransform transform];
+    NSRect waveformRect = [self waveformRect];
+    [retXform translateXBy:0.0f yBy:waveformRect.size.height / 2];
+    [retXform scaleXBy:waveformRect.size.width / (((CGFloat)_sampleDataLength - 1 /*we're couting rungs, not fenceposts */ ))
+                   yBy:waveformRect.size.height * _verticalScale / 2];
+    
+    return retXform;
+
+}
+
+-(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx {
+    return [[self sampleTransform] transformPoint:NSMakePoint( sampleIdx , 0.0f)].x;
+}
+
+-(NSUInteger)xPointToSample:(CGFloat)xPoint {
+//        return lrint(floorf((xPoint / self.bounds.size.width) * _sampleDataLength));
+    NSAffineTransform *invertedXform = [self sampleTransform];
+    [invertedXform invert];
+    return [invertedXform transformPoint:NSMakePoint(xPoint, 0.0f)].x;
+}
+
 -(NSRect)rectForSampleSelection:(NSRange)aSelection {
     NSRect retRect = [self waveformRect];
     if (aSelection.location != NSNotFound) {
-        retRect.origin.x = [self sampleToXPoint:aSelection.location];
-        retRect.size.width = [self sampleToXPoint:aSelection.length];
+        retRect.origin.x = SAMPLE_TO_X_POINT( aSelection.location );
+        retRect.size.width = [[self sampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
     } else {
         retRect = NSZeroRect;
     }
@@ -283,7 +303,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [NSBezierPath setDefaultLineWidth:0.5f];
     NSUInteger i, xpt;
     for (i = 0; i < _sampleDataLength; i += _gridTicks) {
-        xpt = [self sampleToXPoint:i];
+        xpt = SAMPLE_TO_X_POINT(i);
         [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
                                   toPoint:NSMakePoint(xpt, [self bounds].size.height)];
     }
@@ -291,11 +311,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 - (void)drawWaveformInRect:(NSRect)dirtyRect {
     /* draw waveform */
-    NSRect waveformRect = [self waveformRect];
-    NSAffineTransform *tx = [NSAffineTransform transform];
-    [tx translateXBy:0.0f yBy:waveformRect.size.height / 2];
-    [tx scaleXBy:waveformRect.size.width / (((CGFloat)_sampleDataLength - 1 /*we're couting rungs, not fenceposts */ ))
-             yBy:waveformRect.size.height * _verticalScale / 2];
+   // NSRect waveformRect = [self waveformRect];
     
     NSBezierPath *waveformPath = [NSBezierPath bezierPath];
     [waveformPath moveToPoint:NSMakePoint(0, 0)];
@@ -303,7 +319,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
                                        count:_sampleDataLength];
     [waveformPath lineToPoint:NSMakePoint(_sampleDataLength, 0)];
     
-    [waveformPath transformUsingAffineTransform:tx];
+    [waveformPath transformUsingAffineTransform:[self sampleTransform]];
     [waveformPath setLineWidth:_lineWidth];
     
     
