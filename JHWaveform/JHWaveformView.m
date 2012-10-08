@@ -295,7 +295,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 -(NSUInteger)xPointToSample:(CGFloat)xPoint {
-//        return lrint(floorf((xPoint / self.bounds.size.width) * _sampleDataLength));
     NSAffineTransform *invertedXform = [self sampleTransform];
     [invertedXform invert];
     return [invertedXform transformPoint:NSMakePoint(xPoint, 0.0f)].x;
