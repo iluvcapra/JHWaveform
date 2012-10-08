@@ -148,7 +148,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     NSPoint clickDown = [self convertPoint:[event locationInWindow]
                                   fromView:nil];
         
-    NSUInteger loc = [self xPointToSample:clickDown.x];
+    NSUInteger loc = [self xPointToCoalescedSample:clickDown.x];
     
     if (self.allowsSelection) {
         if (([event modifierFlags] & NSShiftKeyMask) && self.selectedSampleRange.location != NSNotFound) {
@@ -200,7 +200,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     if (clickDown.x < 0.0f) { clickDown.x = 0.0f;}
     if (clickDown.x > self.bounds.size.width) {clickDown.x = self.bounds.size.width;}
     
-    NSUInteger loc = [self xPointToSample:clickDown.x];
+    NSUInteger loc = [self xPointToCoalescedSample:clickDown.x];
     
     if (self.allowsSelection) {
         if (loc < _selectionAnchor) {
@@ -295,7 +295,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 
 
--(NSAffineTransform *)sampleTransform {
+-(NSAffineTransform *)coalescedSampleTransform {
     NSAffineTransform *retXform = [NSAffineTransform transform];
     NSRect waveformRect = [self waveformRect];
     [retXform translateXBy:0.0f yBy:waveformRect.size.height / 2];
@@ -306,12 +306,12 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 }
 
--(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx {
-    return [[self sampleTransform] transformPoint:NSMakePoint( sampleIdx , 0.0f)].x;
+-(CGFloat)coalescedSampleToXPoint:(NSUInteger)sampleIdx {
+    return [[self coalescedSampleTransform] transformPoint:NSMakePoint( sampleIdx , 0.0f)].x;
 }
 
--(NSUInteger)xPointToSample:(CGFloat)xPoint {
-    NSAffineTransform *invertedXform = [self sampleTransform];
+-(NSUInteger)xPointToCoalescedSample:(CGFloat)xPoint {
+    NSAffineTransform *invertedXform = [self coalescedSampleTransform];
     [invertedXform invert];
     return [invertedXform transformPoint:NSMakePoint(xPoint, 0.0f)].x;
 }
@@ -319,8 +319,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 -(NSRect)rectForSampleSelection:(NSRange)aSelection {
     NSRect retRect = [self waveformRect];
     if (aSelection.location != NSNotFound) {
-        retRect.origin.x = [self sampleToXPoint:aSelection.location];
-        retRect.size.width = [[self sampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
+        retRect.origin.x = [self coalescedSampleToXPoint:aSelection.location];
+        retRect.size.width = [[self coalescedSampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
     } else {
         retRect = NSZeroRect;
     }
@@ -377,7 +377,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [NSBezierPath setDefaultLineWidth:0.5f];
     NSUInteger i, xpt;
     for (i = 0; i < _sampleDataLength; i += _gridTicks) {
-        xpt = [self sampleToXPoint:i];
+        xpt = [self coalescedSampleToXPoint:i];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
                                   toPoint:NSMakePoint(xpt, [self bounds].size.height)];
     }
@@ -393,7 +393,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
                                        count:_sampleDataLength];
     [waveformPath lineToPoint:NSMakePoint(_sampleDataLength, 0)];
     
-    [waveformPath transformUsingAffineTransform:[self sampleTransform]];
+    [waveformPath transformUsingAffineTransform:[self coalescedSampleTransform]];
     [waveformPath setLineWidth:_lineWidth];
     
     
@@ -424,13 +424,13 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [[NSColor controlDarkShadowColor] set];
     [NSBezierPath setDefaultLineWidth:1.0f];
     for (i = 0; i < _sampleDataLength; i += _rulerMajorTicks) {
-        xpt = [self sampleToXPoint:i];
+        xpt = [self coalescedSampleToXPoint:i];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
                                   toPoint:NSMakePoint(xpt, rulerRect.origin.y+ tickHeight)];
     }
     for (i = 0; i < _sampleDataLength; i += _rulerMinorTicks) {
         if (i % _rulerMajorTicks) {
-            xpt = [self sampleToXPoint:i];
+            xpt = [self coalescedSampleToXPoint:i];
             [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
                                       toPoint:NSMakePoint(xpt, rulerRect.origin.y+ minorTickHeight)];
         }

@@ -99,9 +99,9 @@ enum JHWaveformViewMouseModes {
  These two views are used by subclasses and should be moved out to a separate
  header.
  */
--(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx;
+-(CGFloat)coalescedSampleToXPoint:(NSUInteger)sampleIdx;
 
--(NSUInteger)xPointToSample:(CGFloat)xPoint;
+-(NSUInteger)xPointToCoalescedSample:(CGFloat)xPoint;
 
 
 @end

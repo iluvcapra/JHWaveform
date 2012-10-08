@@ -131,10 +131,10 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 
 -(void)_setPlayheadPosition:(float)seconds {
     float prop = seconds / _assetDuration;
-    [self setNeedsDisplayInRect:NSMakeRect([self sampleToXPoint:_playheadPosition] - 10.0f, 0.0f,
+    [self setNeedsDisplayInRect:NSMakeRect([self coalescedSampleToXPoint:_playheadPosition] - 10.0f, 0.0f,
                                            20.0f, [self bounds].size.height)];
     _playheadPosition = lrintf(_sampleDataLength * prop);
-    [self setNeedsDisplayInRect:NSMakeRect([self sampleToXPoint:_playheadPosition] - 10.0f, 0.0f,
+    [self setNeedsDisplayInRect:NSMakeRect([self coalescedSampleToXPoint:_playheadPosition] - 10.0f, 0.0f,
                                            20.0f, [self bounds].size.height)];
 }
 
@@ -188,7 +188,7 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 }
 
 - (void)seekPlayerToXPoint:(CGFloat)xPoint {
-    NSUInteger loc = [self xPointToSample:xPoint];
+    NSUInteger loc = [self xPointToCoalescedSample:xPoint];
     if (loc != NSNotFound) {
         [_player seekToTime:CMTimeMake([self _audioSampleAtWaveformSample:loc], ASSET_SAMPLE_RATE)];
     }
@@ -258,7 +258,7 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
     /* draw playhead */
     if (_playheadPosition > 0) { // don't draw the playhead if we're at the head
         [self.playheadColor set];
-        CGFloat xPos = [self sampleToXPoint:_playheadPosition];
+        CGFloat xPos = [self coalescedSampleToXPoint:_playheadPosition];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(xPos, 0)
                                   toPoint:NSMakePoint(xPos, self.bounds.size.height)];
     }
