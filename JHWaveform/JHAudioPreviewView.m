@@ -175,7 +175,7 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
     }
     
     [self addObserver:self
-           forKeyPath:@"selectedOriginalSampleRange"
+           forKeyPath:@"selectedCoalescedSampleRange"
               options:NSKeyValueObservingOptionNew
               context:(__bridge void *)(JHAudioPreviewPlayerSampleRangeObservingCtx)];
     
@@ -265,7 +265,7 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 }
 
 - (void)dealloc {
-    [self removeObserver:self forKeyPath:@"selectedOriginalSampleRange"];
+    [self removeObserver:self forKeyPath:@"selectedCoalescedSampleRange"];
     if (_player) {
         [self _stopObservingPlayer];
         _player = nil;

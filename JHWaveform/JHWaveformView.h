@@ -107,7 +107,7 @@ enum JHWaveformViewMouseModes {
 
 -(CGFloat)coalescedSampleToXPoint:(NSUInteger)sampleIdx;
 -(NSUInteger)xPointToCoalescedSample:(CGFloat)xPoint;
-@property (assign) NSRange selectedOriginalSampleRange;
+@property (assign) NSRange selectedCoalescedSampleRange;
 
 @end
 
