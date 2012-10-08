@@ -45,8 +45,6 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 
 
 - (NSUInteger)_audioSampleAtWaveformSample:(NSUInteger)sample {
-    
-    /* we coalesce each stride into _TWO_ samples, hence the 0.5 */
     return (sample / (float)_sampleDataLength) *  (_assetDuration * (float)ASSET_SAMPLE_RATE);
 }
 
