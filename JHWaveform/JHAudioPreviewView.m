@@ -129,12 +129,12 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 
 }
 
--(void)_setPlayheadPosition:(float)seconds {
+-(void)_setPlayheadPositionInCoalescedSamples:(float)seconds {
     float prop = seconds / _assetDuration;
-    [self setNeedsDisplayInRect:NSMakeRect([self coalescedSampleToXPoint:_playheadPosition] - 10.0f, 0.0f,
+    [self setNeedsDisplayInRect:NSMakeRect([self coalescedSampleToXPoint:_playheadPositionInCoalescedSamples] - 10.0f, 0.0f,
                                            20.0f, [self bounds].size.height)];
-    _playheadPosition = lrintf(_sampleDataLength * prop);
-    [self setNeedsDisplayInRect:NSMakeRect([self coalescedSampleToXPoint:_playheadPosition] - 10.0f, 0.0f,
+    _playheadPositionInCoalescedSamples = lrintf(_sampleDataLength * prop);
+    [self setNeedsDisplayInRect:NSMakeRect([self coalescedSampleToXPoint:_playheadPositionInCoalescedSamples] - 10.0f, 0.0f,
                                            20.0f, [self bounds].size.height)];
 }
 
@@ -143,7 +143,7 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
     _timeObserverDescriptor = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 30)
                                           queue:dispatch_get_main_queue()
                                      usingBlock:^(CMTime currentTime){
-                                         [me _setPlayheadPosition: CMTimeGetSeconds(currentTime)];
+                                         [me _setPlayheadPositionInCoalescedSamples: CMTimeGetSeconds(currentTime)];
                                      }];
     
     [_player addObserver:self
@@ -163,7 +163,7 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
     if (self) {
         _player = nil;
         _timeObserverDescriptor = nil;
-        _playheadPosition = 0;
+        _playheadPositionInCoalescedSamples = 0;
         _assetDuration = 0.0;
         self.playheadColor = [NSColor greenColor];
         self.gridTicks = 100;
@@ -259,9 +259,9 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
     [super drawRect:dirtyRect];
     
     /* draw playhead */
-    if (_playheadPosition > 0) { // don't draw the playhead if we're at the head
+    if (_playheadPositionInCoalescedSamples > 0) { // don't draw the playhead if we're at the head
         [self.playheadColor set];
-        CGFloat xPos = [self coalescedSampleToXPoint:_playheadPosition];
+        CGFloat xPos = [self coalescedSampleToXPoint:_playheadPositionInCoalescedSamples];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(xPos, 0)
                                   toPoint:NSMakePoint(xPos, self.bounds.size.height)];
     }
