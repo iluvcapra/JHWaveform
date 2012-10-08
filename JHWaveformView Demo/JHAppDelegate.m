@@ -106,6 +106,7 @@
                completionHandler:^(NSInteger result) {
                    if (result == NSFileHandlingPanelOKButton) {
                        _player = nil;
+                       _waveformView.player = nil;
                        _player = [AVPlayer playerWithURL:[op URL]];
                        [_waveformView setPlayer:_player];
                    }
