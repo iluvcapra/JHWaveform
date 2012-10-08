@@ -276,6 +276,24 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 #pragma mark Drawing Methods
 
+-(NSAffineTransform *)originalSampleTransform {
+    NSAffineTransform *retXform = [NSAffineTransform transform];
+    [retXform scaleXBy:(CGFloat)_originalSampleDataLength/(CGFloat)_sampleDataLength yBy:1.0f];
+    return retXform;
+}
+
+-(CGFloat)originalSampleToXPoint:(NSUInteger)sampleIdx {
+    return [[self originalSampleTransform] transformPoint:NSMakePoint( sampleIdx , 0.0f)].x;
+}
+
+-(NSUInteger)xPointToOriginalSample:(CGFloat)xPoint {
+    NSAffineTransform *invertedXform = [self originalSampleTransform];
+    [invertedXform invert];
+    return [invertedXform transformPoint:NSMakePoint(xPoint, 0.0f)].x;
+}
+
+
+
 
 -(NSAffineTransform *)sampleTransform {
     NSAffineTransform *retXform = [NSAffineTransform transform];
