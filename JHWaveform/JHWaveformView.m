@@ -142,6 +142,22 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     }
 }
 
+-(void)setSelectedSampleRange:(NSRange)range {
+    NSRect orig = NSMakeRect(range.location, 0.0f,
+                             range.length, 0.0f);
+    NSPoint xpt = [[self originalSampleTransform] transformPoint:orig.origin];
+    NSSize xlen = [[self originalSampleTransform] transformSize:orig.size];
+    _selectedSampleRange =  NSMakeRange(lrintf(xpt.x) , lrintf(xlen.width) );
+    
+}
+
+-(NSRange)selectedSampleRange {
+    NSRect orig = NSMakeRect(_selectedSampleRange.location, 0.0f,
+                              _selectedSampleRange.length, 0.0f);
+    NSPoint xpt = [[self originalSampleTransform] transformPoint:orig.origin];
+    NSSize xlen = [[self originalSampleTransform] transformSize:orig.size];
+    return NSMakeRange(lrintf(xpt.x) , lrintf(xlen.width) );
+}
 #pragma mark Handle Events
 
 -(void)mouseDown:(NSEvent *)event {
