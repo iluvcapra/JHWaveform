@@ -276,8 +276,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 #pragma mark Drawing Methods
 
-#define SAMPLE_TO_X_POINT( sample )    ([[self sampleTransform] transformPoint:NSMakePoint( sample , 0.0f)].x)
-#define SAMPLE_WIDTH_TO_WIDTH( width ) ([[self sampleTransform] transformSize:NSMakeSize(   width , 0.0f)].width)
 
 -(NSAffineTransform *)sampleTransform {
     NSAffineTransform *retXform = [NSAffineTransform transform];
@@ -361,7 +359,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [NSBezierPath setDefaultLineWidth:0.5f];
     NSUInteger i, xpt;
     for (i = 0; i < _sampleDataLength; i += _gridTicks) {
-        xpt = SAMPLE_TO_X_POINT(i);
+        xpt = [self sampleToXPoint:i];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
                                   toPoint:NSMakePoint(xpt, [self bounds].size.height)];
     }
