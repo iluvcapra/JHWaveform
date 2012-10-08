@@ -188,9 +188,9 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 }
 
 - (void)seekPlayerToXPoint:(CGFloat)xPoint {
-    NSUInteger loc = [self xPointToCoalescedSample:xPoint];
+    NSUInteger loc = [self xPointToSample:xPoint];
     if (loc != NSNotFound) {
-        [_player seekToTime:CMTimeMake([self _audioSampleAtWaveformSample:loc], ASSET_SAMPLE_RATE)];
+        [_player seekToTime:CMTimeMake(loc, ASSET_SAMPLE_RATE)];
     }
 }
 

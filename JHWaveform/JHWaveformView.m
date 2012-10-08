@@ -147,20 +147,18 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 -(void)setSelectedSampleRange:(NSRange)range {
-    NSRect orig = NSMakeRect(range.location, 0.0f,
-                             range.length, 0.0f);
-    NSPoint xpt = [[self sampleTransform] transformPoint:orig.origin];
-    NSSize xlen = [[self sampleTransform] transformSize:orig.size];
-    _selectedSampleRange =  NSMakeRange(lrintf(xpt.x) , lrintf(xlen.width) );
-    
+    float factor = (float)_sampleDataLength / (float)_originalSampleDataLength;
+    NSRange newRange = NSMakeRange(lrintf((float)range.location * factor),
+                                   lrintf((float)range.length   * factor));
+    _selectedSampleRange = newRange;
 }
 
 -(NSRange)selectedSampleRange {
-    NSRect orig = NSMakeRect(_selectedSampleRange.location, 0.0f,
-                              _selectedSampleRange.length, 0.0f);
-    NSPoint xpt = [[self sampleTransform] transformPoint:orig.origin];
-    NSSize xlen = [[self sampleTransform] transformSize:orig.size];
-    return NSMakeRange(lrintf(xpt.x) , lrintf(xlen.width) );
+    float factor = (float)_originalSampleDataLength / (float)_sampleDataLength ;
+    NSRange newRange = NSMakeRange(lrintf((float)_selectedSampleRange.location * factor),
+                                   lrintf((float)_selectedSampleRange.length   * factor));
+    return newRange;
+
 }
 #pragma mark Handle Events
 
@@ -302,8 +300,11 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 #pragma mark Drawing Methods
 
 -(NSAffineTransform *)sampleTransform {
+    NSRect waveformRect = [self waveformRect];
     NSAffineTransform *retXform = [NSAffineTransform transform];
-    [retXform scaleXBy:(CGFloat)_originalSampleDataLength/(CGFloat)_sampleDataLength yBy:1.0f];
+    [retXform translateXBy:0.0f yBy:waveformRect.size.height / 2];
+    [retXform scaleXBy:waveformRect.size.width / ((CGFloat)_originalSampleDataLength -1 )
+                   yBy:waveformRect.size.height * _verticalScale / 2];
     return retXform;
 }
 
