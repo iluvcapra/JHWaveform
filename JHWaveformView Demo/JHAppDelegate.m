@@ -35,6 +35,7 @@
 @implementation JHAppDelegate
 
 @synthesize waveformView = _waveformView;
+@synthesize audioViewStatus = _audioViewStatus;
 
 -(void)_setTestSignalToView {
     
@@ -61,8 +62,28 @@
     // Insert code here to initialize your application
     float testSignal[] = {0.0f,1.0f,-1.0f,1.0f,-1.0f,0.0f};
     [_waveformView setWaveform:testSignal length:6];
+    [_waveformView addObserver:self
+                    forKeyPath:@"isReadingOverview"
+                       options:NSKeyValueObservingOptionNew
+                       context:NULL];
+    [_audioViewStatus setStringValue:@"Idle"];
     _numberOfSamples = 1000;
     _player = nil;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == NULL) {
+        if (object == _waveformView && [keyPath isEqualToString:@"isReadingOverview"]) {
+            if ([change[NSKeyValueChangeNewKey] boolValue]) {
+                [_audioViewStatus setStringValue:@"Reading Preview"];
+            } else {
+                [_audioViewStatus setStringValue:@"Ready"];
+            }
+        }
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 

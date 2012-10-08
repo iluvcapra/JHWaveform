@@ -41,11 +41,13 @@
     Float64     _assetDuration;
     
     NSColor *_playheadColor;
+    
+    BOOL _isReadingOverview;
 
 }
 
 @property (readwrite, retain) AVPlayer *player;
 @property (readwrite, copy) NSColor *playheadColor;
-
+@property (readonly, assign) BOOL isReadingOverview;
 
 @end

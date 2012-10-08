@@ -42,6 +42,7 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 #define ASSET_SAMPLE_RATE   ( 48000 )
 
 @synthesize playheadColor = _playheadColor;
+@synthesize isReadingOverview = _isReadingOverview;
 
 
 - (NSUInteger)_audioSampleAtWaveformSample:(NSUInteger)sample {
@@ -108,7 +109,9 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 }
 
 -(void)_readSamplesFromTrack:(AVAssetTrack *)track ofAsset:(AVAsset *)asset {
-    
+    [self willChangeValueForKey:@"isReadingOverview"];
+    _isReadingOverview = YES;
+    [self didChangeValueForKey:@"isReadingOverview"];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         NSData *floatData;
@@ -117,7 +120,10 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             
+            [self willChangeValueForKey:@"isReadingOverview"];
             [self setWaveform:(float *)[floatData bytes] length:[floatData length] / sizeof(float)];
+            _isReadingOverview = NO;
+            [self didChangeValueForKey:@"isReadingOverview"];
         });
     });
 
@@ -163,6 +169,9 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
         self.gridTicks = 100;
         self.rulerMajorTicks = ASSET_SAMPLE_RATE * 10 / 2000;
         self.rulerMinorTicks = ASSET_SAMPLE_RATE / 2000;
+        [self willChangeValueForKey:@"isReadingOverview"];
+        _isReadingOverview = NO;
+        [self didChangeValueForKey:@"isReadingOverview"];
     }
     
     [self addObserver:self
@@ -204,6 +213,10 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+}
+
+-(BOOL)isReadingOverview {
+    return _isReadingOverview;
 }
 
 -(AVPlayer *)player {
