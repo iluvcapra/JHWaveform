@@ -33,12 +33,16 @@
 #import "JHAudioPreviewView.h"
 #import <CoreMedia/CoreMedia.h>
 
+static NSString *JHAudioPreviewPlayerRateObservingCtx           = @"JHAudioPreviewPlayerRateObservingCtx";
+static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPreviewPlayerSampleRangeObservingCtx";
+static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPreviewNeedsDisplayObservingCtx";
+
 @implementation JHAudioPreviewView
 
 #define ASSET_SAMPLE_RATE   ( 48000 )
 
-static NSString *JHAudioPreviewPlayerRateObservingCtx           = @"JHAudioPreviewPlayerRateObservingCtx";
-static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPreviewPlayerSampleRangeObservingCtx";
+@synthesize playheadColor = _playheadColor;
+
 
 - (NSUInteger)_audioSampleAtWaveformSample:(NSUInteger)sample {
     
@@ -157,6 +161,7 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
         _timeObserverDescriptor = nil;
         _playheadPosition = 0;
         _assetDuration = 0.0;
+        self.playheadColor = [NSColor greenColor];
         self.gridTicks = 100;
         self.rulerMajorTicks = ASSET_SAMPLE_RATE * 10 / 2000;
         self.rulerMinorTicks = ASSET_SAMPLE_RATE / 2000;
@@ -166,6 +171,11 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
            forKeyPath:@"selectedSampleRange"
               options:NSKeyValueObservingOptionNew
               context:(__bridge void *)(JHAudioPreviewPlayerSampleRangeObservingCtx)];
+    
+    [self addObserver:self
+           forKeyPath:@"playheadColor"
+              options:NSKeyValueObservingOptionNew
+              context:(__bridge void *)(JHAudioPreviewNeedsDisplayObservingCtx)];
     
     return self;
 }
@@ -189,6 +199,10 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
 //        if (_player.rate == 0.0f) {
 //            [self seekToSelectedSampleLocation];
 //        }
+    } else if (context == (__bridge void *)JHAudioPreviewNeedsDisplayObservingCtx) {
+        if ([keyPath isEqualToString:@"playheadColor"]) {
+            [self setNeedsDisplay:YES];
+        }
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -232,7 +246,7 @@ static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPrevi
     
     /* draw playhead */
     if (_playheadPosition > 0) { // don't draw the playhead if we're at the head
-        [[NSColor greenColor] set];
+        [self.playheadColor set];
         CGFloat xPos = [self sampleToXPoint:_playheadPosition];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(xPos, 0)
                                   toPoint:NSMakePoint(xPos, self.bounds.size.height)];

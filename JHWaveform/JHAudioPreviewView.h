@@ -39,10 +39,13 @@
     id _timeObserverDescriptor;
     NSUInteger  _playheadPosition;
     Float64     _assetDuration;
+    
+    NSColor *_playheadColor;
 
 }
 
-@property (readwrite) AVPlayer *player;
+@property (readwrite, retain) AVPlayer *player;
+@property (readwrite, copy) NSColor *playheadColor;
 
 
 @end
