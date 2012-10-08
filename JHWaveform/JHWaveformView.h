@@ -88,7 +88,7 @@ enum JHWaveformViewMouseModes {
  sample buffer originally given to the view.
  */
 @property (assign) BOOL allowsSelection;
-@property (assign) NSRange selectedOriginalSampleRange;
+@property (assign) NSRange selectedSampleRange;
 
 @property (assign) BOOL displaysRuler, displaysGrid;
 @property (assign) NSUInteger rulerMajorTicks, rulerMinorTicks, gridTicks;
@@ -96,13 +96,12 @@ enum JHWaveformViewMouseModes {
 -(void)setWaveform:(float*)samples length:(NSUInteger)length;
 
 /*
- These two views are used by subclasses and should be moved out to a separate
+ These methods are used by subclasses and should be moved out to a separate
  header.
  */
 -(CGFloat)coalescedSampleToXPoint:(NSUInteger)sampleIdx;
-
 -(NSUInteger)xPointToCoalescedSample:(CGFloat)xPoint;
-
+@property (assign) NSRange selectedOriginalSampleRange;
 
 @end
 

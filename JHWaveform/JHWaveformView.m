@@ -145,8 +145,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 -(void)setSelectedSampleRange:(NSRange)range {
     NSRect orig = NSMakeRect(range.location, 0.0f,
                              range.length, 0.0f);
-    NSPoint xpt = [[self originalSampleTransform] transformPoint:orig.origin];
-    NSSize xlen = [[self originalSampleTransform] transformSize:orig.size];
+    NSPoint xpt = [[self sampleTransform] transformPoint:orig.origin];
+    NSSize xlen = [[self sampleTransform] transformSize:orig.size];
     _selectedSampleRange =  NSMakeRange(lrintf(xpt.x) , lrintf(xlen.width) );
     
 }
@@ -154,8 +154,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 -(NSRange)selectedSampleRange {
     NSRect orig = NSMakeRect(_selectedSampleRange.location, 0.0f,
                               _selectedSampleRange.length, 0.0f);
-    NSPoint xpt = [[self originalSampleTransform] transformPoint:orig.origin];
-    NSSize xlen = [[self originalSampleTransform] transformSize:orig.size];
+    NSPoint xpt = [[self sampleTransform] transformPoint:orig.origin];
+    NSSize xlen = [[self sampleTransform] transformSize:orig.size];
     return NSMakeRange(lrintf(xpt.x) , lrintf(xlen.width) );
 }
 #pragma mark Handle Events
@@ -292,18 +292,18 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 #pragma mark Drawing Methods
 
--(NSAffineTransform *)originalSampleTransform {
+-(NSAffineTransform *)sampleTransform {
     NSAffineTransform *retXform = [NSAffineTransform transform];
     [retXform scaleXBy:(CGFloat)_originalSampleDataLength/(CGFloat)_sampleDataLength yBy:1.0f];
     return retXform;
 }
 
--(CGFloat)originalSampleToXPoint:(NSUInteger)sampleIdx {
-    return [[self originalSampleTransform] transformPoint:NSMakePoint( sampleIdx , 0.0f)].x;
+-(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx {
+    return [[self sampleTransform] transformPoint:NSMakePoint( sampleIdx , 0.0f)].x;
 }
 
--(NSUInteger)xPointToOriginalSample:(CGFloat)xPoint {
-    NSAffineTransform *invertedXform = [self originalSampleTransform];
+-(NSUInteger)xPointToSample:(CGFloat)xPoint {
+    NSAffineTransform *invertedXform = [self sampleTransform];
     [invertedXform invert];
     return [invertedXform transformPoint:NSMakePoint(xPoint, 0.0f)].x;
 }
