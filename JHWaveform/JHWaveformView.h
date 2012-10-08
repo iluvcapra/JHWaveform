@@ -60,6 +60,10 @@ enum JHWaveformViewMouseModes {
     NSUInteger  _gridTicks;
 }
 
+/* All of the colors of the view are modifiable. foregroundColor, lineColor and
+ backgroundColor apply to the waveform itself.  By default, these colors are 
+ set to neutral system-defined colors for NSCells */
+
 @property (copy, readwrite) NSColor *foregroundColor,
                                     *lineColor,
                                     *backgroundColor,
@@ -71,9 +75,18 @@ enum JHWaveformViewMouseModes {
                                     *rulerTicksColor,
                                     *outerBorderColor;
 
+/* This is the width of the waveform line the default is probably the best. */
 @property (assign) CGFloat lineWidth;
+
+/* The vertical scale of the waveform.  By default, the waveform is scaled
+ so that peaks at -1.0/+1.0 are at the edges of the waveform's rectangle */
 @property (assign) CGFloat verticalScale;
 
+/*
+ The selected sample range is sorta under construction, right now it gives a 
+ result in the view's internal sample buffer, which may be shorter than the 
+ sample buffer originally given to the view.
+ */
 @property (assign) BOOL allowsSelection;
 @property (assign) NSRange selectedSampleRange;
 
@@ -82,6 +95,10 @@ enum JHWaveformViewMouseModes {
 
 -(void)setWaveform:(float*)samples length:(NSUInteger)length;
 
+/*
+ These two views are used by subclasses and should be moved out to a separate
+ header.
+ */
 -(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx;
 
 -(NSUInteger)xPointToSample:(CGFloat)xPoint;

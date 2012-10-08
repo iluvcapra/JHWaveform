@@ -46,8 +46,23 @@
 
 }
 
+/*
+ Setting this property causes the PreviewView to create an overview for whatever
+ AVPlayerItem is currently on the player.  The view does not observe changes to
+ the playerItem at this time, which probably should be fixed.
+ */
 @property (readwrite, retain) AVPlayer *player;
+
+/*
+ The color of the playhead.
+ */
 @property (readwrite, copy) NSColor *playheadColor;
-@property (readonly, assign) BOOL isReadingOverview;
+
+/*
+ When the player property is set, the view will immediately begin reading audio
+ data from the player's asset.  This process is a somewhat lengthy process; you
+ can observe the propety to let the user know about the view's progress.
+ */
+@property (readonly) BOOL isReadingOverview;
 
 @end
