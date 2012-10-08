@@ -56,7 +56,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 #define RULER_HEIGHT            25
 #define RULER_TICK_INSET        3
-#define RULER_MINOR_TICK_FACTOR 0.5f
+#define RULER_MINOR_TICK_FACTOR 0.4f
 
 #define MAX_SAMPLE_DATA         2000
 
@@ -449,14 +449,14 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     
     [[NSColor controlDarkShadowColor] set];
     [NSBezierPath setDefaultLineWidth:1.0f];
-    for (i = 0; i < _sampleDataLength; i += _rulerMajorTicks) {
-        xpt = [self coalescedSampleToXPoint:i];
+    for (i = 0; i < _originalSampleDataLength; i += _rulerMajorTicks) {
+        xpt = [self sampleToXPoint:i];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
                                   toPoint:NSMakePoint(xpt, rulerRect.origin.y+ tickHeight)];
     }
-    for (i = 0; i < _sampleDataLength; i += _rulerMinorTicks) {
+    for (i = 0; i < _originalSampleDataLength; i += _rulerMinorTicks) {
         if (i % _rulerMajorTicks) {
-            xpt = [self coalescedSampleToXPoint:i];
+            xpt = [self sampleToXPoint:i];
             [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
                                       toPoint:NSMakePoint(xpt, rulerRect.origin.y+ minorTickHeight)];
         }
