@@ -48,12 +48,14 @@ enum testSignals {
     
     AVPlayer *_player;
     
-    NSTextField *_audioViewStatus;
+    NSTextField *_audioViewStatus, *_locationField, *_lengthField;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 @property (retain) IBOutlet JHWaveformView *waveformView;
-@property (retain) IBOutlet NSTextField *audioViewStatus;
+
+@property (retain) IBOutlet NSTextField *locationField;
+@property (retain) IBOutlet NSTextField *lengthField;
 
 -(IBAction)setTestSignal:(id)sender;
 -(IBAction)setNumberOfSamples:(id)sender;

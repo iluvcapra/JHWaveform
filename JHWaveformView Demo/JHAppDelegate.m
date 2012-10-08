@@ -35,7 +35,8 @@
 @implementation JHAppDelegate
 
 @synthesize waveformView = _waveformView;
-@synthesize audioViewStatus = _audioViewStatus;
+@synthesize locationField = _locationField;
+@synthesize lengthField = _lengthField;
 
 -(void)_setTestSignalToView {
     
@@ -66,6 +67,12 @@
                     forKeyPath:@"isReadingOverview"
                        options:NSKeyValueObservingOptionNew
                        context:NULL];
+    
+    [_waveformView addObserver:self
+                    forKeyPath:@"selectedSampleRange"
+                       options:NSKeyValueObservingOptionNew
+                       context:NULL];
+    
     [_audioViewStatus setStringValue:@"Idle"];
     _numberOfSamples = 1000;
     _player = nil;
@@ -73,13 +80,16 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (context == NULL) {
-        if (object == _waveformView && [keyPath isEqualToString:@"isReadingOverview"]) {
+    if (object == _waveformView) {
+        if ([keyPath isEqualToString:@"isReadingOverview"]) {
             if ([change[NSKeyValueChangeNewKey] boolValue]) {
                 [_audioViewStatus setStringValue:@"Reading Preview"];
             } else {
                 [_audioViewStatus setStringValue:@"Ready"];
             }
+        } else if ( [keyPath isEqualToString:@"selectedSampleRange"]) {
+            [_locationField setStringValue:[NSString stringWithFormat:@"Loc: %li",_waveformView.selectedSampleRange.location]];
+            [_lengthField setStringValue:[NSString stringWithFormat:@"Len: %li",_waveformView.selectedSampleRange.length]];
         }
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];

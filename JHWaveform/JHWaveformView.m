@@ -60,6 +60,10 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 #define MAX_SAMPLE_DATA         2000
 
++(NSSet *)keyPathsForValuesAffectingSelectedSampleRange {
+    
+    return [NSSet setWithObject:@"selectedOriginalSampleRange"];
+}
 
 -(id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
@@ -254,9 +258,14 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     }
 }
 
+-(NSUInteger)sampleLength {
+    return _originalSampleDataLength;
+}
+
 -(void)setWaveform:(float *)samples length:(NSUInteger)length {
-    
+    [self willChangeValueForKey:@"sampleLength"];
     _originalSampleDataLength = length;
+    [self didChangeValueForKey:@"sampleLength"];
     _sampleDataLength = MIN(length, MAX_SAMPLE_DATA);
     
     if (_sampleData) {
