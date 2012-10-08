@@ -45,7 +45,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 @synthesize gridColor       =       _gridColor;
 
 @synthesize lineWidth       =       _lineWidth;
-@synthesize selectedCoalescedSampleRange =   _selectedSampleRange;
+@synthesize selectedCoalescedSampleRange =   _selectedCoalescedSampleRange;
 @synthesize allowsSelection =       _allowsSelection;
 @synthesize verticalScale   =       _verticalScale;
 @synthesize displaysRuler   =       _displaysRuler;
@@ -150,13 +150,13 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     float factor = (float)_sampleDataLength / (float)_originalSampleDataLength;
     NSRange newRange = NSMakeRange(lrintf((float)range.location * factor),
                                    lrintf((float)range.length   * factor));
-    _selectedSampleRange = newRange;
+    _selectedCoalescedSampleRange = newRange;
 }
 
 -(NSRange)selectedSampleRange {
     float factor = (float)_originalSampleDataLength / (float)_sampleDataLength ;
-    NSRange newRange = NSMakeRange(lrintf((float)_selectedSampleRange.location * factor),
-                                   lrintf((float)_selectedSampleRange.length   * factor));
+    NSRange newRange = NSMakeRange(lrintf((float)_selectedCoalescedSampleRange.location * factor),
+                                   lrintf((float)_selectedCoalescedSampleRange.length   * factor));
     return newRange;
 
 }
@@ -202,7 +202,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
             _selectionAnchor = loc;
             [self setNeedsDisplay:YES];
             
-            _selectedSampleRange = NSMakeRange(loc, 0);
+            _selectedCoalescedSampleRange = NSMakeRange(loc, 0);
         }
     }
 
@@ -354,7 +354,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 -(NSRect)selectionRect {
-    return [self rectForSampleSelection:_selectedSampleRange];
+    return [self rectForSampleSelection:_selectedCoalescedSampleRange];
 }
 
 -(NSRect)waveformRect {
@@ -383,8 +383,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 - (void)drawSelectionBox {
     /* fill selection */
     
-    if (_selectedSampleRange.location != NSNotFound ||
-        _selectedSampleRange.length == 0) {
+    if (_selectedCoalescedSampleRange.location != NSNotFound ||
+        _selectedCoalescedSampleRange.length == 0) {
         [self.selectedColor set];
         NSRect selectedRect = [self selectionRect];
         
