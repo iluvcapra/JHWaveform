@@ -269,7 +269,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         _sampleData[i] = NSMakePoint(i, coalescedSamples[i]);
     }
     
-    [self setSelectedSampleRange:NSMakeRange(NSNotFound, 0)];
+    self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     [self setNeedsDisplay:YES];
     if (freeCoalescedSamples){free(coalescedSamples);}
 }
