@@ -172,17 +172,17 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
         [self willChangeValueForKey:@"isReadingOverview"];
         _isReadingOverview = NO;
         [self didChangeValueForKey:@"isReadingOverview"];
+        
+        [self addObserver:self
+               forKeyPath:@"selectedCoalescedSampleRange"
+                  options:NSKeyValueObservingOptionNew
+                  context:(__bridge void *)(JHAudioPreviewPlayerSampleRangeObservingCtx)];
+        
+        [self addObserver:self
+               forKeyPath:@"playheadColor"
+                  options:NSKeyValueObservingOptionNew
+                  context:(__bridge void *)(JHAudioPreviewNeedsDisplayObservingCtx)];
     }
-    
-    [self addObserver:self
-           forKeyPath:@"selectedCoalescedSampleRange"
-              options:NSKeyValueObservingOptionNew
-              context:(__bridge void *)(JHAudioPreviewPlayerSampleRangeObservingCtx)];
-    
-    [self addObserver:self
-           forKeyPath:@"playheadColor"
-              options:NSKeyValueObservingOptionNew
-              context:(__bridge void *)(JHAudioPreviewNeedsDisplayObservingCtx)];
     
     return self;
 }
@@ -244,6 +244,9 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
     }
 
 }
+
+#pragma mark Drawing
+
 
 -(void)mouseDown:(NSEvent *)theEvent {
     NSPoint click = [self convertPoint:[theEvent locationInWindow] fromView:nil];
