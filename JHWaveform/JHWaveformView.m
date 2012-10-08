@@ -303,7 +303,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 -(NSRect)rectForSampleSelection:(NSRange)aSelection {
     NSRect retRect = [self waveformRect];
     if (aSelection.location != NSNotFound) {
-        retRect.origin.x = SAMPLE_TO_X_POINT( aSelection.location );
+        retRect.origin.x = [self sampleToXPoint:aSelection.location];
         retRect.size.width = [[self sampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
     } else {
         retRect = NSZeroRect;
