@@ -95,10 +95,15 @@ enum JHWaveformViewMouseModes {
 
 -(void)setWaveform:(float*)samples length:(NSUInteger)length;
 
+
 /*
  These methods are used by subclasses and should be moved out to a separate
  header.
  */
+
+-(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx;
+-(NSUInteger)xPointToSample:(CGFloat)xPoint;
+
 -(CGFloat)coalescedSampleToXPoint:(NSUInteger)sampleIdx;
 -(NSUInteger)xPointToCoalescedSample:(CGFloat)xPoint;
 @property (assign) NSRange selectedOriginalSampleRange;
