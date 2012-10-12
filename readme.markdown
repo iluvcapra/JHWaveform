@@ -17,11 +17,15 @@ float *myData = CopyMyData();
 
 [view setWaveform:myData length:myDataLength];
 
+free(myData);
+
 </pre>
+
+JHWaveformView does not retain or copy the samples you give it, nor does it require the client to do so. Once -setWaveform:length: returns, you may dispose of the float array.
 
 You can observe the current selection of the view by adding an observer to the @selectedSampleRange property.  This gives the presently selected area as an NSRange of the samples.
 
-The drawing of the waveform is optimized for the case of very long arrays (as in the case of an hour-long 96k wave file) by coalescing windows of samples into their maximum/minimum values.
+The drawing of the waveform is optimized for the case of very long arrays (as in the case of an hour-long 96k wave file) by coalescing windows of samples into their maximum/minimum values.  For an array with less than a certain number of samples (presently 2000), the view will stroke a path for each sample literally; for arrays greater than that, the floats will be coalesced.
 
 ## JHAudioPreviewView
 

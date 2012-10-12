@@ -94,7 +94,7 @@ enum JHWaveformViewMouseModes {
 @property (assign) NSUInteger rulerMajorTicks, rulerMinorTicks, gridTicks;
 @property (readonly) NSUInteger sampleLength;
 
--(void)setWaveform:(float*)samples length:(NSUInteger)length;
+-(void)setWaveform:(const float*)samples length:(NSUInteger)length;
 
 
 /*

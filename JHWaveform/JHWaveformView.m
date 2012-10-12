@@ -238,7 +238,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 #pragma mark Set Data
 
--(void)coalesceSamples:(float *)inSamples length:(NSUInteger)inSamplesLength
+-(void)coalesceSamples:(const float *)inSamples length:(NSUInteger)inSamplesLength
            intoSamples:(float *)outSamples length:(NSUInteger)inOutSamplesLength {
     NSUInteger i,j;
     float stride = (float)inSamplesLength / ((float)inOutSamplesLength / 2);
@@ -260,7 +260,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     return _originalSampleDataLength;
 }
 
--(void)setWaveform:(float *)samples length:(NSUInteger)length {
+-(void)setWaveform:(const float *)samples length:(NSUInteger)length {
     [self willChangeValueForKey:@"sampleLength"];
     _originalSampleDataLength = length;
     [self didChangeValueForKey:@"sampleLength"];
@@ -284,7 +284,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
                   intoSamples:coalescedSamples length:_sampleDataLength];
         
     } else {
-        coalescedSamples = samples;
+        coalescedSamples = (float *)samples;
     }
     
     NSUInteger i;
