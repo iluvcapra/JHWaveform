@@ -93,6 +93,8 @@ enum JHWaveformViewMouseModes {
 /*
  The current selection in the waveform.  This is an NSRange in terms of the 
  buffer the client originaly gave to -setWaveform:length:
+ 
+ If there is no selection, @selectedSampleRange will be {NSNotFound,0}
  */
 @property (assign) BOOL allowsSelection;
 @property (assign) NSRange selectedSampleRange;

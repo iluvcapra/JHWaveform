@@ -31,7 +31,10 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "JHWaveformView.h"
+
+/* this view requires AVFoundation and CoreMedia in order to work its magic */
 #import <AVFoundation/AVFoundation.h>
+#import <CoreMedia/CoreMedia.h>
 
 @interface JHAudioPreviewView : JHWaveformView {
     AVPlayer *_player;
