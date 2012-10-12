@@ -82,19 +82,23 @@ enum JHWaveformViewMouseModes {
  so that peaks at -1.0/+1.0 are at the edges of the waveform's rectangle */
 @property (assign) CGFloat verticalScale;
 
+/* Draws a waveform with the given sample buffer */
+-(void)setWaveform:(const float*)samples length:(NSUInteger)length;
+
+/* The total number of samples, rather, a convenience for getting whatever
+ the client gave for `length` */
+@property (readonly) NSUInteger sampleLength;
+
+
 /*
- The selected sample range is sorta under construction, right now it gives a 
- result in the view's internal sample buffer, which may be shorter than the 
- sample buffer originally given to the view.
+ The current selection in the waveform.  This is an NSRange in terms of the 
+ buffer the client originaly gave to -setWaveform:length:
  */
 @property (assign) BOOL allowsSelection;
 @property (assign) NSRange selectedSampleRange;
 
 @property (assign) BOOL displaysRuler, displaysGrid;
 @property (assign) NSUInteger rulerMajorTicks, rulerMinorTicks, gridTicks;
-@property (readonly) NSUInteger sampleLength;
-
--(void)setWaveform:(const float*)samples length:(NSUInteger)length;
 
 
 /*
