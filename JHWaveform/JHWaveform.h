@@ -34,3 +34,4 @@
 
 #import "JHWaveformView.h"
 #import "JHAudioPreviewView.h"
+#import "JHVirtualSampleSource.h"
