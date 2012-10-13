@@ -430,7 +430,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [NSBezierPath setDefaultLineWidth:0.5f];
     NSUInteger i, xpt;
     for (i = 0; i < _sampleDataLength; i += _gridTicks) {
-        xpt = [self coalescedSampleToXPoint:i];
+        xpt = [self sampleToXPoint:i];
         [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
                                   toPoint:NSMakePoint(xpt, [self bounds].size.height)];
     }
