@@ -10,6 +10,7 @@
 		7D516F09161FB1B700742DCF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7115161E4464007AF2A0 /* CoreMedia.framework */; };
 		7D516F0A161FB1C000742DCF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */; };
 		7D8E9724162A21E500E58BD8 /* JHVirtualSampleSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8E9722162A21E500E58BD8 /* JHVirtualSampleSource.h */; };
+		7DC930DD162A2B1300893694 /* JHWaveformView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD0543D161CEB6B0019D540 /* JHWaveformView.h */; };
 		7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */; };
 		7DCF7110161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */; };
 		7DCF7111161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */; };
@@ -236,8 +237,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */,
 				7D8E9724162A21E500E58BD8 /* JHVirtualSampleSource.h in Headers */,
+				7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */,
+				7DC930DD162A2B1300893694 /* JHWaveformView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

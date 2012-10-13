@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Jamie Hardt. All rights reserved.
 //
 
-
+#import <Foundation/Foundation.h>
 
 @protocol JHVirtualSampleSource
 
