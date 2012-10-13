@@ -22,7 +22,6 @@
 		7DD05475161CF5960019D540 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DD05473161CF5960019D540 /* MainMenu.xib */; };
 		7DD05482161CF66A0019D540 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD053FB161CEAFB0019D540 /* Cocoa.framework */; };
 		7DD05488161CF66A0019D540 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DD05486161CF66A0019D540 /* InfoPlist.strings */; };
-		7DD0548C161CF66B0019D540 /* JHWaveform.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0548B161CF66A0019D540 /* JHWaveform.m */; };
 		7DD05493161CF66B0019D540 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD05419161CEAFB0019D540 /* SenTestingKit.framework */; };
 		7DD05494161CF66B0019D540 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD053FB161CEAFB0019D540 /* Cocoa.framework */; };
 		7DD05497161CF66B0019D540 /* JHWaveform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD05481161CF66A0019D540 /* JHWaveform.framework */; };
@@ -76,7 +75,6 @@
 		7DD05487161CF66A0019D540 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7DD05489161CF66A0019D540 /* JHWaveform-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JHWaveform-Prefix.pch"; sourceTree = "<group>"; };
 		7DD0548A161CF66A0019D540 /* JHWaveform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHWaveform.h; sourceTree = "<group>"; };
-		7DD0548B161CF66A0019D540 /* JHWaveform.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHWaveform.m; sourceTree = "<group>"; };
 		7DD05492161CF66B0019D540 /* JHWaveformTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JHWaveformTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DD0549A161CF66B0019D540 /* JHWaveformTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JHWaveformTests-Info.plist"; sourceTree = "<group>"; };
 		7DD0549C161CF66B0019D540 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -189,12 +187,11 @@
 		7DD05483161CF66A0019D540 /* JHWaveform */ = {
 			isa = PBXGroup;
 			children = (
+				7DD0548A161CF66A0019D540 /* JHWaveform.h */,
 				7DD0543D161CEB6B0019D540 /* JHWaveformView.h */,
 				7DD0543E161CEB6B0019D540 /* JHWaveformView.m */,
 				7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */,
 				7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */,
-				7DD0548A161CF66A0019D540 /* JHWaveform.h */,
-				7DD0548B161CF66A0019D540 /* JHWaveform.m */,
 				7DD05484161CF66A0019D540 /* Supporting Files */,
 			);
 			path = JHWaveform;
@@ -387,7 +384,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DD054AA161CF7110019D540 /* JHWaveformView.m in Sources */,
-				7DD0548C161CF66B0019D540 /* JHWaveform.m in Sources */,
 				7DCF7110161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -32,6 +32,5 @@
 
 #import <Foundation/Foundation.h>
 
-@interface JHWaveform : NSObject
-
-@end
+#import "JHWaveformView.h"
+#import "JHAudioPreviewView.h"
