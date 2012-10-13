@@ -132,7 +132,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
             NSRange newselection = [change[NSKeyValueChangeNewKey] rangeValue];
             
             [self setNeedsDisplayInRect:NSInsetRect([self rectForSampleSelection:oldSelection], -10.f, -10.0f)];
-            
+            [self setNeedsDisplayInRect:[self rulerRect]];
             if (newselection.location == NSNotFound) {
                 [self setNeedsDisplay:YES];
             } else {
@@ -396,6 +396,33 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     }
 }
 
+-(void)drawSelectionThumbs {
+    if (_selectedCoalescedSampleRange.location != NSNotFound) {
+        NSBezierPath *thumb = [NSBezierPath bezierPath];
+        [thumb moveToPoint:NSMakePoint([self selectionRect].origin.x,
+                                       [self rulerRect].origin.y + RULER_TICK_INSET)];
+        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x,
+                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
+        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self rulerRect].size.height / 2 - RULER_TICK_INSET,
+                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
+        [thumb closePath];
+        
+        NSBezierPath *endThumb = [NSBezierPath bezierPath];
+        [endThumb moveToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
+                                       [self rulerRect].origin.y + RULER_TICK_INSET)];
+        [endThumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
+                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
+        [endThumb lineToPoint:NSMakePoint(([self selectionRect].origin.x + [self selectionRect].size.width) - [self rulerRect].size.height / 2 + RULER_TICK_INSET,
+                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
+       
+        [endThumb closePath];
+        
+        [self.selectedBorderColor set];
+        [thumb fill];
+        [endThumb fill];
+    }
+}
+
 - (void)drawGridlines {
     /* gridlines */
     
@@ -490,6 +517,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     
     if (_displaysRuler && NSIntersectsRect(dirtyRect, [self rulerRect])) {
         [self drawRuler];
+        [self drawSelectionThumbs];
     }
     
     [self drawOutline];
