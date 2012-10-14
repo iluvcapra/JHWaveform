@@ -110,6 +110,9 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [self addObserver:self forKeyPath:@"selectedCoalescedSampleRange"
               options:NSKeyValueObservingOptionNew ^ NSKeyValueObservingOptionOld
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    [self addObserver:self forKeyPath:@"selectedSampleRange"
+              options:NSKeyValueObservingOptionNew ^ NSKeyValueObservingOptionOld
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
     [self addObserver:self forKeyPath:@"verticalScale"       options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
     [self addObserver:self forKeyPath:@"displaysRuler"       options:NSKeyValueObservingOptionNew
@@ -127,7 +130,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
                      ofObject:(id)object
                        change:(NSDictionary *)change context:(void *)context {
     if (context == (__bridge void *)JHWaveformViewNeedsRedisplayCtx ) {
-        if ([keyPath isEqualToString:@"selectedCoalescedSampleRange"]) {
+        if ([keyPath isEqualToString:@"selectedSampleRange"]) {
             NSRange oldSelection = [change[NSKeyValueChangeOldKey] rangeValue];
             NSRange newselection = [change[NSKeyValueChangeNewKey] rangeValue];
             
@@ -349,8 +352,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 -(NSRect)rectForSampleSelection:(NSRange)aSelection {
     NSRect retRect = [self waveformRect];
     if (aSelection.location != NSNotFound) {
-        retRect.origin.x = [self coalescedSampleToXPoint:aSelection.location];
-        retRect.size.width = [[self coalescedSampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
+        retRect.origin.x = [self sampleToXPoint:aSelection.location];
+        retRect.size.width = [[self sampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
     } else {
         retRect = NSZeroRect;
     }
@@ -358,7 +361,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 -(NSRect)selectionRect {
-    return [self rectForSampleSelection:_selectedCoalescedSampleRange];
+    return [self rectForSampleSelection:self.selectedSampleRange];
 }
 
 -(NSRect)waveformRect {
@@ -387,8 +390,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 - (void)drawSelectionBox {
     /* fill selection */
     
-    if (_selectedCoalescedSampleRange.location != NSNotFound ||
-        _selectedCoalescedSampleRange.length == 0) {
+    if (self.selectedSampleRange.location != NSNotFound ||
+        self.selectedSampleRange.length == 0) {
         [self.selectedColor set];
         NSRect selectedRect = [self selectionRect];
         
