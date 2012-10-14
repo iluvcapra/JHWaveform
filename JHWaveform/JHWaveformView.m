@@ -155,7 +155,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     NSUInteger loc = [self xPointToSample:clickDown.x];
     
     if (self.allowsSelection) {
-        if (([event modifierFlags] & NSShiftKeyMask) && self.selectedSampleRange.location != NSNotFound) {
+        if (([event modifierFlags] & NSShiftKeyMask) && _selectedSampleRange.location != NSNotFound) {
             
             NSRange currentSelection  = self.selectedSampleRange;
             
@@ -188,7 +188,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
             _selectionAnchor = loc;
             [self setNeedsDisplay:YES];
             
-            self.selectedSampleRange = NSMakeRange(loc, 0);
+            _selectedSampleRange = NSMakeRange(loc, 0);
         }
     }
 
