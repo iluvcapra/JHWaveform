@@ -37,22 +37,22 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 @implementation JHWaveformView
 
-@synthesize foregroundColor =       _foregroundColor;
-@synthesize lineColor =             _lineColor;
-@synthesize backgroundColor =       _backgroundColor;
-@synthesize selectedColor   =       _selectedColor;
-@synthesize selectedBorderColor = _selectedBorderColor;
-@synthesize gridColor       =       _gridColor;
+@synthesize foregroundColor                 = _foregroundColor;
+@synthesize lineColor                       = _lineColor;
+@synthesize backgroundColor                 = _backgroundColor;
+@synthesize selectedColor                   = _selectedColor;
+@synthesize selectedBorderColor             = _selectedBorderColor;
+@synthesize gridColor                       = _gridColor;
 
-@synthesize lineWidth       =       _lineWidth;
-@synthesize selectedCoalescedSampleRange =   _selectedCoalescedSampleRange;
-@synthesize allowsSelection =       _allowsSelection;
-@synthesize verticalScale   =       _verticalScale;
-@synthesize displaysRuler   =       _displaysRuler;
-@synthesize displaysGrid    =       _displaysGrid;
-@synthesize rulerMajorTicks =       _rulerMajorTicks;
-@synthesize rulerMinorTicks =       _rulerMinorTicks;
-@synthesize gridTicks       =       _gridTicks;
+@synthesize lineWidth                       = _lineWidth;
+@synthesize selectedCoalescedSampleRange    = _selectedCoalescedSampleRange;
+@synthesize allowsSelection                 = _allowsSelection;
+@synthesize verticalScale                   = _verticalScale;
+@synthesize displaysRuler                   = _displaysRuler;
+@synthesize displaysGrid                    = _displaysGrid;
+@synthesize rulerMajorTicks                 = _rulerMajorTicks;
+@synthesize rulerMinorTicks                 = _rulerMinorTicks;
+@synthesize gridTicks                       = _gridTicks;
 
 #define RULER_HEIGHT            25
 #define RULER_TICK_INSET        3
