@@ -300,6 +300,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     [self setNeedsDisplay:YES];
     if (freeCoalescedSamples){free(coalescedSamples);}
+    _viewRange = NSMakeRange(0, _originalSampleDataLength);
 }
 
 #pragma mark Drawing Methods
@@ -336,9 +337,10 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 -(NSRect)rectForSampleSelection:(NSRange)aSelection {
     NSRect retRect = [self waveformRect];
-    if (aSelection.location != NSNotFound) {
-        retRect.origin.x = [self sampleToXPoint:aSelection.location];
-        retRect.size.width = [[self sampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
+    NSRange zoomedRange = NSIntersectionRange(aSelection, _viewRange);
+    if (zoomedRange.location != NSNotFound) {
+        retRect.origin.x = [self sampleToXPoint:zoomedRange.location];
+        retRect.size.width = [[self sampleTransform] transformSize:NSMakeSize( zoomedRange.length , 0.0f)].width;
     } else {
         retRect = NSZeroRect;
     }
