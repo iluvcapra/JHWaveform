@@ -68,5 +68,6 @@ enum testSignals {
 -(IBAction)speedPlayTestFile:(id)sender;
 
 -(IBAction)zoomToSelection:(id)sender;
+-(IBAction)zoomOut:(id)sender;
 
 @end

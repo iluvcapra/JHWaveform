@@ -144,4 +144,8 @@
     _waveformView.viewRange = _waveformView.selectedSampleRange;
 }
 
+-(IBAction)zoomOut:(id)sender {
+    _waveformView.viewRange = NSMakeRange(0, [_waveformView sampleLength]);
+}
+
 @end
