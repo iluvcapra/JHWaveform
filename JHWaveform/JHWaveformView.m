@@ -55,7 +55,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 @synthesize gridTicks                       = _gridTicks;
 
 #define RULER_HEIGHT            25
-#define RULER_INSET        3
+#define RULER_INSET             3
 #define RULER_MINOR_TICK_FACTOR 0.4f
 
 #define MAX_SAMPLE_DATA         2000
@@ -156,6 +156,14 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 #pragma mark Handle Events
+
+-(BOOL)acceptsFirstResponder {
+    return YES;
+}
+
+-(void)selectAll:(id)sender {
+    self.selectedSampleRange = NSMakeRange(0, _originalSampleDataLength);
+}
 
 -(void)mouseDown:(NSEvent *)event {
     NSPoint clickDown = [self convertPoint:[event locationInWindow]
