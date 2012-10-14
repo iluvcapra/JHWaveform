@@ -33,7 +33,7 @@
 #import "JHWaveformView.h"
 
 static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedisplayObserverContext";
-static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelectionCtx";
+//static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelectionCtx";
 
 @implementation JHWaveformView
 
@@ -46,13 +46,14 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 @synthesize lineWidth                       = _lineWidth;
 @synthesize selectedSampleRange             = _selectedSampleRange;
-@synthesize allowsSelection                 = _allowsSelection;
 @synthesize verticalScale                   = _verticalScale;
 @synthesize displaysRuler                   = _displaysRuler;
 @synthesize displaysGrid                    = _displaysGrid;
 @synthesize rulerMajorTicks                 = _rulerMajorTicks;
 @synthesize rulerMinorTicks                 = _rulerMinorTicks;
 @synthesize gridTicks                       = _gridTicks;
+
+@synthesize viewRange                       = _viewRange;
 
 #define RULER_HEIGHT            25
 #define RULER_INSET             3
@@ -93,6 +94,11 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [self addObserver:self forKeyPath:@"foregroundColor"
               options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    
+    [self addObserver:self forKeyPath:@"viewRange"
+              options:NSKeyValueObservingOptionNew
+              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    
     [self addObserver:self forKeyPath:@"backgroundColor"
               options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
@@ -123,9 +129,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [self addObserver:self forKeyPath:@"displaysGrid"
               options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"allowsSelection"
-              options:NSKeyValueObservingOptionNew
-              context:(void *)JHWaveformViewAllowsSelectionCtx];
     
     return self;
 }
@@ -152,9 +155,21 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         } else {
             [self setNeedsDisplay:YES];
         }
-    } else if (context == (__bridge void *)JHWaveformViewAllowsSelectionCtx) {
-        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
+    } else {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
     }
+}
+
+-(void)setAllowsSelection:(BOOL)allowsSelection {
+    _allowsSelection = allowsSelection;
+    self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
+}
+
+-(BOOL)allowsSelection {
+    return _allowsSelection;
 }
 
 #pragma mark Handle Events
@@ -305,6 +320,12 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 #pragma mark Drawing Methods
 
+-(NSRange)coalescedViewRange {
+    float factor = (float)_sampleDataLength / (float)_originalSampleDataLength;
+    return NSMakeRange(lrintf(_viewRange.location * factor),
+                       lrintf(_viewRange.length * factor));
+}
+
 -(NSAffineTransform *)sampleTransform {
     NSRect waveformRect = [self waveformRect];
     NSAffineTransform *retXform = [NSAffineTransform transform];
@@ -325,22 +346,23 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 -(NSAffineTransform *)coalescedSampleTransform {
+    NSRange coalescedViewRange = [self coalescedViewRange];
     NSAffineTransform *retXform = [NSAffineTransform transform];
     NSRect waveformRect = [self waveformRect];
-    [retXform translateXBy:0.0f yBy:waveformRect.size.height / 2];
-    [retXform scaleXBy:waveformRect.size.width / (((CGFloat)_sampleDataLength - 1 /*we're couting rungs, not fenceposts */ ))
+    [retXform translateXBy:(0.0f - (float)coalescedViewRange.location)
+                       yBy:waveformRect.size.height / 2];
+    [retXform scaleXBy:waveformRect.size.width / (((CGFloat)coalescedViewRange.length - 1 /*we're couting rungs, not fenceposts */ ))
                    yBy:waveformRect.size.height * _verticalScale / 2];
     
     return retXform;
-
 }
 
 -(NSRect)rectForSampleSelection:(NSRange)aSelection {
     NSRect retRect = [self waveformRect];
     NSRange zoomedRange = NSIntersectionRange(aSelection, _viewRange);
     if (zoomedRange.location != NSNotFound) {
-        retRect.origin.x = [self sampleToXPoint:zoomedRange.location];
-        retRect.size.width = [[self sampleTransform] transformSize:NSMakeSize( zoomedRange.length , 0.0f)].width;
+        retRect.origin.x = [self sampleToXPoint:aSelection.location];
+        retRect.size.width = [[self sampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
     } else {
         retRect = NSZeroRect;
     }
@@ -526,7 +548,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [self removeObserver:self forKeyPath:@"verticalScale"];
     [self removeObserver:self forKeyPath:@"displaysRuler"];
     [self removeObserver:self forKeyPath:@"displaysGrid"];
-    [self removeObserver:self forKeyPath:@"allowsSelection"];
 
     free(_sampleData);
 }

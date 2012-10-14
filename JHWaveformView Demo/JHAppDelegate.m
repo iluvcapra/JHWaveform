@@ -140,4 +140,8 @@
     
 }
 
+-(IBAction)zoomToSelection:(id)sender {
+    _waveformView.viewRange = _waveformView.selectedSampleRange;
+}
+
 @end

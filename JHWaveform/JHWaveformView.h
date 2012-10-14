@@ -105,6 +105,8 @@ enum JHWaveformViewMouseModes {
 @property (assign) NSUInteger rulerMajorTicks, rulerMinorTicks, gridTicks;
 
 
+@property (assign) NSRange viewRange;
+
 /*
  These methods are used by subclasses and should be moved out to a separate
  header.

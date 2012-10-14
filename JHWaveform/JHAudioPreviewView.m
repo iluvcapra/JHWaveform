@@ -209,6 +209,8 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
         if ([keyPath isEqualToString:@"playheadColor"]) {
             [self setNeedsDisplay:YES];
         }
+    } else if (context == (__bridge void *)JHAudioPreviewPlayerSampleRangeObservingCtx) {
+        
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
