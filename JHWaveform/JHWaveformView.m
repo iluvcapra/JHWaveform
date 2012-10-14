@@ -88,32 +88,41 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     }
     
     
-    [self addObserver:self forKeyPath:@"foregroundColor" options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"foregroundColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"backgroundColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"lineColor"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"lineColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"selectedColor"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"selectedColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"selectedBorderColor"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"selectedBorderColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"gridColor"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"gridColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"lineWidth"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"lineWidth"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-
     [self addObserver:self forKeyPath:@"selectedSampleRange"
               options:NSKeyValueObservingOptionNew ^ NSKeyValueObservingOptionOld
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"verticalScale"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"verticalScale"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"displaysRuler"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"displaysRuler"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"displaysGrid"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"displaysGrid"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    
-    [self addObserver:self forKeyPath:@"allowsSelection" options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"allowsSelection"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewAllowsSelectionCtx];
     
     return self;
