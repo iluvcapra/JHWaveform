@@ -363,9 +363,9 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         
         [NSBezierPath fillRect:selectedRect];
         
-        [self.selectedBorderColor set];
-        [NSBezierPath setDefaultLineWidth:2.0];
-        [NSBezierPath strokeRect:selectedRect];
+       // [self.selectedBorderColor set];
+       // [NSBezierPath setDefaultLineWidth:2.0];
+       // [NSBezierPath strokeRect:selectedRect];
     }
 }
 
