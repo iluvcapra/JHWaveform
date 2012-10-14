@@ -329,8 +329,9 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
 -(NSAffineTransform *)sampleTransform {
     NSRect waveformRect = [self waveformRect];
     NSAffineTransform *retXform = [NSAffineTransform transform];
-    [retXform translateXBy:0.0f yBy:waveformRect.size.height / 2];
-    [retXform scaleXBy:waveformRect.size.width / ((CGFloat)_originalSampleDataLength -1 )
+    [retXform translateXBy:0.0f - _viewRange.location
+                       yBy:waveformRect.size.height / 2];
+    [retXform scaleXBy:waveformRect.size.width / ((CGFloat)_viewRange.length - 1.0f)
                    yBy:waveformRect.size.height * _verticalScale / 2];
     return retXform;
 }

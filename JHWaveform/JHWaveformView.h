@@ -104,7 +104,7 @@ enum JHWaveformViewMouseModes {
 @property (assign) BOOL displaysRuler, displaysGrid;
 @property (assign) NSUInteger rulerMajorTicks, rulerMinorTicks, gridTicks;
 
-
+// this is under construction
 @property (assign) NSRange viewRange;
 
 /*
