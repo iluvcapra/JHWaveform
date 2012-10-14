@@ -79,7 +79,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         _originalSampleDataLength = 0;
         
         self.lineWidth = 1.0f;
-        self.selectedCoalescedSampleRange = NSMakeRange(NSNotFound, 0);
+        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
         _dragging = NO;
         _selectionAnchor = 0;
         self.allowsSelection = YES;
@@ -404,7 +404,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 -(void)drawSelectionThumbs {
-    if (_selectedCoalescedSampleRange.location != NSNotFound) {
+    if (self.selectedSampleRange.location != NSNotFound) {
         NSBezierPath *thumb = [NSBezierPath bezierPath];
         [thumb moveToPoint:NSMakePoint([self selectionRect].origin.x,
                                        [self rulerRect].origin.y + RULER_TICK_INSET)];
