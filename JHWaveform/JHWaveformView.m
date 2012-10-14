@@ -146,20 +146,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     }
 }
 
-//-(void)setSelectedSampleRange:(NSRange)range {
-//    float factor = (float)_sampleDataLength / (float)_originalSampleDataLength;
-//    NSRange newRange = NSMakeRange(lrintf((float)range.location * factor),
-//                                   lrintf((float)range.length   * factor));
-//    _selectedCoalescedSampleRange = newRange;
-//}
-//
-//-(NSRange)selectedSampleRange {
-//    float factor = (float)_originalSampleDataLength / (float)_sampleDataLength ;
-//    NSRange newRange = NSMakeRange(lrintf((float)_selectedCoalescedSampleRange.location * factor),
-//                                   lrintf((float)_selectedCoalescedSampleRange.length   * factor));
-//    return newRange;
-//
-//}
 #pragma mark Handle Events
 
 -(void)mouseDown:(NSEvent *)event {
@@ -318,9 +304,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     return [invertedXform transformPoint:NSMakePoint(xPoint, 0.0f)].x;
 }
 
-
-
-
 -(NSAffineTransform *)coalescedSampleTransform {
     NSAffineTransform *retXform = [NSAffineTransform transform];
     NSRect waveformRect = [self waveformRect];
@@ -330,16 +313,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     
     return retXform;
 
-}
-
--(CGFloat)coalescedSampleToXPoint:(NSUInteger)sampleIdx {
-    return [[self coalescedSampleTransform] transformPoint:NSMakePoint( sampleIdx , 0.0f)].x;
-}
-
--(NSUInteger)xPointToCoalescedSample:(CGFloat)xPoint {
-    NSAffineTransform *invertedXform = [self coalescedSampleTransform];
-    [invertedXform invert];
-    return [invertedXform transformPoint:NSMakePoint(xPoint, 0.0f)].x;
 }
 
 -(NSRect)rectForSampleSelection:(NSRange)aSelection {
