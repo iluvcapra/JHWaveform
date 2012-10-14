@@ -45,7 +45,7 @@ enum JHWaveformViewMouseModes {
     CGFloat     _verticalScale;
     
     BOOL        _allowsSelection;
-    NSRange     _selectedCoalescedSampleRange;
+    NSRange     _selectedSampleRange;
     NSUInteger  _selectionAnchor;
     BOOL        _dragging;
     int         _mouseMode;

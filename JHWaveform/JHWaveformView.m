@@ -45,7 +45,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 @synthesize gridColor                       = _gridColor;
 
 @synthesize lineWidth                       = _lineWidth;
-@synthesize selectedCoalescedSampleRange    = _selectedCoalescedSampleRange;
+@synthesize selectedSampleRange             = _selectedSampleRange;
 @synthesize allowsSelection                 = _allowsSelection;
 @synthesize verticalScale                   = _verticalScale;
 @synthesize displaysRuler                   = _displaysRuler;
@@ -59,11 +59,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 #define RULER_MINOR_TICK_FACTOR 0.4f
 
 #define MAX_SAMPLE_DATA         2000
-
-+(NSSet *)keyPathsForValuesAffectingSelectedSampleRange {
-    
-    return [NSSet setWithObject:@"selectedCoalescedSampleRange"];
-}
 
 -(id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
@@ -107,9 +102,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
     [self addObserver:self forKeyPath:@"lineWidth"       options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"selectedCoalescedSampleRange"
-              options:NSKeyValueObservingOptionNew ^ NSKeyValueObservingOptionOld
-              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+
     [self addObserver:self forKeyPath:@"selectedSampleRange"
               options:NSKeyValueObservingOptionNew ^ NSKeyValueObservingOptionOld
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
@@ -153,20 +146,20 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     }
 }
 
--(void)setSelectedSampleRange:(NSRange)range {
-    float factor = (float)_sampleDataLength / (float)_originalSampleDataLength;
-    NSRange newRange = NSMakeRange(lrintf((float)range.location * factor),
-                                   lrintf((float)range.length   * factor));
-    _selectedCoalescedSampleRange = newRange;
-}
-
--(NSRange)selectedSampleRange {
-    float factor = (float)_originalSampleDataLength / (float)_sampleDataLength ;
-    NSRange newRange = NSMakeRange(lrintf((float)_selectedCoalescedSampleRange.location * factor),
-                                   lrintf((float)_selectedCoalescedSampleRange.length   * factor));
-    return newRange;
-
-}
+//-(void)setSelectedSampleRange:(NSRange)range {
+//    float factor = (float)_sampleDataLength / (float)_originalSampleDataLength;
+//    NSRange newRange = NSMakeRange(lrintf((float)range.location * factor),
+//                                   lrintf((float)range.length   * factor));
+//    _selectedCoalescedSampleRange = newRange;
+//}
+//
+//-(NSRange)selectedSampleRange {
+//    float factor = (float)_originalSampleDataLength / (float)_sampleDataLength ;
+//    NSRange newRange = NSMakeRange(lrintf((float)_selectedCoalescedSampleRange.location * factor),
+//                                   lrintf((float)_selectedCoalescedSampleRange.length   * factor));
+//    return newRange;
+//
+//}
 #pragma mark Handle Events
 
 -(void)mouseDown:(NSEvent *)event {
@@ -361,7 +354,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 -(NSRect)selectionRect {
-    return [self rectForSampleSelection:self.selectedSampleRange];
+    return [self rectForSampleSelection:_selectedSampleRange];
 }
 
 -(NSRect)waveformRect {
@@ -390,8 +383,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 - (void)drawSelectionBox {
     /* fill selection */
     
-    if (self.selectedSampleRange.location != NSNotFound ||
-        self.selectedSampleRange.length == 0) {
+    if (_selectedSampleRange.location != NSNotFound ||
+        _selectedSampleRange.length == 0) {
         [self.selectedColor set];
         NSRect selectedRect = [self selectionRect];
         
@@ -404,7 +397,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 -(void)drawSelectionThumbs {
-    if (self.selectedSampleRange.location != NSNotFound) {
+    if (_selectedSampleRange.location != NSNotFound) {
         NSBezierPath *thumb = [NSBezierPath bezierPath];
         [thumb moveToPoint:NSMakePoint([self selectionRect].origin.x,
                                        [self rulerRect].origin.y + RULER_TICK_INSET)];
