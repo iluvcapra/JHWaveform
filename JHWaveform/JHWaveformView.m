@@ -55,7 +55,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 @synthesize gridTicks                       = _gridTicks;
 
 #define RULER_HEIGHT            25
-#define RULER_TICK_INSET        3
+#define RULER_INSET        3
 #define RULER_MINOR_TICK_FACTOR 0.4f
 
 #define MAX_SAMPLE_DATA         2000
@@ -373,19 +373,19 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     if (_selectedSampleRange.location != NSNotFound) {
         NSBezierPath *thumb = [NSBezierPath bezierPath];
         [thumb moveToPoint:NSMakePoint([self selectionRect].origin.x,
-                                       [self rulerRect].origin.y + RULER_TICK_INSET)];
+                                       [self rulerRect].origin.y + RULER_INSET)];
         [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x,
                                        [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self rulerRect].size.height / 2 - RULER_TICK_INSET,
+        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self rulerRect].size.height / 2 - RULER_INSET,
                                        [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
         [thumb closePath];
         
         NSBezierPath *endThumb = [NSBezierPath bezierPath];
         [endThumb moveToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
-                                       [self rulerRect].origin.y + RULER_TICK_INSET)];
+                                       [self rulerRect].origin.y + RULER_INSET)];
         [endThumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
                                        [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-        [endThumb lineToPoint:NSMakePoint(([self selectionRect].origin.x + [self selectionRect].size.width) - [self rulerRect].size.height / 2 + RULER_TICK_INSET,
+        [endThumb lineToPoint:NSMakePoint(([self selectionRect].origin.x + [self selectionRect].size.width) - [self rulerRect].size.height / 2 + RULER_INSET,
                                        [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
        
         [endThumb closePath];
@@ -439,7 +439,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     
     [rulerGradient drawInRect:rulerRect angle:270.0f];
     
-    CGFloat tickHeight = rulerRect.size.height - (RULER_TICK_INSET * 2);
+    CGFloat tickHeight = rulerRect.size.height - (RULER_INSET * 2);
     CGFloat minorTickHeight = tickHeight * RULER_MINOR_TICK_FACTOR;
     NSUInteger i, xpt;
     
@@ -447,13 +447,13 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [NSBezierPath setDefaultLineWidth:1.0f];
     for (i = 0; i < _originalSampleDataLength; i += _rulerMajorTicks) {
         xpt = [self sampleToXPoint:i];
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
+        [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_INSET)
                                   toPoint:NSMakePoint(xpt, rulerRect.origin.y+ tickHeight)];
     }
     for (i = 0; i < _originalSampleDataLength; i += _rulerMinorTicks) {
         if (i % _rulerMajorTicks) {
             xpt = [self sampleToXPoint:i];
-            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
+            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_INSET)
                                       toPoint:NSMakePoint(xpt, rulerRect.origin.y+ minorTickHeight)];
         }
     }
