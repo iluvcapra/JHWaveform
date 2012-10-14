@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7D516F09161FB1B700742DCF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7115161E4464007AF2A0 /* CoreMedia.framework */; };
 		7D516F0A161FB1C000742DCF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */; };
-		7D8E9724162A21E500E58BD8 /* JHVirtualSampleSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8E9722162A21E500E58BD8 /* JHVirtualSampleSource.h */; };
 		7DC930DD162A2B1300893694 /* JHWaveformView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD0543D161CEB6B0019D540 /* JHWaveformView.h */; };
 		7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */; };
 		7DCF7110161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */; };
@@ -52,7 +51,6 @@
 
 /* Begin PBXFileReference section */
 		7D6DEBD5162533F5001CAAEC /* readme.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.markdown; sourceTree = "<group>"; };
-		7D8E9722162A21E500E58BD8 /* JHVirtualSampleSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHVirtualSampleSource.h; sourceTree = "<group>"; };
 		7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHAudioPreviewView.h; sourceTree = "<group>"; };
 		7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHAudioPreviewView.m; sourceTree = "<group>"; };
 		7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -191,7 +189,6 @@
 			isa = PBXGroup;
 			children = (
 				7DD0548A161CF66A0019D540 /* JHWaveform.h */,
-				7D8E9722162A21E500E58BD8 /* JHVirtualSampleSource.h */,
 				7DD0543D161CEB6B0019D540 /* JHWaveformView.h */,
 				7DD0543E161CEB6B0019D540 /* JHWaveformView.m */,
 				7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */,
@@ -237,7 +234,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D8E9724162A21E500E58BD8 /* JHVirtualSampleSource.h in Headers */,
 				7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */,
 				7DC930DD162A2B1300893694 /* JHWaveformView.h in Headers */,
 			);
