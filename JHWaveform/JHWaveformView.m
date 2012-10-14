@@ -434,14 +434,10 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
     NSRect rulerRect = [self rulerRect];
     
-    
-    
     NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlLightHighlightColor]
                                                               endingColor:[NSColor controlHighlightColor]];
     
     [rulerGradient drawInRect:rulerRect angle:270.0f];
-    
-    
     
     CGFloat tickHeight = rulerRect.size.height - (RULER_TICK_INSET * 2);
     CGFloat minorTickHeight = tickHeight * RULER_MINOR_TICK_FACTOR;
