@@ -149,7 +149,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
             [self setNeedsDisplay:YES];
         }
     } else if (context == (__bridge void *)JHWaveformViewAllowsSelectionCtx) {
-        self.selectedCoalescedSampleRange = NSMakeRange(NSNotFound, 0);
+        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     }
 }
 
