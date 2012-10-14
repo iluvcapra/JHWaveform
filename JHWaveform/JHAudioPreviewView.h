@@ -40,7 +40,7 @@
     AVPlayer *_player;
     
     id _timeObserverDescriptor;
-    NSUInteger  _playheadPositionInCoalescedSamples;
+    NSUInteger  _playheadPosition;
     Float64     _assetDuration;
     
     NSColor *_playheadColor;
