@@ -173,34 +173,34 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     NSPoint clickDown = [self convertPoint:[event locationInWindow]
                                   fromView:nil];
         
-    NSUInteger loc = [self xPointToCoalescedSample:clickDown.x];
+    NSUInteger loc = [self xPointToSample:clickDown.x];
     
     if (self.allowsSelection) {
-        if (([event modifierFlags] & NSShiftKeyMask) && self.selectedCoalescedSampleRange.location != NSNotFound) {
+        if (([event modifierFlags] & NSShiftKeyMask) && self.selectedSampleRange.location != NSNotFound) {
             
-            NSRange currentSelection  = self.selectedCoalescedSampleRange;
+            NSRange currentSelection  = self.selectedSampleRange;
             
             NSUInteger currentSelectionMidpoint = currentSelection.location + currentSelection.length/2;
             if (loc < currentSelection.location) {
                 
                 _selectionAnchor = currentSelection.location + currentSelection.length;
-                self.selectedCoalescedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
+                self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
                 
             } else if (NSLocationInRange(loc, currentSelection) &&
                        loc < currentSelectionMidpoint) {
                 
                 _selectionAnchor = currentSelection.location + currentSelection.length;
-                self.selectedCoalescedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
+                self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
                 
             } else if (NSLocationInRange(loc, currentSelection) &&
                        loc >= currentSelectionMidpoint) {
                 
                 _selectionAnchor = currentSelection.location;
-                self.selectedCoalescedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
+                self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
             } else {
                 
                 _selectionAnchor = currentSelection.location;
-                self.selectedCoalescedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
+                self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
             }
             
             
@@ -209,7 +209,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
             _selectionAnchor = loc;
             [self setNeedsDisplay:YES];
             
-            _selectedCoalescedSampleRange = NSMakeRange(loc, 0);
+            self.selectedSampleRange = NSMakeRange(loc, 0);
         }
     }
 
@@ -225,21 +225,21 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     if (clickDown.x < 0.0f) { clickDown.x = 0.0f;}
     if (clickDown.x > self.bounds.size.width) {clickDown.x = self.bounds.size.width;}
     
-    NSUInteger loc = [self xPointToCoalescedSample:clickDown.x];
+    NSUInteger loc = [self xPointToSample:clickDown.x];
     
     if (self.allowsSelection) {
         if (loc < _selectionAnchor) {
-            self.selectedCoalescedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
+            self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
         } else {
-            self.selectedCoalescedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
+            self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
         }
     }
 }
 
 -(void)mouseUp:(NSEvent *)event {
     _dragging = NO;
-    if (self.selectedCoalescedSampleRange.length == 0) {
-        self.selectedCoalescedSampleRange = NSMakeRange(NSNotFound, 0);
+    if (self.selectedSampleRange.length == 0) {
+        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     }
 }
 
