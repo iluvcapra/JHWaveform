@@ -58,6 +58,8 @@ enum JHWaveformViewMouseModes {
     BOOL        _displaysGrid;
     NSUInteger  _rulerMajorTicks, _rulerMinorTicks;
     NSUInteger  _gridTicks;
+    
+    NSRange     _viewRange;
 }
 
 /* All of the colors of the view are modifiable. foregroundColor, lineColor and

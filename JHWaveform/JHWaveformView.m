@@ -85,6 +85,8 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         self.rulerMajorTicks = 100;
         self.rulerMinorTicks = 10;
         self.gridTicks       = self.rulerMajorTicks;
+        
+        _viewRange = NSMakeRange(0, _originalSampleDataLength);
     }
     
     
