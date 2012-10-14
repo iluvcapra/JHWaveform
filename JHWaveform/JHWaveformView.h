@@ -45,7 +45,7 @@ enum JHWaveformViewMouseModes {
     CGFloat     _verticalScale;
     
     BOOL        _allowsSelection;
-    NSRange     _selectedCoalescedSampleRange;
+    NSRange     _selectedSampleRange;
     NSUInteger  _selectionAnchor;
     BOOL        _dragging;
     int         _mouseMode;
@@ -110,10 +110,6 @@ enum JHWaveformViewMouseModes {
 
 -(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx;
 -(NSUInteger)xPointToSample:(CGFloat)xPoint;
-
--(CGFloat)coalescedSampleToXPoint:(NSUInteger)sampleIdx;
--(NSUInteger)xPointToCoalescedSample:(CGFloat)xPoint;
-@property (assign) NSRange selectedCoalescedSampleRange;
 
 @end
 

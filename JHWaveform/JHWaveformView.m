@@ -37,33 +37,28 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 @implementation JHWaveformView
 
-@synthesize foregroundColor =       _foregroundColor;
-@synthesize lineColor =             _lineColor;
-@synthesize backgroundColor =       _backgroundColor;
-@synthesize selectedColor   =       _selectedColor;
-@synthesize selectedBorderColor = _selectedBorderColor;
-@synthesize gridColor       =       _gridColor;
+@synthesize foregroundColor                 = _foregroundColor;
+@synthesize lineColor                       = _lineColor;
+@synthesize backgroundColor                 = _backgroundColor;
+@synthesize selectedColor                   = _selectedColor;
+@synthesize selectedBorderColor             = _selectedBorderColor;
+@synthesize gridColor                       = _gridColor;
 
-@synthesize lineWidth       =       _lineWidth;
-@synthesize selectedCoalescedSampleRange =   _selectedCoalescedSampleRange;
-@synthesize allowsSelection =       _allowsSelection;
-@synthesize verticalScale   =       _verticalScale;
-@synthesize displaysRuler   =       _displaysRuler;
-@synthesize displaysGrid    =       _displaysGrid;
-@synthesize rulerMajorTicks =       _rulerMajorTicks;
-@synthesize rulerMinorTicks =       _rulerMinorTicks;
-@synthesize gridTicks       =       _gridTicks;
+@synthesize lineWidth                       = _lineWidth;
+@synthesize selectedSampleRange             = _selectedSampleRange;
+@synthesize allowsSelection                 = _allowsSelection;
+@synthesize verticalScale                   = _verticalScale;
+@synthesize displaysRuler                   = _displaysRuler;
+@synthesize displaysGrid                    = _displaysGrid;
+@synthesize rulerMajorTicks                 = _rulerMajorTicks;
+@synthesize rulerMinorTicks                 = _rulerMinorTicks;
+@synthesize gridTicks                       = _gridTicks;
 
 #define RULER_HEIGHT            25
-#define RULER_TICK_INSET        3
+#define RULER_INSET        3
 #define RULER_MINOR_TICK_FACTOR 0.4f
 
 #define MAX_SAMPLE_DATA         2000
-
-+(NSSet *)keyPathsForValuesAffectingSelectedSampleRange {
-    
-    return [NSSet setWithObject:@"selectedCoalescedSampleRange"];
-}
 
 -(id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
@@ -79,7 +74,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         _originalSampleDataLength = 0;
         
         self.lineWidth = 1.0f;
-        self.selectedCoalescedSampleRange = NSMakeRange(NSNotFound, 0);
+        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
         _dragging = NO;
         _selectionAnchor = 0;
         self.allowsSelection = YES;
@@ -93,31 +88,41 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     }
     
     
-    [self addObserver:self forKeyPath:@"foregroundColor" options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"foregroundColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"backgroundColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"lineColor"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"lineColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"selectedColor"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"selectedColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"selectedBorderColor"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"selectedBorderColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"gridColor"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"gridColor"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"lineWidth"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"lineWidth"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"selectedCoalescedSampleRange"
+    [self addObserver:self forKeyPath:@"selectedSampleRange"
               options:NSKeyValueObservingOptionNew ^ NSKeyValueObservingOptionOld
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"verticalScale"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"verticalScale"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"displaysRuler"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"displaysRuler"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"displaysGrid"       options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"displaysGrid"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    
-    [self addObserver:self forKeyPath:@"allowsSelection" options:NSKeyValueObservingOptionNew
+    [self addObserver:self forKeyPath:@"allowsSelection"
+              options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewAllowsSelectionCtx];
     
     return self;
@@ -127,7 +132,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
                      ofObject:(id)object
                        change:(NSDictionary *)change context:(void *)context {
     if (context == (__bridge void *)JHWaveformViewNeedsRedisplayCtx ) {
-        if ([keyPath isEqualToString:@"selectedCoalescedSampleRange"]) {
+        if ([keyPath isEqualToString:@"selectedSampleRange"]) {
             NSRange oldSelection = [change[NSKeyValueChangeOldKey] rangeValue];
             NSRange newselection = [change[NSKeyValueChangeNewKey] rangeValue];
             
@@ -146,58 +151,44 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
             [self setNeedsDisplay:YES];
         }
     } else if (context == (__bridge void *)JHWaveformViewAllowsSelectionCtx) {
-        self.selectedCoalescedSampleRange = NSMakeRange(NSNotFound, 0);
+        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     }
 }
 
--(void)setSelectedSampleRange:(NSRange)range {
-    float factor = (float)_sampleDataLength / (float)_originalSampleDataLength;
-    NSRange newRange = NSMakeRange(lrintf((float)range.location * factor),
-                                   lrintf((float)range.length   * factor));
-    _selectedCoalescedSampleRange = newRange;
-}
-
--(NSRange)selectedSampleRange {
-    float factor = (float)_originalSampleDataLength / (float)_sampleDataLength ;
-    NSRange newRange = NSMakeRange(lrintf((float)_selectedCoalescedSampleRange.location * factor),
-                                   lrintf((float)_selectedCoalescedSampleRange.length   * factor));
-    return newRange;
-
-}
 #pragma mark Handle Events
 
 -(void)mouseDown:(NSEvent *)event {
     NSPoint clickDown = [self convertPoint:[event locationInWindow]
                                   fromView:nil];
         
-    NSUInteger loc = [self xPointToCoalescedSample:clickDown.x];
+    NSUInteger loc = [self xPointToSample:clickDown.x];
     
     if (self.allowsSelection) {
-        if (([event modifierFlags] & NSShiftKeyMask) && self.selectedCoalescedSampleRange.location != NSNotFound) {
+        if (([event modifierFlags] & NSShiftKeyMask) && _selectedSampleRange.location != NSNotFound) {
             
-            NSRange currentSelection  = self.selectedCoalescedSampleRange;
+            NSRange currentSelection  = self.selectedSampleRange;
             
             NSUInteger currentSelectionMidpoint = currentSelection.location + currentSelection.length/2;
             if (loc < currentSelection.location) {
                 
                 _selectionAnchor = currentSelection.location + currentSelection.length;
-                self.selectedCoalescedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
+                self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
                 
             } else if (NSLocationInRange(loc, currentSelection) &&
                        loc < currentSelectionMidpoint) {
                 
                 _selectionAnchor = currentSelection.location + currentSelection.length;
-                self.selectedCoalescedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
+                self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
                 
             } else if (NSLocationInRange(loc, currentSelection) &&
                        loc >= currentSelectionMidpoint) {
                 
                 _selectionAnchor = currentSelection.location;
-                self.selectedCoalescedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
+                self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
             } else {
                 
                 _selectionAnchor = currentSelection.location;
-                self.selectedCoalescedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
+                self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
             }
             
             
@@ -206,7 +197,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
             _selectionAnchor = loc;
             [self setNeedsDisplay:YES];
             
-            _selectedCoalescedSampleRange = NSMakeRange(loc, 0);
+            _selectedSampleRange = NSMakeRange(loc, 0);
         }
     }
 
@@ -222,21 +213,21 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     if (clickDown.x < 0.0f) { clickDown.x = 0.0f;}
     if (clickDown.x > self.bounds.size.width) {clickDown.x = self.bounds.size.width;}
     
-    NSUInteger loc = [self xPointToCoalescedSample:clickDown.x];
+    NSUInteger loc = [self xPointToSample:clickDown.x];
     
     if (self.allowsSelection) {
         if (loc < _selectionAnchor) {
-            self.selectedCoalescedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
+            self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
         } else {
-            self.selectedCoalescedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
+            self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
         }
     }
 }
 
 -(void)mouseUp:(NSEvent *)event {
     _dragging = NO;
-    if (self.selectedCoalescedSampleRange.length == 0) {
-        self.selectedCoalescedSampleRange = NSMakeRange(NSNotFound, 0);
+    if (self.selectedSampleRange.length == 0) {
+        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     }
 }
 
@@ -296,7 +287,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         _sampleData[i] = NSMakePoint(i, coalescedSamples[i]);
     }
     
-    self.selectedCoalescedSampleRange = NSMakeRange(NSNotFound, 0);
+    self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     [self setNeedsDisplay:YES];
     if (freeCoalescedSamples){free(coalescedSamples);}
 }
@@ -322,9 +313,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     return [invertedXform transformPoint:NSMakePoint(xPoint, 0.0f)].x;
 }
 
-
-
-
 -(NSAffineTransform *)coalescedSampleTransform {
     NSAffineTransform *retXform = [NSAffineTransform transform];
     NSRect waveformRect = [self waveformRect];
@@ -336,21 +324,11 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 }
 
--(CGFloat)coalescedSampleToXPoint:(NSUInteger)sampleIdx {
-    return [[self coalescedSampleTransform] transformPoint:NSMakePoint( sampleIdx , 0.0f)].x;
-}
-
--(NSUInteger)xPointToCoalescedSample:(CGFloat)xPoint {
-    NSAffineTransform *invertedXform = [self coalescedSampleTransform];
-    [invertedXform invert];
-    return [invertedXform transformPoint:NSMakePoint(xPoint, 0.0f)].x;
-}
-
 -(NSRect)rectForSampleSelection:(NSRange)aSelection {
     NSRect retRect = [self waveformRect];
     if (aSelection.location != NSNotFound) {
-        retRect.origin.x = [self coalescedSampleToXPoint:aSelection.location];
-        retRect.size.width = [[self coalescedSampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
+        retRect.origin.x = [self sampleToXPoint:aSelection.location];
+        retRect.size.width = [[self sampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
     } else {
         retRect = NSZeroRect;
     }
@@ -358,7 +336,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 -(NSRect)selectionRect {
-    return [self rectForSampleSelection:_selectedCoalescedSampleRange];
+    return [self rectForSampleSelection:_selectedSampleRange];
 }
 
 -(NSRect)waveformRect {
@@ -387,36 +365,36 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 - (void)drawSelectionBox {
     /* fill selection */
     
-    if (_selectedCoalescedSampleRange.location != NSNotFound ||
-        _selectedCoalescedSampleRange.length == 0) {
+    if (_selectedSampleRange.location != NSNotFound ||
+        _selectedSampleRange.length == 0) {
         [self.selectedColor set];
         NSRect selectedRect = [self selectionRect];
         
         [NSBezierPath fillRect:selectedRect];
         
-        [self.selectedBorderColor set];
-        [NSBezierPath setDefaultLineWidth:2.0];
-        [NSBezierPath strokeRect:selectedRect];
+       // [self.selectedBorderColor set];
+       // [NSBezierPath setDefaultLineWidth:2.0];
+       // [NSBezierPath strokeRect:selectedRect];
     }
 }
 
 -(void)drawSelectionThumbs {
-    if (_selectedCoalescedSampleRange.location != NSNotFound) {
+    if (_selectedSampleRange.location != NSNotFound) {
         NSBezierPath *thumb = [NSBezierPath bezierPath];
         [thumb moveToPoint:NSMakePoint([self selectionRect].origin.x,
-                                       [self rulerRect].origin.y + RULER_TICK_INSET)];
+                                       [self rulerRect].origin.y + RULER_INSET)];
         [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x,
                                        [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self rulerRect].size.height / 2 - RULER_TICK_INSET,
+        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self rulerRect].size.height / 2 - RULER_INSET,
                                        [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
         [thumb closePath];
         
         NSBezierPath *endThumb = [NSBezierPath bezierPath];
         [endThumb moveToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
-                                       [self rulerRect].origin.y + RULER_TICK_INSET)];
+                                       [self rulerRect].origin.y + RULER_INSET)];
         [endThumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
                                        [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-        [endThumb lineToPoint:NSMakePoint(([self selectionRect].origin.x + [self selectionRect].size.width) - [self rulerRect].size.height / 2 + RULER_TICK_INSET,
+        [endThumb lineToPoint:NSMakePoint(([self selectionRect].origin.x + [self selectionRect].size.width) - [self rulerRect].size.height / 2 + RULER_INSET,
                                        [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
        
         [endThumb closePath];
@@ -465,16 +443,12 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
     NSRect rulerRect = [self rulerRect];
     
-    
-    
     NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlLightHighlightColor]
                                                               endingColor:[NSColor controlHighlightColor]];
     
     [rulerGradient drawInRect:rulerRect angle:270.0f];
     
-    
-    
-    CGFloat tickHeight = rulerRect.size.height - (RULER_TICK_INSET * 2);
+    CGFloat tickHeight = rulerRect.size.height - (RULER_INSET * 2);
     CGFloat minorTickHeight = tickHeight * RULER_MINOR_TICK_FACTOR;
     NSUInteger i, xpt;
     
@@ -482,13 +456,13 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [NSBezierPath setDefaultLineWidth:1.0f];
     for (i = 0; i < _originalSampleDataLength; i += _rulerMajorTicks) {
         xpt = [self sampleToXPoint:i];
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
+        [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_INSET)
                                   toPoint:NSMakePoint(xpt, rulerRect.origin.y+ tickHeight)];
     }
     for (i = 0; i < _originalSampleDataLength; i += _rulerMinorTicks) {
         if (i % _rulerMajorTicks) {
             xpt = [self sampleToXPoint:i];
-            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_TICK_INSET)
+            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_INSET)
                                       toPoint:NSMakePoint(xpt, rulerRect.origin.y+ minorTickHeight)];
         }
     }

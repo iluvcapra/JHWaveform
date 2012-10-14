@@ -37,15 +37,15 @@
 #import <CoreMedia/CoreMedia.h>
 
 @interface JHAudioPreviewView : JHWaveformView {
-    AVPlayer *_player;
+    AVPlayer    *_player;
     
-    id _timeObserverDescriptor;
-    NSUInteger  _playheadPositionInCoalescedSamples;
+    id          _timeObserverDescriptor;
+    NSUInteger  _playheadPosition;
     Float64     _assetDuration;
     
-    NSColor *_playheadColor;
+    NSColor     *_playheadColor;
     
-    BOOL _isReadingOverview;
+    BOOL        _isReadingOverview;
 
 }
 
