@@ -505,12 +505,12 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     
     [self removeObserver:self forKeyPath:@"foregroundColor"];
     [self removeObserver:self forKeyPath:@"backgroundColor"];
-    [self removeObserver:self forKeyPath:@"linecColor"];
+    [self removeObserver:self forKeyPath:@"lineColor"];
     [self removeObserver:self forKeyPath:@"selectedColor"];
     [self removeObserver:self forKeyPath:@"selectedBorderColor"];
     [self removeObserver:self forKeyPath:@"gridColor"];
     [self removeObserver:self forKeyPath:@"lineWidth"];
-    [self removeObserver:self forKeyPath:@"selecetedSampleRange"];
+    [self removeObserver:self forKeyPath:@"selectedSampleRange"];
     [self removeObserver:self forKeyPath:@"verticalScale"];
     [self removeObserver:self forKeyPath:@"displaysRuler"];
     [self removeObserver:self forKeyPath:@"displaysGrid"];
