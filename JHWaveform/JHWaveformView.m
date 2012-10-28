@@ -322,14 +322,14 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
 
 -(NSRange)coalescedViewRange {
     float factor = (float)_sampleDataLength / (float)_originalSampleDataLength;
-    return NSMakeRange(lrintf(_viewRange.location * factor),
-                       lrintf(_viewRange.length * factor));
+    return NSMakeRange(lrintf((float)_viewRange.location * factor),
+                       lrintf((float)_viewRange.length * factor));
 }
 
 -(NSAffineTransform *)sampleTransform {
     NSRect waveformRect = [self waveformRect];
     NSAffineTransform *retXform = [NSAffineTransform transform];
-    [retXform translateXBy:0.0f - _viewRange.location
+    [retXform translateXBy:0.0f - (float)_viewRange.location
                        yBy:waveformRect.size.height / 2];
     [retXform scaleXBy:waveformRect.size.width / ((CGFloat)_viewRange.length - 1.0f)
                    yBy:waveformRect.size.height * _verticalScale / 2];
@@ -350,7 +350,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     NSRange coalescedViewRange = [self coalescedViewRange];
     NSAffineTransform *retXform = [NSAffineTransform transform];
     NSRect waveformRect = [self waveformRect];
-    [retXform translateXBy:(0.0f - (float)coalescedViewRange.location)
+    [retXform translateXBy:0.0f - (float)coalescedViewRange.location
                        yBy:waveformRect.size.height / 2];
     [retXform scaleXBy:waveformRect.size.width / (((CGFloat)coalescedViewRange.length - 1 /*we're couting rungs, not fenceposts */ ))
                    yBy:waveformRect.size.height * _verticalScale / 2];

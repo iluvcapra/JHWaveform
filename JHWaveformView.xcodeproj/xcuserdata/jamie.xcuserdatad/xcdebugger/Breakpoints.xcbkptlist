@@ -19,11 +19,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "JHWaveform/JHWaveformView.m"
-         timestampString = "371879413.292059"
+         timestampString = "371886746.910854"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "546"
-         endingLineNumber = "546">
+         startingLineNumber = "580"
+         endingLineNumber = "580">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
