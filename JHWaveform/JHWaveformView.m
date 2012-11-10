@@ -33,7 +33,6 @@
 #import "JHWaveformView.h"
 
 static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedisplayObserverContext";
-static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelectionCtx";
 
 @implementation JHWaveformView
 
@@ -41,28 +40,21 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 @synthesize gridColor                       = _gridColor;
 
 @synthesize lineWidth                       = _lineWidth;
-@synthesize selectedSampleRange             = _selectedSampleRange;
-@synthesize allowsSelection                 = _allowsSelection;
 @synthesize verticalScale                   = _verticalScale;
-@synthesize displaysRuler                   = _displaysRuler;
+
 @synthesize displaysGrid                    = _displaysGrid;
-@synthesize rulerMajorTicks                 = _rulerMajorTicks;
-@synthesize rulerMinorTicks                 = _rulerMinorTicks;
 @synthesize gridTicks                       = _gridTicks;
 
-#define RULER_INSET             3
-#define RULER_MINOR_TICK_FACTOR 0.4f
 
 #define MAX_SAMPLE_DATA         2000
 
 -(id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
     if (self) {
-        self.foregroundColor = [NSColor grayColor];
-        self.backgroundColor = [NSColor controlBackgroundColor];
+
+        self.displaysRuler = YES;
+        
         self.lineColor       = [NSColor textColor];
-        self.selectedColor   = [NSColor selectedControlColor];
-        self.selectedBorderColor = [self.selectedColor shadowWithLevel:0.5f];
         self.gridColor       = [NSColor gridColor];
         _sampleData = NULL;
         _sampleDataLength = 0;
@@ -72,30 +64,20 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
         self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
         _dragging = NO;
         _selectionAnchor = 0;
-        self.allowsSelection = YES;
+        
         self.verticalScale = 1.0f;
-        self.displaysRuler = YES;
+        
         self.displaysGrid = YES;
         
-        self.rulerMajorTicks = 100;
-        self.rulerMinorTicks = 10;
         self.gridTicks       = self.rulerMajorTicks;
     }
     
     
-    [self addObserver:self forKeyPath:@"foregroundColor"
-              options:NSKeyValueObservingOptionNew
-              context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"backgroundColor"
-              options:NSKeyValueObservingOptionNew
-              context:(void *)JHWaveformViewNeedsRedisplayCtx];
+    
     [self addObserver:self forKeyPath:@"lineColor"
               options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"selectedColor"
-              options:NSKeyValueObservingOptionNew
-              context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"selectedBorderColor"
+    [self addObserver:self forKeyPath:@"displaysGrid"
               options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
     [self addObserver:self forKeyPath:@"gridColor"
@@ -104,21 +86,9 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [self addObserver:self forKeyPath:@"lineWidth"
               options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"selectedSampleRange"
-              options:NSKeyValueObservingOptionNew ^ NSKeyValueObservingOptionOld
-              context:(void *)JHWaveformViewNeedsRedisplayCtx];
     [self addObserver:self forKeyPath:@"verticalScale"
               options:NSKeyValueObservingOptionNew
               context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"displaysRuler"
-              options:NSKeyValueObservingOptionNew
-              context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"displaysGrid"
-              options:NSKeyValueObservingOptionNew
-              context:(void *)JHWaveformViewNeedsRedisplayCtx];
-    [self addObserver:self forKeyPath:@"allowsSelection"
-              options:NSKeyValueObservingOptionNew
-              context:(void *)JHWaveformViewAllowsSelectionCtx];
     
     return self;
 }
@@ -127,26 +97,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
                      ofObject:(id)object
                        change:(NSDictionary *)change context:(void *)context {
     if (context == (__bridge void *)JHWaveformViewNeedsRedisplayCtx ) {
-        if ([keyPath isEqualToString:@"selectedSampleRange"]) {
-            NSRange oldSelection = [change[NSKeyValueChangeOldKey] rangeValue];
-            NSRange newselection = [change[NSKeyValueChangeNewKey] rangeValue];
-            
-            [self setNeedsDisplayInRect:NSInsetRect([self rectForSampleSelection:oldSelection], -10.f, -10.0f)];
-            // we make an inset rect with a negative number, thus a BIGGER rect, to clean up draw artifacts
-            
-            [self setNeedsDisplayInRect:[self rulerRect]];
-            // we awlays redraw the ruler for the selection thumbs
-            
-            if (newselection.location == NSNotFound) {
-                [self setNeedsDisplay:YES];
-            } else {
-                [self setNeedsDisplayInRect:NSInsetRect([self rectForSampleSelection:newselection], -10.0f,-10.0f)];
-            }
-        } else {
-            [self setNeedsDisplay:YES];
-        }
-    } else if (context == (__bridge void *)JHWaveformViewAllowsSelectionCtx) {
-        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
+        [self setNeedsDisplay:YES];
     }
 }
 
@@ -301,69 +252,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 }
 
--(NSRect)rectForSampleSelection:(NSRange)aSelection {
-    NSRect retRect = [self signalRect];
-    if (aSelection.location != NSNotFound) {
-        retRect.origin.x = [self sampleToXPoint:aSelection.location];
-        retRect.size.width = [[self sampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
-    } else {
-        retRect = NSZeroRect;
-    }
-    return retRect;
-}
-
--(NSRect)selectionRect {
-    return [self rectForSampleSelection:_selectedSampleRange];
-}
-
-- (void)drawBackground:(NSRect)dirtyRect {
-    /* fill background */
-    [self.backgroundColor set];
-    [NSBezierPath fillRect:dirtyRect];
-}
-
-- (void)drawSelectionBox {
-    /* fill selection */
-    
-    if (_selectedSampleRange.location != NSNotFound ||
-        _selectedSampleRange.length == 0) {
-        [self.selectedColor set];
-        NSRect selectedRect = [self selectionRect];
-        
-        [NSBezierPath fillRect:selectedRect];
-        
-       // [self.selectedBorderColor set];
-       // [NSBezierPath setDefaultLineWidth:2.0];
-       // [NSBezierPath strokeRect:selectedRect];
-    }
-}
-
--(void)drawSelectionThumbs {
-    if (_selectedSampleRange.location != NSNotFound) {
-        NSBezierPath *thumb = [NSBezierPath bezierPath];
-        [thumb moveToPoint:NSMakePoint([self selectionRect].origin.x,
-                                       [self rulerRect].origin.y + RULER_INSET)];
-        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x,
-                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self rulerRect].size.height / 2 - RULER_INSET,
-                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-        [thumb closePath];
-        
-        NSBezierPath *endThumb = [NSBezierPath bezierPath];
-        [endThumb moveToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
-                                       [self rulerRect].origin.y + RULER_INSET)];
-        [endThumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
-                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-        [endThumb lineToPoint:NSMakePoint(([self selectionRect].origin.x + [self selectionRect].size.width) - [self rulerRect].size.height / 2 + RULER_INSET,
-                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-       
-        [endThumb closePath];
-        
-        [self.selectedBorderColor set];
-        [thumb fill];
-        [endThumb fill];
-    }
-}
 
 - (void)drawGridlines {
     /* gridlines */
@@ -398,48 +286,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     [waveformPath fill];
 }
 
-- (void)drawRuler {
-    /* ruler */
-
-    NSRect rulerRect = [self rulerRect];
-    
-    NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlLightHighlightColor]
-                                                              endingColor:[NSColor controlHighlightColor]];
-    
-    [rulerGradient drawInRect:rulerRect angle:270.0f];
-    
-    CGFloat tickHeight = rulerRect.size.height - (RULER_INSET * 2);
-    CGFloat minorTickHeight = tickHeight * RULER_MINOR_TICK_FACTOR;
-    NSUInteger i, xpt;
-    
-    [[NSColor controlDarkShadowColor] set];
-    [NSBezierPath setDefaultLineWidth:1.0f];
-    for (i = 0; i < _originalSampleDataLength; i += _rulerMajorTicks) {
-        xpt = [self sampleToXPoint:i];
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_INSET)
-                                  toPoint:NSMakePoint(xpt, rulerRect.origin.y+ tickHeight)];
-    }
-    for (i = 0; i < _originalSampleDataLength; i += _rulerMinorTicks) {
-        if (i % _rulerMajorTicks) {
-            xpt = [self sampleToXPoint:i];
-            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_INSET)
-                                      toPoint:NSMakePoint(xpt, rulerRect.origin.y+ minorTickHeight)];
-        }
-    }
-    /* draw border around ruler rect */
-    [[NSColor controlDarkShadowColor] set];
-    [NSBezierPath setDefaultLineWidth:0.5f];
-    [NSBezierPath strokeRect:rulerRect];
-    
-}
-
-- (void)drawOutline {
-    /* outline */
-    [NSBezierPath setDefaultLineWidth:1.0f];
-    [[NSColor controlDarkShadowColor] set];
-    [NSBezierPath strokeRect:[self bounds]];
-}
-
 -(void)drawRect:(NSRect)dirtyRect {
     
     [self drawBackground:dirtyRect];
@@ -462,19 +308,12 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 - (void)dealloc {
-    
-    [self removeObserver:self forKeyPath:@"foregroundColor"];
-    [self removeObserver:self forKeyPath:@"backgroundColor"];
     [self removeObserver:self forKeyPath:@"lineColor"];
-    [self removeObserver:self forKeyPath:@"selectedColor"];
-    [self removeObserver:self forKeyPath:@"selectedBorderColor"];
+    [self removeObserver:self forKeyPath:@"displaysGrid"];
     [self removeObserver:self forKeyPath:@"gridColor"];
     [self removeObserver:self forKeyPath:@"lineWidth"];
-    [self removeObserver:self forKeyPath:@"selectedSampleRange"];
     [self removeObserver:self forKeyPath:@"verticalScale"];
-    [self removeObserver:self forKeyPath:@"displaysRuler"];
-    [self removeObserver:self forKeyPath:@"displaysGrid"];
-    [self removeObserver:self forKeyPath:@"allowsSelection"];
+
 
     free(_sampleData);
 }
