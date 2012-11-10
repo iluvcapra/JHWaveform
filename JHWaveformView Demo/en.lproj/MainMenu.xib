@@ -2252,7 +2252,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																<string key="NSFrame">{{252, 114}, {16, 16}}</string>
 																<reference key="NSSuperview" ref="50824111"/>
 																<reference key="NSWindow"/>
-																<reference key="NSNextKeyView"/>
+																<reference key="NSNextKeyView" ref="585669912"/>
 																<string key="NSReuseIdentifierKey">_NS:945</string>
 																<int key="NSpiFlags">28938</int>
 																<double key="NSMaxValue">100</double>
@@ -2459,7 +2459,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<reference key="NSNextKeyView" ref="494623832"/>
 										<string key="NSReuseIdentifierKey">_NS:11</string>
 									</object>
-									<string key="NSLabel">JHAudioPreviewView</string>
+									<string key="NSLabel">Waveform</string>
 									<reference key="NSColor" ref="1070181319"/>
 									<reference key="NSTabView" ref="585669912"/>
 								</object>
@@ -2472,7 +2472,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<reference key="NSNextKeyView" ref="585669912"/>
 										<string key="NSReuseIdentifierKey">_NS:28</string>
 									</object>
-									<string key="NSLabel">View</string>
+									<string key="NSLabel">Waterfall</string>
 									<reference key="NSColor" ref="1070181319"/>
 									<reference key="NSTabView" ref="585669912"/>
 								</object>
