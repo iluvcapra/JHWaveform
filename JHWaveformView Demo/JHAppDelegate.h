@@ -31,8 +31,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <Cocoa/Cocoa.h>
-#import "JHWaveformView.h"
-#import "JHAudioPreviewView.h"
+#import "JHWaveform.h"
 #import <CoreMedia/CoreMedia.h>
 
 enum waveformTestSignals {
@@ -42,6 +41,7 @@ enum waveformTestSignals {
 
 @interface JHAppDelegate : NSObject <NSApplicationDelegate> {
     JHAudioPreviewView *_waveformView;
+    JHWaterfallView *_waterfallView;
 
     NSUInteger _numberOfWaveformTestSamples;
     NSUInteger _waveformTestSignal;
@@ -53,6 +53,7 @@ enum waveformTestSignals {
 
 @property (assign) IBOutlet NSWindow *window;
 @property (retain) IBOutlet JHWaveformView *waveformView;
+@property (retain) IBOutlet JHWaterfallView *waterfallView;
 
 @property (retain) IBOutlet NSTextField *locationField;
 @property (retain) IBOutlet NSTextField *lengthField;

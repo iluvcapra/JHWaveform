@@ -20,6 +20,8 @@
                                   [NSColor blueColor],
                                   [NSColor redColor],
                                   [NSColor yellowColor]] ];
+        self.backgroundThreshold = 0.2f;
+        self.backgroundColor = [NSColor blackColor];
     }
     
     return self;

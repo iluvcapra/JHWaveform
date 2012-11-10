@@ -35,6 +35,7 @@
 @implementation JHAppDelegate
 
 @synthesize waveformView = _waveformView;
+@synthesize waterfallView = _waterfallView;
 @synthesize locationField = _locationField;
 @synthesize lengthField = _lengthField;
 
@@ -76,6 +77,20 @@
     [_audioViewStatus setStringValue:@"Idle"];
     _numberOfWaveformTestSamples = 1000;
     _player = nil;
+    
+    NSUInteger spf = 128;
+    NSUInteger frms = 1000;
+    float *waterfallTestSignal = malloc(sizeof(float) * spf * frms);
+    NSUInteger i, j;
+    for (i = 0; i < frms; i++) {
+        for (j = 0; j < spf; j++) {
+            waterfallTestSignal[i * spf + j] = (float)j / (float)spf;
+        }
+    }
+    [_waterfallView setData:waterfallTestSignal
+                     frames:frms samplesPerFrame:spf];
+    
+    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

@@ -35,4 +35,4 @@
 #import "JHSignalView.h"
 #import "JHWaveformView.h"
 #import "JHAudioPreviewView.h"
-#import "JHVirtualSampleSource.h"
+#import "JHWaterfallView.h"
