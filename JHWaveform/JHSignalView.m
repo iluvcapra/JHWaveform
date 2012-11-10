@@ -42,6 +42,7 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
         self.rulerMinorTicks = 10;
         self.allowsSelection = YES;
         self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
+        _originalSampleDataLength = 0;
     }
     
     [self addObserver:self forKeyPath:@"foregroundColor"

@@ -13,6 +13,19 @@ enum JHWaveformViewMouseModes {
     zooming
 };
 
+/* JHSignalView is an abstract superclass that provides machinery common to 
+ drawing a signal along a time dimension in a rectangle.
+ 
+ It draws colors, a ruler, and manages selection.
+ 
+ A subclass of JHSignalView must do two things
+ 
+ - Implement drawSignalInRect: to draw your rendition of the signal.  The 
+ default implementation causes an assertion to fail.
+ - set _originalSampleDataLength when the length of the sample data is known.
+ 
+ */
+
 @interface JHSignalView : NSView {
     NSColor     *_foregroundColor;
     NSColor     *_backgroundColor;
