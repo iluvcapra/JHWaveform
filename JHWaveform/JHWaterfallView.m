@@ -71,8 +71,33 @@
 
 #pragma mark Drawing
 
+-(NSAffineTransform *)sampleTransform {
+    NSRect signalRect = [self signalRect];
+    NSAffineTransform *retXform = [NSAffineTransform transform];
+    [retXform translateXBy:0.0f yBy:0.0f];
+    [retXform scaleXBy:signalRect.size.width / ((CGFloat)_originalSampleDataLength -1 )
+                   yBy:signalRect.size.height / (CGFloat)_samplesPerFrame ];
+    return retXform;
+}
+
 -(void)drawSignalInRect:(NSRect)dirtyRect {
     
+    [NSGraphicsContext saveGraphicsState];
+    [[self sampleTransform] concat];
+    
+    NSUInteger i, j;
+    float value = 0.0f;
+    for (i = 0; i < _frames; i++) {
+        for (j = 0; j < _samplesPerFrame; j++) {
+            value = _waterfallData[i * _samplesPerFrame + j];
+            if (value > _backgroundThreshold) {
+                [[_intensityGradient interpolatedColorAtLocation:value] set];
+                [[NSBezierPath bezierPathWithRect:NSMakeRect(i, j, 1.0f, 1.0f)] fill];
+            }
+        }
+    }
+    
+    [NSGraphicsContext restoreGraphicsState];
 }
 
 - (void)dealloc {
