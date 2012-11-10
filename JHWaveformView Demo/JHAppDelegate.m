@@ -78,8 +78,8 @@
     _numberOfWaveformTestSamples = 1000;
     _player = nil;
     
-    NSUInteger spf = 128;
-    NSUInteger frms = 1000;
+    NSUInteger spf = 64;
+    NSUInteger frms = 300;
     float *waterfallTestSignal = malloc(sizeof(float) * spf * frms);
     NSUInteger i, j;
     for (i = 0; i < frms; i++) {
@@ -89,6 +89,8 @@
     }
     [_waterfallView setData:waterfallTestSignal
                      frames:frms samplesPerFrame:spf];
+    
+    _waterfallView.displaysRuler = YES;
     
     
 }
