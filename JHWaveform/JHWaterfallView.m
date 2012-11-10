@@ -41,9 +41,10 @@
     _samplesPerFrame = samplesPerFrame;
     _frames = frameCount;
     if (data && _samplesPerFrame * _frames > 0) {
+        _waterfallData = calloc(frameCount * samplesPerFrame, sizeof(float));
         memcpy(_waterfallData, data, frameCount * samplesPerFrame * sizeof(float));
     } else {
-        data = NULL;
+        _waterfallData = NULL;
     }    
 }
 
