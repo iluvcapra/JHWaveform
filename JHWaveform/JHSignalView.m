@@ -95,7 +95,7 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
     } else if (context == (__bridge void *)JHSignalViewAllowsSelectionCtx) {
         self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+ //       [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 
