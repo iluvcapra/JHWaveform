@@ -48,6 +48,16 @@
     }    
 }
 
+#pragma mark Get and Set
+
+-(float)backgroundThreshold {
+    return _backgroundThreshold;
+}
+
+-(void)setBackgroundThreshold:(float)backgroundThreshold {
+    _backgroundThreshold = backgroundThreshold;
+    [self setNeedsDisplay:YES];
+}
 
 -(NSGradient *)intensityGradient {
     return _intensityGradient;
@@ -57,6 +67,8 @@
     _intensityGradient = [intensityGradient copy];
     [self setNeedsDisplayInRect:[self signalRect]];
 }
+
+#pragma mark Drawing
 
 -(void)drawSignalInRect:(NSRect)dirtyRect {
     

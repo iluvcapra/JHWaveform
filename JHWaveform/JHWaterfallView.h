@@ -10,14 +10,15 @@
 
 @interface JHWaterfallView : JHSignalView {
     float *_waterfallData;
-    NSUInteger _samplesPerFrame;
-    NSUInteger _frames;
+    NSUInteger  _samplesPerFrame;
+    NSUInteger  _frames;
     
-    NSGradient *_intensityGradient;
+    NSGradient  *_intensityGradient;
+    float       _backgroundThreshold;
 }
 
 @property (readwrite) NSGradient *intensityGradient;
-
+@property (readwrite) float backgroundThreshold;
 
 /* Set data to display. `data` must contain frameCount * samplesPerFrame floats.
  and represent the table of data "flat" */
