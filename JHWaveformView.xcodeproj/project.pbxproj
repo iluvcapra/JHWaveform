@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D3862F9164EC0150076B985 /* JHSignalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3862F7164EC0150076B985 /* JHSignalView.h */; };
+		7D3862FA164EC0150076B985 /* JHSignalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3862F8164EC0150076B985 /* JHSignalView.m */; };
+		7D3862FB164EC0150076B985 /* JHSignalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3862F8164EC0150076B985 /* JHSignalView.m */; };
 		7D516F09161FB1B700742DCF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7115161E4464007AF2A0 /* CoreMedia.framework */; };
 		7D516F0A161FB1C000742DCF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */; };
 		7DC930DD162A2B1300893694 /* JHWaveformView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD0543D161CEB6B0019D540 /* JHWaveformView.h */; };
@@ -50,6 +53,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7D3862F7164EC0150076B985 /* JHSignalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSignalView.h; sourceTree = "<group>"; };
+		7D3862F8164EC0150076B985 /* JHSignalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSignalView.m; sourceTree = "<group>"; };
 		7D6DEBD5162533F5001CAAEC /* readme.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.markdown; sourceTree = "<group>"; };
 		7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHAudioPreviewView.h; sourceTree = "<group>"; };
 		7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHAudioPreviewView.m; sourceTree = "<group>"; };
@@ -189,6 +194,8 @@
 			isa = PBXGroup;
 			children = (
 				7DD0548A161CF66A0019D540 /* JHWaveform.h */,
+				7D3862F7164EC0150076B985 /* JHSignalView.h */,
+				7D3862F8164EC0150076B985 /* JHSignalView.m */,
 				7DD0543D161CEB6B0019D540 /* JHWaveformView.h */,
 				7DD0543E161CEB6B0019D540 /* JHWaveformView.m */,
 				7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */,
@@ -236,6 +243,7 @@
 			files = (
 				7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */,
 				7DC930DD162A2B1300893694 /* JHWaveformView.h in Headers */,
+				7D3862F9164EC0150076B985 /* JHSignalView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +395,7 @@
 			files = (
 				7DD054AA161CF7110019D540 /* JHWaveformView.m in Sources */,
 				7DCF7110161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */,
+				7D3862FA164EC0150076B985 /* JHSignalView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +405,7 @@
 			files = (
 				7DD054A0161CF66B0019D540 /* JHWaveformTests.m in Sources */,
 				7DCF7111161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */,
+				7D3862FB164EC0150076B985 /* JHSignalView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

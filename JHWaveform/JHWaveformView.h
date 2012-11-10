@@ -31,13 +31,14 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <Foundation/Foundation.h>
+#import "JHSignalView.h"
 
 enum JHWaveformViewMouseModes {
     selecting,
     zooming
 };
 
-@interface JHWaveformView : NSView {
+@interface JHWaveformView : JHSignalView {
     NSColor *_foregroundColor, *_lineColor, *_backgroundColor,
     *_selectedColor, *_selectedBorderColor,*_gridColor;
     
