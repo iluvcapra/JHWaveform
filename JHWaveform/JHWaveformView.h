@@ -46,19 +46,11 @@ enum JHWaveformViewMouseModes {
     CGFloat     _lineWidth;
     CGFloat     _verticalScale;
     
-    BOOL        _allowsSelection;
-    NSRange     _selectedSampleRange;
-    NSUInteger  _selectionAnchor;
-    BOOL        _dragging;
-    int         _mouseMode;
     
     NSPoint     *_sampleData;
     NSUInteger  _sampleDataLength;
-    NSUInteger  _originalSampleDataLength;
     
-    BOOL        _displaysRuler;
     BOOL        _displaysGrid;
-    NSUInteger  _rulerMajorTicks, _rulerMinorTicks;
     NSUInteger  _gridTicks;
 }
 
@@ -69,7 +61,6 @@ enum JHWaveformViewMouseModes {
 @property (copy, readwrite) NSColor *gridColor;
 @property (copy, readwrite) NSColor *lineColor;
 
-@property (copy, readwrite) NSColor *rulerTicksColor;
 
 /* This is the width of the waveform line the default is probably the best. */
 @property (assign) CGFloat lineWidth;
@@ -86,17 +77,9 @@ enum JHWaveformViewMouseModes {
 @property (readonly) NSUInteger sampleLength;
 
 
-/*
- The current selection in the waveform.  This is an NSRange in terms of the 
- buffer the client originaly gave to -setWaveform:length:
- 
- If there is no selection, @selectedSampleRange will be {NSNotFound,0}
- */
-@property (assign) BOOL allowsSelection;
-@property (assign) NSRange selectedSampleRange;
 
-@property (assign) BOOL displaysRuler, displaysGrid;
-@property (assign) NSUInteger rulerMajorTicks, rulerMinorTicks, gridTicks;
+@property (assign) BOOL displaysGrid;
+@property (assign) NSUInteger gridTicks;
 
 
 

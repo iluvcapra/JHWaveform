@@ -98,6 +98,84 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
     }
 }
 
+#pragma mark Handle Events
+
+-(void)mouseDown:(NSEvent *)event {
+    NSPoint clickDown = [self convertPoint:[event locationInWindow]
+                                  fromView:nil];
+    
+    NSUInteger loc = [self xPointToSample:clickDown.x];
+    
+    if (self.allowsSelection) {
+        if (([event modifierFlags] & NSShiftKeyMask) && _selectedSampleRange.location != NSNotFound) {
+            
+            NSRange currentSelection  = self.selectedSampleRange;
+            
+            NSUInteger currentSelectionMidpoint = currentSelection.location + currentSelection.length/2;
+            if (loc < currentSelection.location) {
+                
+                _selectionAnchor = currentSelection.location + currentSelection.length;
+                self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
+                
+            } else if (NSLocationInRange(loc, currentSelection) &&
+                       loc < currentSelectionMidpoint) {
+                
+                _selectionAnchor = currentSelection.location + currentSelection.length;
+                self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
+                
+            } else if (NSLocationInRange(loc, currentSelection) &&
+                       loc >= currentSelectionMidpoint) {
+                
+                _selectionAnchor = currentSelection.location;
+                self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
+            } else {
+                
+                _selectionAnchor = currentSelection.location;
+                self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
+            }
+            
+            
+        } else {
+            
+            _selectionAnchor = loc;
+            [self setNeedsDisplay:YES];
+            
+            _selectedSampleRange = NSMakeRange(loc, 0);
+        }
+    }
+    
+    
+    _dragging = YES;
+}
+
+-(void)mouseDragged:(NSEvent *)event {
+    NSPoint clickDown = [self convertPoint:[event locationInWindow]
+                                  fromView:nil];
+    
+    // clamp value if the mouse is dragged off the view
+    if (clickDown.x < 0.0f) { clickDown.x = 0.0f;}
+    if (clickDown.x > self.bounds.size.width) {clickDown.x = self.bounds.size.width;}
+    
+    NSUInteger loc = [self xPointToSample:clickDown.x];
+    
+    if (self.allowsSelection) {
+        if (loc < _selectionAnchor) {
+            self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
+        } else {
+            self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
+        }
+    }
+}
+
+-(void)mouseUp:(NSEvent *)event {
+    _dragging = NO;
+    if (self.selectedSampleRange.length == 0) {
+        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
+    }
+}
+
+#pragma mark Drawing Methods
+
 -(NSRect)rulerRect {
     NSRect retRect = [self bounds];
     if (_displaysRuler) {
@@ -241,8 +319,29 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
     [NSBezierPath strokeRect:[self bounds]];
 }
 
+-(void)drawSignalInRect:(NSRect)dirtyRect {
+    NSAssert(0, @"%s must be implemented by subclasses",(char *)_cmd);
+}
 
+-(void)drawRect:(NSRect)dirtyRect {
+    
+    [self drawBackground:dirtyRect];
+    
+    if (NSIntersectsRect(dirtyRect, [self signalRect])) {
+        [self drawSelectionBox];
+        
+        [self drawSignalInRect:dirtyRect];
+    }
 
+    
+
+    if (_displaysRuler && NSIntersectsRect(dirtyRect, [self rulerRect])) {
+        [self drawRuler];
+        [self drawSelectionThumbs];
+    }
+    
+    [self drawOutline];
+}
 
 
 - (void)dealloc {
@@ -253,7 +352,6 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
     [self removeObserver:self forKeyPath:@"selectedSampleRange"];
     [self removeObserver:self forKeyPath:@"displaysRuler"];
     [self removeObserver:self forKeyPath:@"allowsSelection"];
-    
 }
 
 @end

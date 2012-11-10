@@ -101,81 +101,6 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     }
 }
 
-#pragma mark Handle Events
-
--(void)mouseDown:(NSEvent *)event {
-    NSPoint clickDown = [self convertPoint:[event locationInWindow]
-                                  fromView:nil];
-        
-    NSUInteger loc = [self xPointToSample:clickDown.x];
-    
-    if (self.allowsSelection) {
-        if (([event modifierFlags] & NSShiftKeyMask) && _selectedSampleRange.location != NSNotFound) {
-            
-            NSRange currentSelection  = self.selectedSampleRange;
-            
-            NSUInteger currentSelectionMidpoint = currentSelection.location + currentSelection.length/2;
-            if (loc < currentSelection.location) {
-                
-                _selectionAnchor = currentSelection.location + currentSelection.length;
-                self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
-                
-            } else if (NSLocationInRange(loc, currentSelection) &&
-                       loc < currentSelectionMidpoint) {
-                
-                _selectionAnchor = currentSelection.location + currentSelection.length;
-                self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
-                
-            } else if (NSLocationInRange(loc, currentSelection) &&
-                       loc >= currentSelectionMidpoint) {
-                
-                _selectionAnchor = currentSelection.location;
-                self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
-            } else {
-                
-                _selectionAnchor = currentSelection.location;
-                self.selectedSampleRange = NSUnionRange(currentSelection, NSMakeRange(loc, 0));
-            }
-            
-            
-        } else {
-            
-            _selectionAnchor = loc;
-            [self setNeedsDisplay:YES];
-            
-            _selectedSampleRange = NSMakeRange(loc, 0);
-        }
-    }
-
-    
-    _dragging = YES;
-}
-
--(void)mouseDragged:(NSEvent *)event {
-    NSPoint clickDown = [self convertPoint:[event locationInWindow]
-                                  fromView:nil];
-    
-    // clamp value if the mouse is dragged off the view
-    if (clickDown.x < 0.0f) { clickDown.x = 0.0f;}
-    if (clickDown.x > self.bounds.size.width) {clickDown.x = self.bounds.size.width;}
-    
-    NSUInteger loc = [self xPointToSample:clickDown.x];
-    
-    if (self.allowsSelection) {
-        if (loc < _selectionAnchor) {
-            self.selectedSampleRange = NSMakeRange(loc, _selectionAnchor - loc);
-        } else {
-            self.selectedSampleRange = NSMakeRange(_selectionAnchor, loc - _selectionAnchor);
-        }
-    }
-}
-
--(void)mouseUp:(NSEvent *)event {
-    _dragging = NO;
-    if (self.selectedSampleRange.length == 0) {
-        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
-    }
-}
 
 #pragma mark Set Data
 
@@ -286,25 +211,13 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     [waveformPath fill];
 }
 
--(void)drawRect:(NSRect)dirtyRect {
+-(void)drawSignalInRect:(NSRect)dirtyRect {
     
-    [self drawBackground:dirtyRect];
-
-    if (NSIntersectsRect(dirtyRect, [self signalRect])) {
-        [self drawSelectionBox];
-        if (_displaysGrid) {
-            [self drawGridlines];
-        }
-        
-        [self drawWaveformInRect:dirtyRect];
+    if (_displaysGrid) {
+        [self drawGridlines];
     }
     
-    if (_displaysRuler && NSIntersectsRect(dirtyRect, [self rulerRect])) {
-        [self drawRuler];
-        [self drawSelectionThumbs];
-    }
-    
-    [self drawOutline];
+    [self drawWaveformInRect:dirtyRect];
 }
 
 - (void)dealloc {
