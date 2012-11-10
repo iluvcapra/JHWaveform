@@ -75,7 +75,7 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
     if (context == (__bridge void *)(JHSignalViewNeedsRedisplayCtx)) {
         if ([keyPath isEqualToString:@"selectedSampleRange"]) {
             NSRange oldSelection = [change[NSKeyValueChangeOldKey] rangeValue];
-            NSRange newselection = [change[NSKeyValueChangeNewKey] rangeValue];
+            NSRange newSelection = [change[NSKeyValueChangeNewKey] rangeValue];
             
             [self setNeedsDisplayInRect:NSInsetRect([self rectForSampleSelection:oldSelection], -10.f, -10.0f)];
             // we make an inset rect with a negative number, thus a BIGGER rect, to clean up draw artifacts
@@ -83,10 +83,10 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
             [self setNeedsDisplayInRect:[self rulerRect]];
             // we awlays redraw the ruler for the selection thumbs
             
-            if (newselection.location == NSNotFound) {
+            if (newSelection.location == NSNotFound) {
                 [self setNeedsDisplay:YES];
             } else {
-                [self setNeedsDisplayInRect:NSInsetRect([self rectForSampleSelection:newselection], -10.0f,-10.0f)];
+                [self setNeedsDisplayInRect:NSInsetRect([self rectForSampleSelection:newSelection], -10.0f,-10.0f)];
             }
         } else {
             [self setNeedsDisplay:YES];
