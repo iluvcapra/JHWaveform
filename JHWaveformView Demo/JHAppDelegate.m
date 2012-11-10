@@ -38,7 +38,7 @@
 @synthesize locationField = _locationField;
 @synthesize lengthField = _lengthField;
 
--(void)_setTestSignalToView {
+-(void)_setWaveformTestSignalToView {
     
     float *testSignal = malloc(_numberOfWaveformTestSamples * sizeof(float));
     
@@ -99,13 +99,13 @@
 
 -(IBAction)setWaveformTestSignal:(id)sender {
     _waveformTestSignal = [sender selectedTag];
-    [self _setTestSignalToView];
+    [self _setWaveformTestSignalToView];
 }
 
 
 -(IBAction)setNumberOfWaveformTestSamples:(id)sender {
     _numberOfWaveformTestSamples = [sender integerValue];
-    [self _setTestSignalToView];
+    [self _setWaveformTestSignalToView];
 }
 
 -(IBAction)openTestAudioFile:(id)sender {
