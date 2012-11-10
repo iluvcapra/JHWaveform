@@ -98,6 +98,8 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
                        change:(NSDictionary *)change context:(void *)context {
     if (context == (__bridge void *)JHWaveformViewNeedsRedisplayCtx ) {
         [self setNeedsDisplay:YES];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 

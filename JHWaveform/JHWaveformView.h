@@ -33,11 +33,6 @@
 #import <Foundation/Foundation.h>
 #import "JHSignalView.h"
 
-enum JHWaveformViewMouseModes {
-    selecting,
-    zooming
-};
-
 @interface JHWaveformView : JHSignalView {
     
     NSColor     *_gridColor;

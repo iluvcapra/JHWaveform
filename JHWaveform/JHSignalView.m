@@ -41,6 +41,7 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
         self.rulerMajorTicks = 100;
         self.rulerMinorTicks = 10;
         self.allowsSelection = YES;
+        self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
     }
     
     [self addObserver:self forKeyPath:@"foregroundColor"
@@ -49,7 +50,6 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
     [self addObserver:self forKeyPath:@"backgroundColor"
               options:NSKeyValueObservingOptionNew
               context:(void *)JHSignalViewNeedsRedisplayCtx];
-    
     [self addObserver:self forKeyPath:@"selectedColor"
               options:NSKeyValueObservingOptionNew
               context:(void *)JHSignalViewNeedsRedisplayCtx];
@@ -59,10 +59,11 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
     [self addObserver:self forKeyPath:@"selectedSampleRange"
               options:NSKeyValueObservingOptionNew ^ NSKeyValueObservingOptionOld
               context:(void *)JHSignalViewNeedsRedisplayCtx];
-    
     [self addObserver:self forKeyPath:@"displaysRuler"
               options:NSKeyValueObservingOptionNew
               context:(void *)JHSignalViewNeedsRedisplayCtx];
+    
+    
     [self addObserver:self forKeyPath:@"allowsSelection"
               options:NSKeyValueObservingOptionNew
               context:(void *)JHSignalViewAllowsSelectionCtx];

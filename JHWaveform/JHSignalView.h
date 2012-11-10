@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+enum JHWaveformViewMouseModes {
+    selecting,
+    zooming
+};
+
 @interface JHSignalView : NSView {
     NSColor     *_foregroundColor;
     NSColor     *_backgroundColor;
