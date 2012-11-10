@@ -83,6 +83,7 @@
 -(void)drawSignalInRect:(NSRect)dirtyRect {
     
     [NSGraphicsContext saveGraphicsState];
+    [NSBezierPath clipRect:[self signalRect]];
     [[self sampleTransform] concat];
     
     NSUInteger i, j;
