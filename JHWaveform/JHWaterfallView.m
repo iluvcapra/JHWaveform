@@ -93,9 +93,10 @@
     for (i = 0; i < _frames; i++) {
         for (j = 0; j < _samplesPerFrame; j++) {
             value = _waterfallData[i * _samplesPerFrame + j];
-            if (value > _backgroundThreshold) {
+            NSRect thisCell = NSMakeRect(i, j, 1.0f, 1.0f);
+            if (value > _backgroundThreshold && NSIntersectsRect(dirtyRect, thisCell)) {
                 [[_intensityGradient interpolatedColorAtLocation:value] set];
-                [[NSBezierPath bezierPathWithRect:NSMakeRect(i, j, 1.0f, 1.0f)] fill];
+                [[NSBezierPath bezierPathWithRect:thisCell] fill];
             }
         }
     }
