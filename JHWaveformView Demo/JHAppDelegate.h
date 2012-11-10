@@ -35,7 +35,7 @@
 #import "JHAudioPreviewView.h"
 #import <CoreMedia/CoreMedia.h>
 
-enum testSignals {
+enum waveformTestSignals {
     sine = 1001,
     square = 1002
     };
@@ -43,8 +43,8 @@ enum testSignals {
 @interface JHAppDelegate : NSObject <NSApplicationDelegate> {
     JHAudioPreviewView *_waveformView;
 
-    NSUInteger _numberOfSamples;
-    NSUInteger _testSignal;
+    NSUInteger _numberOfWaveformTestSamples;
+    NSUInteger _waveformTestSignal;
     
     AVPlayer *_player;
     
@@ -57,8 +57,8 @@ enum testSignals {
 @property (retain) IBOutlet NSTextField *locationField;
 @property (retain) IBOutlet NSTextField *lengthField;
 
--(IBAction)setTestSignal:(id)sender;
--(IBAction)setNumberOfSamples:(id)sender;
+-(IBAction)setWaveformTestSignal:(id)sender;
+-(IBAction)setNumberOfWaveformTestSamples:(id)sender;
 
 -(IBAction)openTestAudioFile:(id)sender;
 -(IBAction)playTestFile:(id)sender;

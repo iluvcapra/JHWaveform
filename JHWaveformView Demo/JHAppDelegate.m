@@ -40,21 +40,21 @@
 
 -(void)_setTestSignalToView {
     
-    float *testSignal = malloc(_numberOfSamples * sizeof(float));
+    float *testSignal = malloc(_numberOfWaveformTestSamples * sizeof(float));
     
     NSUInteger i;
     
-    if (_testSignal == sine) {
-        for (i = 0; i < _numberOfSamples ; i++) {
+    if (_waveformTestSignal == sine) {
+        for (i = 0; i < _numberOfWaveformTestSamples ; i++) {
             testSignal[i] = sinf(i);
         }
-    } else if (_testSignal == square) {
-        for (i = 0; i < _numberOfSamples ; i++) {
+    } else if (_waveformTestSignal == square) {
+        for (i = 0; i < _numberOfWaveformTestSamples ; i++) {
             testSignal[i] = (i % 2 - 0.5f) * 2;
         }
     }
     
-    [_waveformView setWaveform:testSignal length:_numberOfSamples];
+    [_waveformView setWaveform:testSignal length:_numberOfWaveformTestSamples];
     free(testSignal);
 }
 
@@ -74,7 +74,7 @@
                        context:NULL];
     
     [_audioViewStatus setStringValue:@"Idle"];
-    _numberOfSamples = 1000;
+    _numberOfWaveformTestSamples = 1000;
     _player = nil;
 }
 
@@ -97,14 +97,14 @@
 }
 
 
--(IBAction)setTestSignal:(id)sender {
-    _testSignal = [sender selectedTag];
+-(IBAction)setWaveformTestSignal:(id)sender {
+    _waveformTestSignal = [sender selectedTag];
     [self _setTestSignalToView];
 }
 
 
--(IBAction)setNumberOfSamples:(id)sender {
-    _numberOfSamples = [sender integerValue];
+-(IBAction)setNumberOfWaveformTestSamples:(id)sender {
+    _numberOfWaveformTestSamples = [sender integerValue];
     [self _setTestSignalToView];
 }
 
