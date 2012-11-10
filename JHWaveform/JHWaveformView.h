@@ -39,10 +39,6 @@ enum JHWaveformViewMouseModes {
 };
 
 @interface JHWaveformView : JHSignalView {
-    NSColor     *_foregroundColor;
-    NSColor     *_backgroundColor;
-    NSColor     *_selectedColor;
-    NSColor     *_selectedBorderColor;
     
     NSColor     *_gridColor;
 
@@ -70,16 +66,10 @@ enum JHWaveformViewMouseModes {
  backgroundColor apply to the waveform itself.  By default, these colors are 
  set to neutral system-defined colors for NSCells */
 
-@property (copy, readwrite) NSColor *foregroundColor;
-
-@property (copy, readwrite) NSColor *backgroundColor;
-@property (copy, readwrite) NSColor *selectedColor;
-@property (copy, readwrite) NSColor *selectedBorderColor;
 @property (copy, readwrite) NSColor *gridColor;
 @property (copy, readwrite) NSColor *lineColor;
 
 @property (copy, readwrite) NSColor *rulerTicksColor;
-@property (copy, readwrite) NSColor *outerBorderColor;
 
 /* This is the width of the waveform line the default is probably the best. */
 @property (assign) CGFloat lineWidth;
@@ -109,13 +99,6 @@ enum JHWaveformViewMouseModes {
 @property (assign) NSUInteger rulerMajorTicks, rulerMinorTicks, gridTicks;
 
 
-/*
- These methods are used by subclasses and should be moved out to a separate
- header.
- */
-
--(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx;
--(NSUInteger)xPointToSample:(CGFloat)xPoint;
 
 @end
 

@@ -37,11 +37,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 @implementation JHWaveformView
 
-@synthesize foregroundColor                 = _foregroundColor;
 @synthesize lineColor                       = _lineColor;
-@synthesize backgroundColor                 = _backgroundColor;
-@synthesize selectedColor                   = _selectedColor;
-@synthesize selectedBorderColor             = _selectedBorderColor;
 @synthesize gridColor                       = _gridColor;
 
 @synthesize lineWidth                       = _lineWidth;
@@ -54,8 +50,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 @synthesize rulerMinorTicks                 = _rulerMinorTicks;
 @synthesize gridTicks                       = _gridTicks;
 
-#define RULER_HEIGHT            25
-#define RULER_INSET        3
+#define RULER_INSET             3
 #define RULER_MINOR_TICK_FACTOR 0.4f
 
 #define MAX_SAMPLE_DATA         2000
@@ -294,28 +289,10 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 #pragma mark Drawing Methods
 
--(NSAffineTransform *)sampleTransform {
-    NSRect waveformRect = [self waveformRect];
-    NSAffineTransform *retXform = [NSAffineTransform transform];
-    [retXform translateXBy:0.0f yBy:waveformRect.size.height / 2];
-    [retXform scaleXBy:waveformRect.size.width / ((CGFloat)_originalSampleDataLength -1 )
-                   yBy:waveformRect.size.height * _verticalScale / 2];
-    return retXform;
-}
-
--(CGFloat)sampleToXPoint:(NSUInteger)sampleIdx {
-    return [[self sampleTransform] transformPoint:NSMakePoint( sampleIdx , 0.0f)].x;
-}
-
--(NSUInteger)xPointToSample:(CGFloat)xPoint {
-    NSAffineTransform *invertedXform = [self sampleTransform];
-    [invertedXform invert];
-    return [invertedXform transformPoint:NSMakePoint(xPoint, 0.0f)].x;
-}
 
 -(NSAffineTransform *)coalescedSampleTransform {
     NSAffineTransform *retXform = [NSAffineTransform transform];
-    NSRect waveformRect = [self waveformRect];
+    NSRect waveformRect = [self signalRect];
     [retXform translateXBy:0.0f yBy:waveformRect.size.height / 2];
     [retXform scaleXBy:waveformRect.size.width / (((CGFloat)_sampleDataLength - 1 /*we're couting rungs, not fenceposts */ ))
                    yBy:waveformRect.size.height * _verticalScale / 2];
@@ -325,7 +302,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 }
 
 -(NSRect)rectForSampleSelection:(NSRange)aSelection {
-    NSRect retRect = [self waveformRect];
+    NSRect retRect = [self signalRect];
     if (aSelection.location != NSNotFound) {
         retRect.origin.x = [self sampleToXPoint:aSelection.location];
         retRect.size.width = [[self sampleTransform] transformSize:NSMakeSize( aSelection.length , 0.0f)].width;
@@ -337,23 +314,6 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
 
 -(NSRect)selectionRect {
     return [self rectForSampleSelection:_selectedSampleRange];
-}
-
--(NSRect)waveformRect {
-    NSRect retRect = [self bounds];
-    retRect.size.height -= [self rulerRect].size.height;
-    return retRect;
-}
-
--(NSRect)rulerRect {
-    NSRect retRect = [self bounds];
-    if (_displaysRuler) {
-        retRect.origin.y = retRect.size.height - RULER_HEIGHT;
-        retRect.size.height = RULER_HEIGHT;
-    } else {
-        retRect = NSZeroRect;
-    }
-    return retRect;
 }
 
 - (void)drawBackground:(NSRect)dirtyRect {
@@ -484,7 +444,7 @@ static NSString *JHWaveformViewAllowsSelectionCtx = @"JHWaveformViewAllowsSelect
     
     [self drawBackground:dirtyRect];
 
-    if (NSIntersectsRect(dirtyRect, [self waveformRect])) {
+    if (NSIntersectsRect(dirtyRect, [self signalRect])) {
         [self drawSelectionBox];
         if (_displaysGrid) {
             [self drawGridlines];
