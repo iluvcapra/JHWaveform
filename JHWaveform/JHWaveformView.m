@@ -165,6 +165,14 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
 
 #pragma mark Drawing Methods
 
+-(NSAffineTransform *)sampleTransform {
+    NSRect signalRect = [self signalRect];
+    NSAffineTransform *retXform = [NSAffineTransform transform];
+    [retXform translateXBy:0.0f yBy:signalRect.size.height / 2];
+    [retXform scaleXBy:signalRect.size.width / ((CGFloat)_originalSampleDataLength -1 )
+                   yBy:signalRect.size.height * _verticalScale / 2];
+    return retXform;
+}
 
 -(NSAffineTransform *)coalescedSampleTransform {
     NSAffineTransform *retXform = [NSAffineTransform transform];

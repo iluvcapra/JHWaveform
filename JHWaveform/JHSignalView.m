@@ -198,7 +198,7 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
     NSAffineTransform *retXform = [NSAffineTransform transform];
     [retXform translateXBy:0.0f yBy:signalRect.size.height / 2];
     [retXform scaleXBy:signalRect.size.width / ((CGFloat)_originalSampleDataLength -1 )
-                   yBy:signalRect.size.height * _verticalScale / 2];
+                   yBy:signalRect.size.height ];
     return retXform;
 }
 
