@@ -241,14 +241,17 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
     
     if (_selectedSampleRange.location != NSNotFound ||
         _selectedSampleRange.length == 0) {
+        
+        [NSGraphicsContext saveGraphicsState];
+        [[NSGraphicsContext currentContext] setCompositingOperation:NSCompositePlusDarker];
+        
         [self.selectedColor set];
         NSRect selectedRect = [self selectionRect];
         
         [NSBezierPath fillRect:selectedRect];
         
-        // [self.selectedBorderColor set];
-        // [NSBezierPath setDefaultLineWidth:2.0];
-        // [NSBezierPath strokeRect:selectedRect];
+        
+        [NSGraphicsContext restoreGraphicsState];
     }
 }
 
@@ -330,9 +333,9 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
     [self drawBackground:dirtyRect];
     
     if (NSIntersectsRect(dirtyRect, [self signalRect])) {
-        [self drawSelectionBox];
         
         [self drawSignalInRect:dirtyRect];
+        [self drawSelectionBox];
     }
 
     
