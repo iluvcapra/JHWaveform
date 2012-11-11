@@ -79,7 +79,7 @@
     _player = nil;
     
     NSUInteger spf = 64;
-    NSUInteger frms = 300;
+    NSUInteger frms = 500;
     float *waterfallTestSignal = malloc(sizeof(float) * spf * frms);
     NSUInteger i, j;
     for (i = 0; i < frms; i++) {
@@ -90,7 +90,7 @@
     [_waterfallView setData:waterfallTestSignal
                      frames:frms samplesPerFrame:spf];
     
-    _waterfallView.displaysRuler = YES;
+   // _waterfallView.displaysRuler = YES;
     
     
 }

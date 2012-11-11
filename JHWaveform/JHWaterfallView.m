@@ -83,6 +83,13 @@
 }
 
 -(void)drawSignalInRect:(NSRect)dirtyRect {
+    NSAffineTransform *invert = [self sampleTransform];
+    [invert invert];
+    
+    NSRect transformedDirtyRect = {
+        .size = [invert transformSize:dirtyRect.size],
+        .origin = [invert transformPoint:dirtyRect.origin],
+    };
     
     [NSGraphicsContext saveGraphicsState];
     [NSBezierPath clipRect:[self signalRect]];
@@ -94,7 +101,7 @@
         for (j = 0; j < _samplesPerFrame; j++) {
             value = _waterfallData[i * _samplesPerFrame + j];
             NSRect thisCell = NSMakeRect(i, j, 1.0f, 1.0f);
-            if (value > _backgroundThreshold && NSIntersectsRect(dirtyRect, thisCell)) {
+            if (value > _backgroundThreshold && NSIntersectsRect(transformedDirtyRect, thisCell)) {
                 [[_intensityGradient interpolatedColorAtLocation:value] set];
                 [[NSBezierPath bezierPathWithRect:thisCell] fill];
             }
