@@ -79,7 +79,7 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
             NSRange oldSelection = [change[NSKeyValueChangeOldKey] rangeValue];
             NSRange newSelection = [change[NSKeyValueChangeNewKey] rangeValue];
             
-            [self setNeedsDisplayInRect:NSInsetRect([self rectForSampleSelection:oldSelection], -10.f, -10.0f)];
+            [self setNeedsDisplayInRect:NSInsetRect([self rectForSampleSelection:oldSelection], -10.0f, -10.0f)];
             // we make an inset rect with a negative number, thus a BIGGER rect, to clean up draw artifacts
             
             [self setNeedsDisplayInRect:[self rulerRect]];
