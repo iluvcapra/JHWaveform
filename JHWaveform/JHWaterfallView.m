@@ -44,14 +44,18 @@
         NSUInteger i, j;
         float value = 0.0f;
         for (i = 0; i < [_precalculatedImageRep pixelsWide]; i++) {
-            for (j = 0; j < [_precalculatedImageRep pixelsHigh]; j++) {
+            for (j = [_precalculatedImageRep pixelsHigh]; j > 0; --j) {
                 value = _waterfallData[i * _samplesPerFrame + j];
+                NSColor *theColor;
                 if (value > _backgroundThreshold) {
-                    [_precalculatedImageRep setColor:[[_intensityGradient interpolatedColorAtLocation:value] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]
-                                                 atX:i y:j];
+                    
+                    theColor = [[_intensityGradient interpolatedColorAtLocation:value]
+                                colorUsingColorSpaceName: NSCalibratedRGBColorSpace];
                 } else {
-                    [_precalculatedImageRep setColor:[[NSColor clearColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]  atX:i y:j];
+                    theColor = [[NSColor clearColor]
+                                colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
                 }
+                [_precalculatedImageRep setColor:theColor atX:i y:j];
             }
         }
     }
