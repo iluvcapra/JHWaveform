@@ -15,6 +15,8 @@
     
     NSGradient  *_intensityGradient;
     float       _backgroundThreshold;
+    
+    NSBitmapImageRep *_precalculatedImageRep;
 }
 
 @property (readwrite) NSGradient *intensityGradient;

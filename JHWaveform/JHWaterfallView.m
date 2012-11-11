@@ -22,9 +22,39 @@
                                   [NSColor yellowColor]] ];
         self.backgroundThreshold = 0.2f;
         self.backgroundColor = [NSColor blackColor];
+        _precalculatedImageRep = nil;
     }
     
     return self;
+}
+
+-(void)_precalculateImageRep {
+    _precalculatedImageRep = nil;
+    if (_frames > 0 && _samplesPerFrame > 0) {
+        _precalculatedImageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes: NULL
+                                                                         pixelsWide: _frames
+                                                                         pixelsHigh: _samplesPerFrame
+                                                                      bitsPerSample: 8
+                                                                    samplesPerPixel: 4
+                                                                           hasAlpha: YES
+                                                                           isPlanar: NO
+                                                                     colorSpaceName: NSCalibratedRGBColorSpace
+                                                                        bytesPerRow: _frames * 4
+                                                                       bitsPerPixel: 32];
+        NSUInteger i, j;
+        float value = 0.0f;
+        for (i = 0; i < [_precalculatedImageRep pixelsWide]; i++) {
+            for (j = 0; j < [_precalculatedImageRep pixelsHigh]; j++) {
+                value = _waterfallData[i * _samplesPerFrame + j];
+                if (value > _backgroundThreshold) {
+                    [_precalculatedImageRep setColor:[[_intensityGradient interpolatedColorAtLocation:value] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]
+                                                 atX:i y:j];
+                } else {
+                    [_precalculatedImageRep setColor:[[NSColor clearColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]  atX:i y:j];
+                }
+            }
+        }
+    }
 }
 
 -(void)setData:(float *)data
@@ -48,6 +78,9 @@
     } else {
         _waterfallData = NULL;
     }
+    
+    [self _precalculateImageRep];
+    
     [self setNeedsDisplay:YES];
 }
 
@@ -59,7 +92,7 @@
 
 -(void)setBackgroundThreshold:(float)backgroundThreshold {
     _backgroundThreshold = backgroundThreshold;
-    [self setNeedsDisplay:YES];
+    [self setNeedsDisplayInRect:[self signalRect]];
 }
 
 -(NSGradient *)intensityGradient {
@@ -86,27 +119,11 @@
     NSAffineTransform *invert = [self sampleTransform];
     [invert invert];
     
-    NSRect transformedDirtyRect = {
-        .size = [invert transformSize:dirtyRect.size],
-        .origin = [invert transformPoint:dirtyRect.origin],
-    };
-    
     [NSGraphicsContext saveGraphicsState];
     [NSBezierPath clipRect:[self signalRect]];
     [[self sampleTransform] concat];
     
-    NSUInteger i, j;
-    float value = 0.0f;
-    for (i = 0; i < _frames; i++) {
-        for (j = 0; j < _samplesPerFrame; j++) {
-            value = _waterfallData[i * _samplesPerFrame + j];
-            NSRect thisCell = NSMakeRect(i, j, 1.0f, 1.0f);
-            if (value > _backgroundThreshold && NSIntersectsRect(transformedDirtyRect, thisCell)) {
-                [[_intensityGradient interpolatedColorAtLocation:value] set];
-                [[NSBezierPath bezierPathWithRect:thisCell] fill];
-            }
-        }
-    }
+    [_precalculatedImageRep drawAtPoint:NSMakePoint(0.0f, 0.0f)];
     
     [NSGraphicsContext restoreGraphicsState];
 }
