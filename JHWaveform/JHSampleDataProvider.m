@@ -169,7 +169,7 @@
 
 #endif
 
--(NSRange)copySamples:(float *)outSamples inRange:(NSRange)range {
+-(NSRange)copySamples:(float **)outSamples inRange:(NSRange)range {
     return NSMakeRange(NSNotFound, 0);
 }
 

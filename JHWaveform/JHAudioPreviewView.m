@@ -31,6 +31,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "JHAudioPreviewView.h"
+#import "JHSampleDataProvider.h"
 
 static NSString *JHAudioPreviewPlayerRateObservingCtx           = @"JHAudioPreviewPlayerRateObservingCtx";
 static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPreviewPlayerSampleRangeObservingCtx";
@@ -38,11 +39,10 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 
 @implementation JHAudioPreviewView
 
-#define ASSET_SAMPLE_RATE   ( 48000 )
-
 @synthesize playheadColor = _playheadColor;
 @synthesize isReadingOverview = _isReadingOverview;
 
+#define ASSET_SAMPLE_RATE   (48000.0f)
 
 - (NSUInteger)_audioSampleAtWaveformSample:(NSUInteger)sample {
     return (sample / (float)_sampleDataLength) *  (_assetDuration * (float)ASSET_SAMPLE_RATE);

@@ -31,8 +31,9 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <Foundation/Foundation.h>
+
 #import "JHSignalView.h"
-#import "JHSampleDataProvider.h"
+@class JHSampleDataProvider;
 
 @interface JHWaveformView : JHSignalView {
     
