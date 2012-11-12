@@ -8,8 +8,6 @@
 
 #import "JHSampleDataProvider.h"
 
-#define ASSET_SAMPLE_RATE   ( 48000.0f )
-
 @interface _JHAVAssetSampleDataProvider : JHSampleDataProvider {
     AVAsset         *_asset;
     AVAssetTrack    *_track;
@@ -25,10 +23,72 @@
 
 @implementation _JHAVAssetSampleDataProvider
 
--(void)_loadDataWithAsset:(AVAsset *)asset
+-(BOOL)_loadDataWithAsset:(AVAsset *)asset
                     track:(AVAssetTrack *)track
               inTimeRange:(CMTimeRange)range {
     
+    NSError *error = nil;
+    AVAssetReader *sampleReader = [[AVAssetReader alloc] initWithAsset:asset
+                                                                 error:&error];
+    
+    sampleReader.timeRange = range;
+    
+    NSMutableData *floatData = nil;
+    
+    if (error == nil) {
+        AVAssetTrack *theTrack = track;
+        
+        NSDictionary *lpcmOutputSetting = @{
+        AVFormatIDKey : @( kAudioFormatLinearPCM ),
+        AVSampleRateKey : @( 48000 ),
+        AVLinearPCMIsFloatKey : @YES,
+        AVLinearPCMBitDepthKey : @32,
+        AVLinearPCMIsNonInterleaved : @NO,
+        AVNumberOfChannelsKey : @1
+        };
+        
+        
+        AVAssetReaderTrackOutput *trackOutput =
+        [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack: theTrack
+                                                   outputSettings: lpcmOutputSetting];
+        [sampleReader addOutput:trackOutput ];
+        
+        [sampleReader startReading];
+        
+        CMSampleBufferRef buf;
+        floatData = [NSMutableData new];
+        while ((buf = [trackOutput copyNextSampleBuffer])) {
+            
+            AudioBufferList audioBufferList;
+            CMBlockBufferRef blockBuffer;
+            CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(buf,
+                                                                    NULL,
+                                                                    &audioBufferList,
+                                                                    sizeof(audioBufferList),
+                                                                    NULL,
+                                                                    NULL,
+                                                                    0,
+                                                                    &blockBuffer);
+            
+            AudioBuffer audioBuffer = audioBufferList.mBuffers[0];
+            Float32 *frame = (Float32*)audioBuffer.mData;
+            [floatData appendBytes:frame length:audioBuffer.mDataByteSize];
+            
+            CFRelease(blockBuffer);
+            CFRelease(buf);
+            blockBuffer = NULL;
+            buf = NULL;
+        }
+        
+        [sampleReader cancelReading];
+        
+        _sampleData = [NSData dataWithData:floatData];
+        
+        return YES;
+    } else {
+        _sampleData = nil;
+        return NO;
+    }
 }
 
 -(id)initWithAsset:(AVAsset *)asset
@@ -36,10 +96,30 @@
          timeRange:(CMTimeRange)range {
     self = [super init];
     if (self) {
-        [self _loadDataWithAsset:asset
+        if (![self _loadDataWithAsset:asset
                           track:track
-                    inTimeRange:range];
+                         inTimeRange:range]) {
+            self = nil;
+        }
     }
+    return self;
+}
+
+-(NSRange)copySamples:(float *)outSamples inRange:(NSRange)range {
+    
+    NSRange maxRange = NSMakeRange(0, [self samplesLength]);
+    NSRange retRange = NSIntersectionRange(range, maxRange);
+    
+    outSamples = calloc(retRange.length, sizeof(float));
+    float *src = (float *)[_sampleData bytes];
+    
+    memcpy(outSamples, src + retRange.location, retRange.length * sizeof(float));
+    
+    return retRange;
+}
+
+-(NSUInteger)samplesLength {
+    return [_sampleData length] / sizeof(float);
 }
 
 
@@ -52,8 +132,18 @@
 +(id)providerWithAsset:(AVAsset *)asset
              track:(AVAssetTrack *)track
          timeRange:(CMTimeRange)timeRange {
-    return nil;
+    return [[_JHAVAssetSampleDataProvider alloc] initWithAsset:asset
+                                                         track:track
+                                                     timeRange:timeRange];
 
+}
+
++(id)providerWithAsset:(AVAsset *)asset
+                 track:(AVAssetTrack *)track {
+    return [[_JHAVAssetSampleDataProvider alloc] initWithAsset:asset
+                                                         track:track
+                                                     timeRange:CMTimeRangeMake(kCMTimeZero, kCMTimePositiveInfinity)];
+    
 }
 
 +(id)providerWithExtAudioFile:(ExtAudioFileRef)audioFileRef {
@@ -78,7 +168,6 @@
 }
 
 #endif
-
 
 -(NSRange)copySamples:(float *)outSamples inRange:(NSRange)range {
     return NSMakeRange(NSNotFound, 0);

@@ -24,6 +24,10 @@
                  track:(AVAssetTrack *)track
              timeRange:(CMTimeRange)timeRange;
 
++(id)providerWithAsset:(AVAsset *)asset
+                 track:(AVAssetTrack *)track;
+
+
 
 //init with an ExtAudioFileRef
 +(id)providerWithExtAudioFile:(ExtAudioFileRef)audioFileRef;
