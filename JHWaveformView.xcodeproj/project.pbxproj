@@ -15,6 +15,9 @@
 		7D386302164EDF1A0076B985 /* JHWaterfallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3862FE164EDF1A0076B985 /* JHWaterfallView.m */; };
 		7D516F09161FB1B700742DCF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7115161E4464007AF2A0 /* CoreMedia.framework */; };
 		7D516F0A161FB1C000742DCF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */; };
+		7DA3A7BC1650224100D46389 /* JHSampleDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7BA1650224100D46389 /* JHSampleDataProvider.h */; };
+		7DA3A7BD1650224100D46389 /* JHSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7BB1650224100D46389 /* JHSampleDataProvider.m */; };
+		7DA3A7BE1650224100D46389 /* JHSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7BB1650224100D46389 /* JHSampleDataProvider.m */; };
 		7DC930DD162A2B1300893694 /* JHWaveformView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD0543D161CEB6B0019D540 /* JHWaveformView.h */; };
 		7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */; };
 		7DCF7110161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */; };
@@ -61,6 +64,8 @@
 		7D3862FD164EDF1A0076B985 /* JHWaterfallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHWaterfallView.h; sourceTree = "<group>"; };
 		7D3862FE164EDF1A0076B985 /* JHWaterfallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHWaterfallView.m; sourceTree = "<group>"; };
 		7D6DEBD5162533F5001CAAEC /* readme.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.markdown; sourceTree = "<group>"; };
+		7DA3A7BA1650224100D46389 /* JHSampleDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSampleDataProvider.h; sourceTree = "<group>"; };
+		7DA3A7BB1650224100D46389 /* JHSampleDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSampleDataProvider.m; sourceTree = "<group>"; };
 		7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHAudioPreviewView.h; sourceTree = "<group>"; };
 		7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHAudioPreviewView.m; sourceTree = "<group>"; };
 		7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -207,6 +212,8 @@
 				7DD0543E161CEB6B0019D540 /* JHWaveformView.m */,
 				7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */,
 				7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */,
+				7DA3A7BA1650224100D46389 /* JHSampleDataProvider.h */,
+				7DA3A7BB1650224100D46389 /* JHSampleDataProvider.m */,
 				7DD05484161CF66A0019D540 /* Supporting Files */,
 			);
 			path = JHWaveform;
@@ -252,6 +259,7 @@
 				7DC930DD162A2B1300893694 /* JHWaveformView.h in Headers */,
 				7D3862F9164EC0150076B985 /* JHSignalView.h in Headers */,
 				7D3862FF164EDF1A0076B985 /* JHWaterfallView.h in Headers */,
+				7DA3A7BC1650224100D46389 /* JHSampleDataProvider.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +413,7 @@
 				7DCF7110161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */,
 				7D3862FA164EC0150076B985 /* JHSignalView.m in Sources */,
 				7D386301164EDF1A0076B985 /* JHWaterfallView.m in Sources */,
+				7DA3A7BD1650224100D46389 /* JHSampleDataProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +425,7 @@
 				7DCF7111161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */,
 				7D3862FB164EC0150076B985 /* JHSignalView.m in Sources */,
 				7D386302164EDF1A0076B985 /* JHWaterfallView.m in Sources */,
+				7DA3A7BE1650224100D46389 /* JHSampleDataProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,7 +491,7 @@
 		7DD05427161CEAFB0019D540 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -505,13 +515,14 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = /opt/local/include;
 			};
 			name = Debug;
 		};
 		7DD05428161CEAFB0019D540 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -528,6 +539,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = /opt/local/include;
 			};
 			name = Release;
 		};
@@ -558,12 +570,18 @@
 		7DD054A2161CF66B0019D540 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JHWaveform/JHWaveform-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"JHWF_BUILD_WITH_AUBIO=1",
+					"DEBUG=1",
+				);
+				HEADER_SEARCH_PATHS = /opt/local/include;
 				INFOPLIST_FILE = "JHWaveform/JHWaveform-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
@@ -573,12 +591,15 @@
 		7DD054A3161CF66B0019D540 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JHWaveform/JHWaveform-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "JHWF_BUILD_WITH_AUBIO=1";
+				HEADER_SEARCH_PATHS = /opt/local/include;
 				INFOPLIST_FILE = "JHWaveform/JHWaveform-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
