@@ -32,6 +32,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JHSignalView.h"
+#import "JHSampleDataProvider.h"
 
 @interface JHWaveformView : JHSignalView {
     
@@ -66,6 +67,9 @@
 
 /* Draws a waveform with the given sample buffer */
 -(void)setWaveform:(const float*)samples length:(NSUInteger)length;
+
+/* Draws a waveform with a sample data provider */
+-(void)setSampleDataProvider:(JHSampleDataProvider *)provider;
 
 /* The total number of samples, rather, a convenience for getting whatever
  the client gave for `length` */

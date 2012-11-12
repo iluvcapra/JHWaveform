@@ -165,6 +165,14 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     if (freeCoalescedSamples){free(coalescedSamples);}
 }
 
+-(void)setSampleDataProvider:(JHSampleDataProvider *)provider {
+    float *samples;
+    NSRange outRange = [provider copySamples:samples inRange:NSMakeRange(0, [provider samplesLength])];
+    if (outRange.length > 0) {
+        [self setWaveform:samples length:outRange.length];
+    }
+}
+
 #pragma mark Drawing Methods
 
 -(NSAffineTransform *)sampleTransform {
