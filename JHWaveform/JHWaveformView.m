@@ -166,8 +166,8 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
 }
 
 -(void)setSampleDataProvider:(JHSampleDataProvider *)provider {
-    float *samples;
-    NSRange outRange = [provider copySamples:samples inRange:NSMakeRange(0, [provider samplesLength])];
+    float *samples = NULL;
+    NSRange outRange = [provider copySamples:&samples inRange:NSMakeRange(0, [provider samplesLength])];
     if (outRange.length > 0) {
         [self setWaveform:samples length:outRange.length];
     }

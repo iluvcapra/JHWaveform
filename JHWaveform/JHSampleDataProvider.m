@@ -105,15 +105,15 @@
     return self;
 }
 
--(NSRange)copySamples:(float *)outSamples inRange:(NSRange)range {
+-(NSRange)copySamples:(float **)outSamples inRange:(NSRange)range {
     
     NSRange maxRange = NSMakeRange(0, [self samplesLength]);
     NSRange retRange = NSIntersectionRange(range, maxRange);
     
-    outSamples = calloc(retRange.length, sizeof(float));
+    *outSamples = calloc(retRange.length, sizeof(float));
     float *src = (float *)[_sampleData bytes];
     
-    memcpy(outSamples, src + retRange.location, retRange.length * sizeof(float));
+    memcpy(*outSamples, src + retRange.location, retRange.length * sizeof(float));
     
     return retRange;
 }

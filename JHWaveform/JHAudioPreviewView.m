@@ -48,79 +48,18 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
     return (sample / (float)_sampleDataLength) *  (_assetDuration * (float)ASSET_SAMPLE_RATE);
 }
 
-- (NSData *)_assetSamplesFromTrack:(AVAssetTrack *)track
-                           ofAsset:(AVAsset *)asset
-               asFloatArrayOrError:(NSError **)error {
-
-    AVAssetReader *sampleReader = [[AVAssetReader alloc] initWithAsset:asset
-                                                                 error:error];
-    NSMutableData *floatData = nil;
-    
-    if (*error == nil) {
-        AVAssetTrack *theTrack = track;
-        
-        NSDictionary *lpcmOutputSetting = @{
-        AVFormatIDKey : @( kAudioFormatLinearPCM ),
-        AVSampleRateKey : @( ASSET_SAMPLE_RATE ),
-        AVLinearPCMIsFloatKey : @YES,
-        AVLinearPCMBitDepthKey : @32,
-        AVLinearPCMIsNonInterleaved : @NO,
-        AVNumberOfChannelsKey : @1
-        };
-        
-        
-        AVAssetReaderTrackOutput *trackOutput =
-        [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack: theTrack
-                                                   outputSettings: lpcmOutputSetting];
-        [sampleReader addOutput:trackOutput ];
-        
-        [sampleReader startReading];
-        
-        CMSampleBufferRef buf;
-        floatData = [NSMutableData new];
-        while ((buf = [trackOutput copyNextSampleBuffer])) {
-            
-            AudioBufferList audioBufferList;
-            CMBlockBufferRef blockBuffer;
-            CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(buf,
-                                                                    NULL,
-                                                                    &audioBufferList,
-                                                                    sizeof(audioBufferList),
-                                                                    NULL,
-                                                                    NULL,
-                                                                    0,
-                                                                    &blockBuffer);
-            
-            AudioBuffer audioBuffer = audioBufferList.mBuffers[0];
-            Float32 *frame = (Float32*)audioBuffer.mData;
-            [floatData appendBytes:frame length:audioBuffer.mDataByteSize];
-            
-            CFRelease(blockBuffer);
-            CFRelease(buf);
-            blockBuffer = NULL;
-            buf = NULL;
-        }
-        
-        [sampleReader cancelReading];
-    }
-    
-    return floatData;
-}
 
 -(void)_readSamplesFromTrack:(AVAssetTrack *)track ofAsset:(AVAsset *)asset {
     [self willChangeValueForKey:@"isReadingOverview"];
     _isReadingOverview = YES;
     [self didChangeValueForKey:@"isReadingOverview"];
+    JHSampleDataProvider *sdp = [JHSampleDataProvider providerWithAsset:asset track:track];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        NSData *floatData;
-        NSError *error;
-        floatData = [self _assetSamplesFromTrack:track ofAsset:asset asFloatArrayOrError:&error];
-        
+        [self setSampleDataProvider:sdp];
         dispatch_sync(dispatch_get_main_queue(), ^{
             
             [self willChangeValueForKey:@"isReadingOverview"];
-            [self setWaveform:(float *)[floatData bytes] length:[floatData length] / sizeof(float)];
             _isReadingOverview = NO;
             [self didChangeValueForKey:@"isReadingOverview"];
         });

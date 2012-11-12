@@ -47,7 +47,7 @@
 #endif
 
 
--(NSRange)copySamples:(float *)outSamples
+-(NSRange)copySamples:(float **)outSamples
             inRange:(NSRange)range;
 
 -(NSUInteger)samplesLength;
