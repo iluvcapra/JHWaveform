@@ -92,7 +92,7 @@
     
    // _waterfallView.displaysRuler = YES;
     
-    
+    free(waterfallTestSignal);
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
