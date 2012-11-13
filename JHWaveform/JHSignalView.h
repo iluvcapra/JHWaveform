@@ -40,9 +40,9 @@ enum JHWaveformViewMouseModes {
     BOOL        _dragging;
     int         _mouseMode;
     
-    NSUInteger  _rulerMajorTicks, _rulerMinorTicks;
+//    NSUInteger  _rulerMajorTicks, _rulerMinorTicks;
     NSUInteger  _originalSampleDataLength;
-    BOOL        _displaysRuler;
+//    BOOL        _displaysRuler;
 }
 
 @property (copy, readwrite) NSColor *foregroundColor;
@@ -50,9 +50,8 @@ enum JHWaveformViewMouseModes {
 @property (copy, readwrite) NSColor *selectedColor;
 @property (copy, readwrite) NSColor *selectedBorderColor;
 
-@property (assign) BOOL displaysRuler;
-
-@property (assign) NSUInteger rulerMajorTicks, rulerMinorTicks;
+//@property (assign) BOOL displaysRuler;
+//@property (assign) NSUInteger rulerMajorTicks, rulerMinorTicks;
 
 /*
  The current selection in the waveform.  This is an NSRange in terms of 
@@ -71,7 +70,7 @@ enum JHWaveformViewMouseModes {
 -(NSUInteger)xPointToSample:(CGFloat)xPoint;
 -(NSAffineTransform *)sampleTransform;
 -(NSRect)signalRect;
--(NSRect)rulerRect;
+//-(NSRect)rulerRect;
 
 -(void)drawSignalInRect:(NSRect)dirtyRect;
 

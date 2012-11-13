@@ -24,11 +24,11 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
 
 @synthesize selectedSampleRange             = _selectedSampleRange;
 @synthesize allowsSelection                 = _allowsSelection;
-
-@synthesize rulerMajorTicks                 = _rulerMajorTicks;
-@synthesize rulerMinorTicks                 = _rulerMinorTicks;
-@synthesize displaysRuler                   = _displaysRuler;
-
+//
+//@synthesize rulerMajorTicks                 = _rulerMajorTicks;
+//@synthesize rulerMinorTicks                 = _rulerMinorTicks;
+//@synthesize displaysRuler                   = _displaysRuler;
+//
 
 
 -(id)initWithFrame:(NSRect)frameRect {
@@ -38,8 +38,8 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
         self.backgroundColor = [NSColor controlBackgroundColor];
         self.selectedColor   = [NSColor selectedControlColor];
         self.selectedBorderColor = [self.selectedColor shadowWithLevel:0.5f];
-        self.rulerMajorTicks = 100;
-        self.rulerMinorTicks = 10;
+//        self.rulerMajorTicks = 100;
+//        self.rulerMinorTicks = 10;
         self.allowsSelection = YES;
         self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
         _originalSampleDataLength = 0;
@@ -82,7 +82,7 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
             [self setNeedsDisplayInRect:NSInsetRect([self rectForSampleSelection:oldSelection], -10.0f, -10.0f)];
             // we make an inset rect with a negative number, thus a BIGGER rect, to clean up draw artifacts
             
-            [self setNeedsDisplayInRect:[self rulerRect]];
+     //       [self setNeedsDisplayInRect:[self rulerRect]];
             // we awlays redraw the ruler for the selection thumbs
             
             if (newSelection.location == NSNotFound) {
@@ -178,20 +178,20 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
 
 #pragma mark Drawing Methods
 
--(NSRect)rulerRect {
-    NSRect retRect = [self bounds];
-    if (_displaysRuler) {
-        retRect.origin.y = retRect.size.height - RULER_HEIGHT;
-        retRect.size.height = RULER_HEIGHT;
-    } else {
-        retRect = NSZeroRect;
-    }
-    return retRect;
-}
+//-(NSRect)rulerRect {
+//    NSRect retRect = [self bounds];
+//    if (_displaysRuler) {
+//        retRect.origin.y = retRect.size.height - RULER_HEIGHT;
+//        retRect.size.height = RULER_HEIGHT;
+//    } else {
+//        retRect = NSZeroRect;
+//    }
+//    return retRect;
+//}
 
 -(NSRect)signalRect {
     NSRect retRect = [self bounds];
-    retRect.size.height -= [self rulerRect].size.height;
+//    retRect.size.height -= [self rulerRect].size.height;
     return retRect;
 }
 
@@ -254,68 +254,68 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
         [NSGraphicsContext restoreGraphicsState];
     }
 }
+//
+//-(void)drawSelectionThumbs {
+//    if (_selectedSampleRange.location != NSNotFound) {
+//        NSBezierPath *thumb = [NSBezierPath bezierPath];
+//        [thumb moveToPoint:NSMakePoint([self selectionRect].origin.x,
+//                                       [self rulerRect].origin.y + RULER_INSET)];
+//        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x,
+//                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
+//        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self rulerRect].size.height / 2 - RULER_INSET,
+//                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
+//        [thumb closePath];
+//        
+//        NSBezierPath *endThumb = [NSBezierPath bezierPath];
+//        [endThumb moveToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
+//                                          [self rulerRect].origin.y + RULER_INSET)];
+//        [endThumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
+//                                          [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
+//        [endThumb lineToPoint:NSMakePoint(([self selectionRect].origin.x + [self selectionRect].size.width) - [self rulerRect].size.height / 2 + RULER_INSET,
+//                                          [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
+//        
+//        [endThumb closePath];
+//        
+//        [self.selectedBorderColor set];
+//        [thumb fill];
+//        [endThumb fill];
+//    }
+//}
 
--(void)drawSelectionThumbs {
-    if (_selectedSampleRange.location != NSNotFound) {
-        NSBezierPath *thumb = [NSBezierPath bezierPath];
-        [thumb moveToPoint:NSMakePoint([self selectionRect].origin.x,
-                                       [self rulerRect].origin.y + RULER_INSET)];
-        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x,
-                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-        [thumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self rulerRect].size.height / 2 - RULER_INSET,
-                                       [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-        [thumb closePath];
-        
-        NSBezierPath *endThumb = [NSBezierPath bezierPath];
-        [endThumb moveToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
-                                          [self rulerRect].origin.y + RULER_INSET)];
-        [endThumb lineToPoint:NSMakePoint([self selectionRect].origin.x + [self selectionRect].size.width,
-                                          [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-        [endThumb lineToPoint:NSMakePoint(([self selectionRect].origin.x + [self selectionRect].size.width) - [self rulerRect].size.height / 2 + RULER_INSET,
-                                          [self rulerRect].origin.y + [self rulerRect].size.height / 2)];
-        
-        [endThumb closePath];
-        
-        [self.selectedBorderColor set];
-        [thumb fill];
-        [endThumb fill];
-    }
-}
-
-- (void)drawRuler {
-    /* ruler */
-    
-    NSRect rulerRect = [self rulerRect];
-    
-    NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlLightHighlightColor]
-                                                              endingColor:[NSColor controlHighlightColor]];
-    
-    [rulerGradient drawInRect:rulerRect angle:270.0f];
-    
-    CGFloat tickHeight = rulerRect.size.height - (RULER_INSET * 2);
-    CGFloat minorTickHeight = tickHeight * RULER_MINOR_TICK_FACTOR;
-    NSUInteger i, xpt;
-    
-    [[NSColor controlDarkShadowColor] set];
-    [NSBezierPath setDefaultLineWidth:1.0f];
-    for (i = 0; i < _originalSampleDataLength; i += _rulerMajorTicks) {
-        xpt = [self sampleToXPoint:i];
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_INSET)
-                                  toPoint:NSMakePoint(xpt, rulerRect.origin.y+ tickHeight)];
-    }
-    for (i = 0; i < _originalSampleDataLength; i += _rulerMinorTicks) {
-        if (i % _rulerMajorTicks) {
-            xpt = [self sampleToXPoint:i];
-            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_INSET)
-                                      toPoint:NSMakePoint(xpt, rulerRect.origin.y+ minorTickHeight)];
-        }
-    }
-    /* draw border around ruler rect */
-    [[NSColor controlDarkShadowColor] set];
-    [NSBezierPath setDefaultLineWidth:0.5f];
-    [NSBezierPath strokeRect:rulerRect];
-    
-}
+//- (void)drawRuler {
+//    /* ruler */
+//    
+//    NSRect rulerRect = [self rulerRect];
+//    
+//    NSGradient *rulerGradient = [[NSGradient alloc] initWithStartingColor:[NSColor controlLightHighlightColor]
+//                                                              endingColor:[NSColor controlHighlightColor]];
+//    
+//    [rulerGradient drawInRect:rulerRect angle:270.0f];
+//    
+//    CGFloat tickHeight = rulerRect.size.height - (RULER_INSET * 2);
+//    CGFloat minorTickHeight = tickHeight * RULER_MINOR_TICK_FACTOR;
+//    NSUInteger i, xpt;
+//    
+//    [[NSColor controlDarkShadowColor] set];
+//    [NSBezierPath setDefaultLineWidth:1.0f];
+//    for (i = 0; i < _originalSampleDataLength; i += _rulerMajorTicks) {
+//        xpt = [self sampleToXPoint:i];
+//        [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_INSET)
+//                                  toPoint:NSMakePoint(xpt, rulerRect.origin.y+ tickHeight)];
+//    }
+//    for (i = 0; i < _originalSampleDataLength; i += _rulerMinorTicks) {
+//        if (i % _rulerMajorTicks) {
+//            xpt = [self sampleToXPoint:i];
+//            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, rulerRect.origin.y+ RULER_INSET)
+//                                      toPoint:NSMakePoint(xpt, rulerRect.origin.y+ minorTickHeight)];
+//        }
+//    }
+//    /* draw border around ruler rect */
+//    [[NSColor controlDarkShadowColor] set];
+//    [NSBezierPath setDefaultLineWidth:0.5f];
+//    [NSBezierPath strokeRect:rulerRect];
+//    
+//}
 
 - (void)drawOutline {
     /* outline */
@@ -340,10 +340,10 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
 
     
 
-    if (_displaysRuler && NSIntersectsRect(dirtyRect, [self rulerRect])) {
-        [self drawRuler];
-        [self drawSelectionThumbs];
-    }
+//    if (_displaysRuler && NSIntersectsRect(dirtyRect, [self rulerRect])) {
+//        [self drawRuler];
+//        [self drawSelectionThumbs];
+//    }
     
     [self drawOutline];
 }

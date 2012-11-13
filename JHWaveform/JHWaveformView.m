@@ -53,7 +53,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     self = [super initWithFrame:frameRect];
     if (self) {
 
-        self.displaysRuler = YES;
+       // self.displaysRuler = YES;
         
         self.lineColor       = [NSColor textColor];
         self.gridColor       = [NSColor gridColor];
@@ -70,7 +70,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
         
         self.displaysGrid = YES;
         
-        self.gridTicks       = self.rulerMajorTicks;
+       // self.gridTicks       = self.rulerMajorTicks;
     }
     
     

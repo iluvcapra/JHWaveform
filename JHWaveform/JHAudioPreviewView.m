@@ -105,8 +105,8 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
         _assetDuration = 0.0;
         self.playheadColor = [NSColor greenColor];
         self.gridTicks = ASSET_SAMPLE_RATE * 60;
-        self.rulerMajorTicks = ASSET_SAMPLE_RATE * 60;
-        self.rulerMinorTicks = ASSET_SAMPLE_RATE * 10;
+    //    self.rulerMajorTicks = ASSET_SAMPLE_RATE * 60;
+    //    self.rulerMinorTicks = ASSET_SAMPLE_RATE * 10;
         [self willChangeValueForKey:@"isReadingOverview"];
         _isReadingOverview = NO;
         [self didChangeValueForKey:@"isReadingOverview"];
