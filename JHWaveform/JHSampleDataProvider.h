@@ -10,6 +10,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 
+#import <aubio/aubio.h>
+#import <sndfile.h>
+
 /* The SampleDataProvider is a class cluster for taking one of several
  different kinds of sources and making them look random-accessible.  It
  presently does this in the laziest and most memory-intensive way possible. */

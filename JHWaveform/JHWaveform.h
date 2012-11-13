@@ -32,8 +32,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import <aubio/aubio.h>
-#import <sndfile.h>
 
 #import "JHSignalView.h"
 #import "JHWaveformView.h"
