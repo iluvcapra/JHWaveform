@@ -15,7 +15,14 @@
 
 /* The SampleDataProvider is a class cluster for taking one of several
  different kinds of sources and making them look random-accessible.  It
- presently does this in the laziest and most memory-intensive way possible. */
+ presently does this in the most memory-intensive way possible. */
+
+/*
+ This class is meant to give us just enough abstraction between data buffers and
+ the views to allow us to eventually implement progressive data loading, either 
+ through blocks or delegate calls.  Eventually this will operate a bit like a 
+ lazy-loading NSData.
+ */
 
 @interface JHSampleDataProvider : NSObject {
 
