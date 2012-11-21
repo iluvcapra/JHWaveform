@@ -24,6 +24,13 @@
  lazy-loading NSData.
  */
 
+/*
+ I'm not completely sure if this class is a good idea or just a stopgap, it does
+ some peculiar things meant to save time, like silently converting AVAssets 
+ to mono, and most of its helper methods are unimplemented.
+ 
+ */
+
 @interface JHSampleDataProvider : NSObject {
 
 }
