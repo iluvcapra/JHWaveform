@@ -96,16 +96,23 @@
          timeRange:(CMTimeRange)range {
     self = [super init];
     if (self) {
-        if (![self _loadDataWithAsset:asset
-                          track:track
-                         inTimeRange:range]) {
-            self = nil;
-        }
+        NSAssert(asset, @"asset argument must not be nil");
+        NSAssert(track, @"asset argument must not be nil");
+        
+        _asset = asset;
+        _track = track;
+        _timeRange = range;
+        _sampleData = nil;
     }
     return self;
 }
 
 -(NSRange)copySamples:(float **)outSamples inRange:(NSRange)range {
+    if (!_sampleData) {
+        [self _loadDataWithAsset:_asset
+                           track:_track
+                     inTimeRange:_timeRange];
+    }
     
     NSRange maxRange = NSMakeRange(0, [self samplesLength]);
     NSRange retRange = NSIntersectionRange(range, maxRange);
@@ -119,6 +126,11 @@
 }
 
 -(NSUInteger)samplesLength {
+    if (!_sampleData) {
+        [self _loadDataWithAsset:_asset
+                           track:_track
+                     inTimeRange:_timeRange];
+    }
     return [_sampleData length] / sizeof(float);
 }
 
