@@ -53,6 +53,8 @@
     
     if (_samplesPerFrame == 1) {
         [self yieldFramesInRange:aRange toBlock:yieldBlock];
+    } else if (_samplesPerFrame > chan) {
+        yieldBlock(NULL, NSMakeRange(NSNotFound, 0));
     } else {
         
         [self yieldFramesInRange:aRange toBlock:^(float *samples, NSRange outRange) {
