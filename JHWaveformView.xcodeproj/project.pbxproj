@@ -15,12 +15,9 @@
 		7D386302164EDF1A0076B985 /* JHWaterfallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3862FE164EDF1A0076B985 /* JHWaterfallView.m */; };
 		7D516F09161FB1B700742DCF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7115161E4464007AF2A0 /* CoreMedia.framework */; };
 		7D516F0A161FB1C000742DCF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */; };
-		7DA3A7BC1650224100D46389 /* JHSampleDataProvider1.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7BA1650224100D46389 /* JHSampleDataProvider1.h */; };
-		7DA3A7BD1650224100D46389 /* JHSampleDataProvider1.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7BB1650224100D46389 /* JHSampleDataProvider1.m */; };
-		7DA3A7BE1650224100D46389 /* JHSampleDataProvider1.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7BB1650224100D46389 /* JHSampleDataProvider1.m */; };
-		7DA3A7C2165D4F2200D46389 /* JHSampleDataProvider2.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7C0165D4F2200D46389 /* JHSampleDataProvider2.h */; };
-		7DA3A7C3165D4F2200D46389 /* JHSampleDataProvider2.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C1165D4F2200D46389 /* JHSampleDataProvider2.m */; };
-		7DA3A7C4165D4F2200D46389 /* JHSampleDataProvider2.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C1165D4F2200D46389 /* JHSampleDataProvider2.m */; };
+		7DA3A7C2165D4F2200D46389 /* JHSampleDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7C0165D4F2200D46389 /* JHSampleDataProvider.h */; };
+		7DA3A7C3165D4F2200D46389 /* JHSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C1165D4F2200D46389 /* JHSampleDataProvider.m */; };
+		7DA3A7C4165D4F2200D46389 /* JHSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C1165D4F2200D46389 /* JHSampleDataProvider.m */; };
 		7DA3A7C7165D513200D46389 /* _JHAVAssetSampleDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7C5165D513200D46389 /* _JHAVAssetSampleDataProvider.h */; };
 		7DA3A7C8165D513200D46389 /* _JHAVAssetSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataProvider.m */; };
 		7DA3A7C9165D513200D46389 /* _JHAVAssetSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataProvider.m */; };
@@ -70,10 +67,8 @@
 		7D3862FD164EDF1A0076B985 /* JHWaterfallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHWaterfallView.h; sourceTree = "<group>"; };
 		7D3862FE164EDF1A0076B985 /* JHWaterfallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHWaterfallView.m; sourceTree = "<group>"; };
 		7D6DEBD5162533F5001CAAEC /* readme.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.markdown; sourceTree = "<group>"; };
-		7DA3A7BA1650224100D46389 /* JHSampleDataProvider1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSampleDataProvider1.h; sourceTree = "<group>"; };
-		7DA3A7BB1650224100D46389 /* JHSampleDataProvider1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSampleDataProvider1.m; sourceTree = "<group>"; };
-		7DA3A7C0165D4F2200D46389 /* JHSampleDataProvider2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSampleDataProvider2.h; sourceTree = "<group>"; };
-		7DA3A7C1165D4F2200D46389 /* JHSampleDataProvider2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSampleDataProvider2.m; sourceTree = "<group>"; };
+		7DA3A7C0165D4F2200D46389 /* JHSampleDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSampleDataProvider.h; sourceTree = "<group>"; };
+		7DA3A7C1165D4F2200D46389 /* JHSampleDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSampleDataProvider.m; sourceTree = "<group>"; };
 		7DA3A7C5165D513200D46389 /* _JHAVAssetSampleDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _JHAVAssetSampleDataProvider.h; path = "JHSampleDataProvider Private Subclasses/_JHAVAssetSampleDataProvider.h"; sourceTree = "<group>"; };
 		7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _JHAVAssetSampleDataProvider.m; path = "JHSampleDataProvider Private Subclasses/_JHAVAssetSampleDataProvider.m"; sourceTree = "<group>"; };
 		7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHAudioPreviewView.h; sourceTree = "<group>"; };
@@ -222,11 +217,9 @@
 				7DD0543E161CEB6B0019D540 /* JHWaveformView.m */,
 				7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */,
 				7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */,
-				7DA3A7BA1650224100D46389 /* JHSampleDataProvider1.h */,
-				7DA3A7BB1650224100D46389 /* JHSampleDataProvider1.m */,
 				7DD05484161CF66A0019D540 /* Supporting Files */,
-				7DA3A7C0165D4F2200D46389 /* JHSampleDataProvider2.h */,
-				7DA3A7C1165D4F2200D46389 /* JHSampleDataProvider2.m */,
+				7DA3A7C0165D4F2200D46389 /* JHSampleDataProvider.h */,
+				7DA3A7C1165D4F2200D46389 /* JHSampleDataProvider.m */,
 				7DA3A7C5165D513200D46389 /* _JHAVAssetSampleDataProvider.h */,
 				7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataProvider.m */,
 			);
@@ -273,8 +266,7 @@
 				7DC930DD162A2B1300893694 /* JHWaveformView.h in Headers */,
 				7D3862F9164EC0150076B985 /* JHSignalView.h in Headers */,
 				7D3862FF164EDF1A0076B985 /* JHWaterfallView.h in Headers */,
-				7DA3A7BC1650224100D46389 /* JHSampleDataProvider1.h in Headers */,
-				7DA3A7C2165D4F2200D46389 /* JHSampleDataProvider2.h in Headers */,
+				7DA3A7C2165D4F2200D46389 /* JHSampleDataProvider.h in Headers */,
 				7DA3A7C7165D513200D46389 /* _JHAVAssetSampleDataProvider.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -429,8 +421,7 @@
 				7DCF7110161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */,
 				7D3862FA164EC0150076B985 /* JHSignalView.m in Sources */,
 				7D386301164EDF1A0076B985 /* JHWaterfallView.m in Sources */,
-				7DA3A7BD1650224100D46389 /* JHSampleDataProvider1.m in Sources */,
-				7DA3A7C3165D4F2200D46389 /* JHSampleDataProvider2.m in Sources */,
+				7DA3A7C3165D4F2200D46389 /* JHSampleDataProvider.m in Sources */,
 				7DA3A7C8165D513200D46389 /* _JHAVAssetSampleDataProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,8 +434,7 @@
 				7DCF7111161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */,
 				7D3862FB164EC0150076B985 /* JHSignalView.m in Sources */,
 				7D386302164EDF1A0076B985 /* JHWaterfallView.m in Sources */,
-				7DA3A7BE1650224100D46389 /* JHSampleDataProvider1.m in Sources */,
-				7DA3A7C4165D4F2200D46389 /* JHSampleDataProvider2.m in Sources */,
+				7DA3A7C4165D4F2200D46389 /* JHSampleDataProvider.m in Sources */,
 				7DA3A7C9165D513200D46389 /* _JHAVAssetSampleDataProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

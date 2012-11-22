@@ -31,7 +31,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "JHWaveformView.h"
-#import "JHSampleDataProvider1.h"
+#import "JHSampleDataProvider.h"
 
 static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedisplayObserverContext";
 
@@ -166,12 +166,13 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     if (freeCoalescedSamples){free(coalescedSamples);}
 }
 
--(void)setSampleDataProvider:(JHSampleDataProvider1 *)provider {
-    float *samples = NULL;
-    NSRange outRange = [provider copySamples:&samples inRange:NSMakeRange(0, [provider samplesLength])];
-    if (outRange.length > 0) {
-        [self setWaveform:samples length:outRange.length];
-    }
+-(void)setSampleDataProvider:(JHSampleDataProvider *)provider {
+    NSRange theRange = NSMakeRange(0, [provider framesLength]);
+    
+    [provider yieldSampleOnChannel:0 inFrameRange:theRange
+                           toBlock:^(float *samples, NSRange outRange) {
+                               [self setWaveform:samples length:outRange.length];
+                           }];
 }
 
 #pragma mark Drawing Methods

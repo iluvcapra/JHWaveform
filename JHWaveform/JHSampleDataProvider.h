@@ -29,7 +29,7 @@
  This is a redo of this class to support tables of samples in frames.
  */
 
-@interface JHSampleDataProvider2 : NSObject {
+@interface JHSampleDataProvider : NSObject {
     double      _framesPerSecond;
     NSUInteger  _samplesPerFrame;
     NSData      *_sampleDataBuffer;

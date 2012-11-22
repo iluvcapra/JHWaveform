@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Jamie Hardt. All rights reserved.
 //
 
-#import "JHSampleDataProvider2.h"
+#import "JHSampleDataProvider.h"
 #import "_JHAVAssetSampleDataProvider.h"
 
-@implementation JHSampleDataProvider2
+@implementation JHSampleDataProvider
 
 - (id)init {
     self = [super init];

@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Jamie Hardt. All rights reserved.
 //
 
-#import "JHSampleDataProvider2.h"
+#import "JHSampleDataProvider.h"
 
-@interface _JHAVAssetSampleDataProvider : JHSampleDataProvider2 {
+@interface _JHAVAssetSampleDataProvider : JHSampleDataProvider {
     AVAsset         *_asset;
     AVAssetTrack    *_track;
     CMTimeRange     _timeRange;
