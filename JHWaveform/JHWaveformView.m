@@ -31,7 +31,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "JHWaveformView.h"
-#import "JHSampleDataProvider.h"
+#import "JHSampleDataProvider1.h"
 
 static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedisplayObserverContext";
 
@@ -166,7 +166,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     if (freeCoalescedSamples){free(coalescedSamples);}
 }
 
--(void)setSampleDataProvider:(JHSampleDataProvider *)provider {
+-(void)setSampleDataProvider:(JHSampleDataProvider1 *)provider {
     float *samples = NULL;
     NSRange outRange = [provider copySamples:&samples inRange:NSMakeRange(0, [provider samplesLength])];
     if (outRange.length > 0) {

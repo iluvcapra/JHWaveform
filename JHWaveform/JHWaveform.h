@@ -37,4 +37,4 @@
 #import "JHWaveformView.h"
 #import "JHAudioPreviewView.h"
 #import "JHWaterfallView.h"
-#import "JHSampleDataProvider.h"
+#import "JHSampleDataProvider1.h"

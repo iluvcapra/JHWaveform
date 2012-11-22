@@ -31,7 +31,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "JHAudioPreviewView.h"
-#import "JHSampleDataProvider.h"
+#import "JHSampleDataProvider1.h"
 
 static NSString *JHAudioPreviewPlayerRateObservingCtx           = @"JHAudioPreviewPlayerRateObservingCtx";
 static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPreviewPlayerSampleRangeObservingCtx";
@@ -53,7 +53,7 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
     [self willChangeValueForKey:@"isReadingOverview"];
     _isReadingOverview = YES;
     [self didChangeValueForKey:@"isReadingOverview"];
-    JHSampleDataProvider *sdp = [JHSampleDataProvider providerWithAsset:asset track:track];
+    JHSampleDataProvider1 *sdp = [JHSampleDataProvider1 providerWithAsset:asset track:track];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         [self setSampleDataProvider:sdp];

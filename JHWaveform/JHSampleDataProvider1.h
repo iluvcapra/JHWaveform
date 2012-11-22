@@ -31,7 +31,7 @@
  
  */
 
-@interface JHSampleDataProvider : NSObject {
+@interface JHSampleDataProvider1 : NSObject {
 
 }
 
