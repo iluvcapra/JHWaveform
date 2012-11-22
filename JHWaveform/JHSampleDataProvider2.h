@@ -69,7 +69,7 @@
                   toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock;
 
 -(void)yieldSampleOnChannel:(NSUInteger)chan
-                    inRange:(NSRange)aRange
+               inFrameRange:(NSRange)aRange
                     toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock;
 
 -(NSUInteger)framesLength;
