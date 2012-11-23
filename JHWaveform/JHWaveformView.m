@@ -60,7 +60,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
         _sampleData = NULL;
         _sampleDataLength = 0;
         _originalSampleDataLength = 0;
-        
+        _sampleDataProvider = nil;
         self.lineWidth = 1.0f;
         self.selectedSampleRange = NSMakeRange(NSNotFound, 0);
         _dragging = NO;
@@ -167,12 +167,16 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
 }
 
 -(void)setSampleDataProvider:(JHSampleDataProvider *)provider {
-    NSRange theRange = NSMakeRange(0, [provider framesLength]);
-    
-    [provider yieldSampleOnChannel:0 inFrameRange:theRange
-                           toBlock:^(float *samples, NSRange outRange) {
-                               [self setWaveform:samples length:outRange.length];
-                           }];
+    if (provider != _sampleDataProvider) {
+        _sampleDataProvider = nil;
+        _sampleDataProvider = provider;
+        NSRange theRange = NSMakeRange(0, [_sampleDataProvider framesLength]);
+        
+        [_sampleDataProvider yieldSampleOnChannel:0 inFrameRange:theRange
+                               toBlock:^(float *samples, NSRange outRange) {
+                                   [self setWaveform:samples length:outRange.length];
+                               }];
+    }
 }
 
 #pragma mark Drawing Methods
@@ -201,13 +205,15 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
 - (void)drawGridlines {
     /* gridlines */
     
-    [self.gridColor set];
-    [NSBezierPath setDefaultLineWidth:0.5f];
-    NSUInteger i, xpt;
-    for (i = 0; i < _sampleDataLength; i += _gridTicks) {
-        xpt = [self sampleToXPoint:i];
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
-                                  toPoint:NSMakePoint(xpt, [self bounds].size.height)];
+    if (_gridTicks > 0) {
+        [self.gridColor set];
+        [NSBezierPath setDefaultLineWidth:0.5f];
+        NSUInteger i, xpt;
+        for (i = 0; i < _sampleDataLength; i += _gridTicks) {
+            xpt = [self sampleToXPoint:i];
+            [NSBezierPath strokeLineFromPoint:NSMakePoint(xpt, 0)
+                                      toPoint:NSMakePoint(xpt, [self bounds].size.height)];
+        }
     }
 }
 

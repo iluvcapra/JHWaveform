@@ -12,7 +12,7 @@
 
 -(void)loadDataIfNecessary {
     if (!_loadedData) {
-        [self _loadDataWithAsset:_asset
+        _loadedData = [self _loadDataWithAsset:_asset
                            track:_track
                      inTimeRange:_timeRange];
     }

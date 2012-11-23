@@ -49,6 +49,8 @@
     
     BOOL        _displaysGrid;
     NSUInteger  _gridTicks;
+    
+    JHSampleDataProvider    *_sampleDataProvider;
 }
 
 /* All of the colors of the view are modifiable. foregroundColor, lineColor and

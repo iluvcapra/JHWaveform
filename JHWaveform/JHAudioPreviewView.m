@@ -32,6 +32,7 @@
 
 #import "JHAudioPreviewView.h"
 #import "JHSampleDataProvider.h"
+#import "JHSampleDataMonoizer.h"
 
 static NSString *JHAudioPreviewPlayerRateObservingCtx           = @"JHAudioPreviewPlayerRateObservingCtx";
 static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPreviewPlayerSampleRangeObservingCtx";
@@ -42,23 +43,26 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 @synthesize playheadColor = _playheadColor;
 @synthesize isReadingOverview = _isReadingOverview;
 
-#define ASSET_SAMPLE_RATE   (48000.0f)
-
-- (NSUInteger)_audioSampleAtWaveformSample:(NSUInteger)sample {
-    return (sample / (float)_sampleDataLength) *  (_assetDuration * (float)ASSET_SAMPLE_RATE);
-}
+//- (NSUInteger)_audioSampleAtWaveformSample:(NSUInteger)sample {
+//    NSUInteger retVal = 0;
+//    if (_sampleDataProvider) {
+//         retVal = (sample / (float)_sampleDataLength) *  (_assetDuration * [_sampleDataProvider framesPerSecond]);
+//    }
+//    return retVal;
+//}
 
 
 -(void)_readSamplesFromTrack:(AVAssetTrack *)track ofAsset:(AVAsset *)asset {
     [self willChangeValueForKey:@"isReadingOverview"];
     _isReadingOverview = YES;
     [self didChangeValueForKey:@"isReadingOverview"];
-    JHSampleDataProvider *sdp = [JHSampleDataProvider providerWithAsset:asset track:track];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        JHSampleDataMonoizer *sdp = [[JHSampleDataMonoizer alloc] initWithSourceProvider:
+                                     [JHSampleDataProvider providerWithAsset:asset track:track]];
         
         [self setSampleDataProvider:sdp];
         dispatch_sync(dispatch_get_main_queue(), ^{
-            
             [self willChangeValueForKey:@"isReadingOverview"];
             _isReadingOverview = NO;
             [self didChangeValueForKey:@"isReadingOverview"];
@@ -104,9 +108,7 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
         _playheadPosition = 0;
         _assetDuration = 0.0;
         self.playheadColor = [NSColor greenColor];
-        self.gridTicks = ASSET_SAMPLE_RATE * 60;
-    //    self.rulerMajorTicks = ASSET_SAMPLE_RATE * 60;
-    //    self.rulerMinorTicks = ASSET_SAMPLE_RATE * 10;
+        //self.gridTicks = 
         [self willChangeValueForKey:@"isReadingOverview"];
         _isReadingOverview = NO;
         [self didChangeValueForKey:@"isReadingOverview"];
@@ -126,10 +128,13 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 }
 
 - (void)seekPlayerToXPoint:(CGFloat)xPoint {
-    NSUInteger loc = [self xPointToSample:xPoint];
-    if (loc != NSNotFound) {
-        [_player seekToTime:CMTimeMake(loc, ASSET_SAMPLE_RATE)];
+    if (_sampleDataProvider) {
+        NSUInteger loc = [self xPointToSample:xPoint];
+        if (loc != NSNotFound) {
+            [_player seekToTime:CMTimeMake(loc, [_sampleDataProvider framesPerSecond])];
+        }
     }
+
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath

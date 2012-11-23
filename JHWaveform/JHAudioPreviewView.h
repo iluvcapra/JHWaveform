@@ -36,6 +36,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <CoreMedia/CoreMedia.h>
 
+@class JHSampleDataProvider;
+
 @interface JHAudioPreviewView : JHWaveformView {
     AVPlayer    *_player;
     
@@ -45,8 +47,7 @@
     
     NSColor     *_playheadColor;
     
-    BOOL        _isReadingOverview;
-
+    BOOL                    _isReadingOverview;
 }
 
 /*
