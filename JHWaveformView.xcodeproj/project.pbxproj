@@ -18,9 +18,9 @@
 		7DA3A7C2165D4F2200D46389 /* JHSampleBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7C0165D4F2200D46389 /* JHSampleBuffer.h */; };
 		7DA3A7C3165D4F2200D46389 /* JHSampleBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C1165D4F2200D46389 /* JHSampleBuffer.m */; };
 		7DA3A7C4165D4F2200D46389 /* JHSampleBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C1165D4F2200D46389 /* JHSampleBuffer.m */; };
-		7DA3A7C7165D513200D46389 /* _JHAVAssetSampleDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7C5165D513200D46389 /* _JHAVAssetSampleDataProvider.h */; };
-		7DA3A7C8165D513200D46389 /* _JHAVAssetSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataProvider.m */; };
-		7DA3A7C9165D513200D46389 /* _JHAVAssetSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataProvider.m */; };
+		7DA3A7C7165D513200D46389 /* _JHAVAssetSampleDataBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7C5165D513200D46389 /* _JHAVAssetSampleDataBuffer.h */; };
+		7DA3A7C8165D513200D46389 /* _JHAVAssetSampleDataBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataBuffer.m */; };
+		7DA3A7C9165D513200D46389 /* _JHAVAssetSampleDataBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataBuffer.m */; };
 		7DA3A7CC165EE34E00D46389 /* JHSampleDataMonoizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7CA165EE34E00D46389 /* JHSampleDataMonoizer.h */; };
 		7DA3A7CD165EE34E00D46389 /* JHSampleDataMonoizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7CB165EE34E00D46389 /* JHSampleDataMonoizer.m */; };
 		7DA3A7CE165EE34E00D46389 /* JHSampleDataMonoizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7CB165EE34E00D46389 /* JHSampleDataMonoizer.m */; };
@@ -46,6 +46,7 @@
 		7DD054A0161CF66B0019D540 /* JHWaveformTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0549F161CF66B0019D540 /* JHWaveformTests.m */; };
 		7DD054A9161CF6DB0019D540 /* JHWaveform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD05481161CF66A0019D540 /* JHWaveform.framework */; };
 		7DD054AA161CF7110019D540 /* JHWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0543E161CEB6B0019D540 /* JHWaveformView.m */; };
+		7DEE2E9516651FD700F35D37 /* JHSampleDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DEE2E9416651FD700F35D37 /* JHSampleDataProvider.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,8 +74,8 @@
 		7D6DEBD5162533F5001CAAEC /* readme.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.markdown; sourceTree = "<group>"; };
 		7DA3A7C0165D4F2200D46389 /* JHSampleBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSampleBuffer.h; sourceTree = "<group>"; };
 		7DA3A7C1165D4F2200D46389 /* JHSampleBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSampleBuffer.m; sourceTree = "<group>"; };
-		7DA3A7C5165D513200D46389 /* _JHAVAssetSampleDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _JHAVAssetSampleDataProvider.h; path = "JHSampleDataProvider Private Subclasses/_JHAVAssetSampleDataProvider.h"; sourceTree = "<group>"; };
-		7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _JHAVAssetSampleDataProvider.m; path = "JHSampleDataProvider Private Subclasses/_JHAVAssetSampleDataProvider.m"; sourceTree = "<group>"; };
+		7DA3A7C5165D513200D46389 /* _JHAVAssetSampleDataBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _JHAVAssetSampleDataBuffer.h; path = "JHSampleDataProvider Private Subclasses/_JHAVAssetSampleDataBuffer.h"; sourceTree = "<group>"; };
+		7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _JHAVAssetSampleDataBuffer.m; path = "JHSampleDataProvider Private Subclasses/_JHAVAssetSampleDataBuffer.m"; sourceTree = "<group>"; };
 		7DA3A7CA165EE34E00D46389 /* JHSampleDataMonoizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSampleDataMonoizer.h; sourceTree = "<group>"; };
 		7DA3A7CB165EE34E00D46389 /* JHSampleDataMonoizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSampleDataMonoizer.m; sourceTree = "<group>"; };
 		7DA3A7CF165EE90B00D46389 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -108,6 +109,7 @@
 		7DD0549C161CF66B0019D540 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7DD0549E161CF66B0019D540 /* JHWaveformTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHWaveformTests.h; sourceTree = "<group>"; };
 		7DD0549F161CF66B0019D540 /* JHWaveformTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHWaveformTests.m; sourceTree = "<group>"; };
+		7DEE2E9416651FD700F35D37 /* JHSampleDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSampleDataProvider.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,8 +230,9 @@
 				7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */,
 				7DA3A7C0165D4F2200D46389 /* JHSampleBuffer.h */,
 				7DA3A7C1165D4F2200D46389 /* JHSampleBuffer.m */,
-				7DA3A7C5165D513200D46389 /* _JHAVAssetSampleDataProvider.h */,
-				7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataProvider.m */,
+				7DA3A7C5165D513200D46389 /* _JHAVAssetSampleDataBuffer.h */,
+				7DA3A7C6165D513200D46389 /* _JHAVAssetSampleDataBuffer.m */,
+				7DEE2E9416651FD700F35D37 /* JHSampleDataProvider.h */,
 				7DA3A7CA165EE34E00D46389 /* JHSampleDataMonoizer.h */,
 				7DA3A7CB165EE34E00D46389 /* JHSampleDataMonoizer.m */,
 				7DD05484161CF66A0019D540 /* Supporting Files */,
@@ -278,8 +281,9 @@
 				7D3862F9164EC0150076B985 /* JHSignalView.h in Headers */,
 				7D3862FF164EDF1A0076B985 /* JHWaterfallView.h in Headers */,
 				7DA3A7C2165D4F2200D46389 /* JHSampleBuffer.h in Headers */,
-				7DA3A7C7165D513200D46389 /* _JHAVAssetSampleDataProvider.h in Headers */,
+				7DA3A7C7165D513200D46389 /* _JHAVAssetSampleDataBuffer.h in Headers */,
 				7DA3A7CC165EE34E00D46389 /* JHSampleDataMonoizer.h in Headers */,
+				7DEE2E9516651FD700F35D37 /* JHSampleDataProvider.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,7 +438,7 @@
 				7D3862FA164EC0150076B985 /* JHSignalView.m in Sources */,
 				7D386301164EDF1A0076B985 /* JHWaterfallView.m in Sources */,
 				7DA3A7C3165D4F2200D46389 /* JHSampleBuffer.m in Sources */,
-				7DA3A7C8165D513200D46389 /* _JHAVAssetSampleDataProvider.m in Sources */,
+				7DA3A7C8165D513200D46389 /* _JHAVAssetSampleDataBuffer.m in Sources */,
 				7DA3A7CD165EE34E00D46389 /* JHSampleDataMonoizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,7 +452,7 @@
 				7D3862FB164EC0150076B985 /* JHSignalView.m in Sources */,
 				7D386302164EDF1A0076B985 /* JHWaterfallView.m in Sources */,
 				7DA3A7C4165D4F2200D46389 /* JHSampleBuffer.m in Sources */,
-				7DA3A7C9165D513200D46389 /* _JHAVAssetSampleDataProvider.m in Sources */,
+				7DA3A7C9165D513200D46389 /* _JHAVAssetSampleDataBuffer.m in Sources */,
 				7DA3A7CE165EE34E00D46389 /* JHSampleDataMonoizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

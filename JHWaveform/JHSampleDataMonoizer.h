@@ -7,8 +7,9 @@
 //
 
 #import "JHSampleBuffer.h"
+#import "JHSampleDataProvider.h"
 
-@interface JHSampleDataMonoizer : JHSampleBuffer {
+@interface JHSampleDataMonoizer : NSObject <JHSampleDataProvider> {
     JHSampleBuffer *_sourceProvider;
 }
 
