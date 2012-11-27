@@ -8,6 +8,7 @@
 
 #import "JHSampleDataProvider.h"
 #import "_JHAVAssetSampleDataProvider.h"
+#import "_JHFVecSampleDataProvider.h"
 
 @implementation JHSampleDataProvider
 
@@ -18,6 +19,8 @@
     }
     return self;
 }
+
+# pragma mark Providers
 
 +(id)providerWithAsset:(AVAsset *)asset
                  track:(AVAssetTrack *)track
@@ -35,10 +38,14 @@
                                                      timeRange:CMTimeRangeMake(kCMTimeZero, kCMTimePositiveInfinity)];
 }
 
--(void)yieldFramesInRange:(NSRange)aRange
-                  toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock {
-    NSAssert(0, @"%s must be implemented by subclasses", (char *)_cmd);
++(id)providerWithFVec:(fvec_t *)vector
+      framesPerSecond:(NSUInteger)sampleRate
+         freeWhenDone:(BOOL)freeWhenDone {
+    return [[_JHFVecSampleDataProvider alloc] initWithFVec:vector
+                                           framesPerSecond:sampleRate
+                                              freeWhenDone:freeWhenDone];
 }
+
 
 -(void)yieldSamplesOnChannel:(NSUInteger)chan
                inFrameRange:(NSRange)aRange
@@ -64,6 +71,11 @@
     }
 }
 
+-(void)yieldFramesInRange:(NSRange)aRange
+                  toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock {
+    NSAssert(0, @"%s must be implemented by subclasses", (char *)_cmd);
+}
+
 -(NSUInteger)framesLength {
     NSAssert(0, @"%s must be implemented by subclasses",(char *)_cmd);
     return 0;
@@ -78,4 +90,5 @@
     NSAssert(0, @"%s must be implemented by subclasses",(char *)_cmd);
     return 0.0f;
 }
+
 @end

@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 
-//#import <aubio/aubio.h>
+#import <aubio/aubio.h>
 //#import <sndfile.h>
 
 /* The SampleDataProvider is a class cluster for taking one of several
@@ -51,7 +51,8 @@
 // Because fVec structures have an implicit sample rate, you must give
 // an explicit one here in order to fulfill the SampleDataProvider's contract.
 +(id)providerWithFVec:(fvec_t *)vector
-      framesPerSecond:(NSUInteger)sampleRate;
+      framesPerSecond:(NSUInteger)sampleRate
+         freeWhenDone:(BOOL)freeWhenDone;
 
 #endif
 
