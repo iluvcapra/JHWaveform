@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Jamie Hardt. All rights reserved.
 //
 
-#import "JHSampleDataProvider.h"
+#import "JHSampleBuffer.h"
 #import "_JHAVAssetSampleDataProvider.h"
 
-@implementation JHSampleDataProvider
+@implementation JHSampleBuffer
 
 - (id)init {
     self = [super init];
@@ -21,7 +21,7 @@
     return self;
 }
 
-+(id)providerWithAsset:(AVAsset *)asset
++(id)bufferWithAsset:(AVAsset *)asset
                  track:(AVAssetTrack *)track
              timeRange:(CMTimeRange)timeRange {
     return [[_JHAVAssetSampleDataProvider alloc] initWithAsset:asset
@@ -30,7 +30,7 @@
    
 }
 
-+(id)providerWithAsset:(AVAsset *)asset
++(id)bufferWithAsset:(AVAsset *)asset
                  track:(AVAssetTrack *)track {
     return [[_JHAVAssetSampleDataProvider alloc] initWithAsset:asset
                                                          track:track

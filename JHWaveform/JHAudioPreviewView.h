@@ -36,7 +36,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <CoreMedia/CoreMedia.h>
 
-@class JHSampleDataProvider;
+@class JHSampleBuffer;
 
 @interface JHAudioPreviewView : JHWaveformView {
     AVPlayer    *_player;

@@ -19,23 +19,49 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "JHWaveform/JHWaveformView.m"
-         timestampString = "375315639.80697"
+         timestampString = "375339722.313624"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "278"
-         endingLineNumber = "278">
+         startingLineNumber = "284"
+         endingLineNumber = "284">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "JHWaveform/JHAudioPreviewView.m"
-         timestampString = "374444237.39969"
+         timestampString = "375340447.845611"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "152"
-         endingLineNumber = "152"
+         startingLineNumber = "157"
+         endingLineNumber = "157"
          landmarkName = "-observeValueForKeyPath:ofObject:change:context:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "JHWaveform/JHAudioPreviewView.m"
+         timestampString = "375340447.845611"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "67"
+         endingLineNumber = "67"
+         landmarkName = "-_readSamplesFromTrack:ofAsset:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "JHWaveform/JHAudioPreviewView.m"
+         timestampString = "375340447.845611"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "63"
+         endingLineNumber = "63"
+         landmarkName = "-_readSamplesFromTrack:ofAsset:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

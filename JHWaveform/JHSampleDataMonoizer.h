@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 Jamie Hardt. All rights reserved.
 //
 
-#import "JHSampleDataProvider.h"
+#import "JHSampleBuffer.h"
 
-@interface JHSampleDataMonoizer : JHSampleDataProvider {
-    JHSampleDataProvider *_sourceProvider;
+@interface JHSampleDataMonoizer : JHSampleBuffer {
+    JHSampleBuffer *_sourceProvider;
 }
 
--(id)initWithSourceProvider:(JHSampleDataProvider *)provider;
+-(id)initWithSourceProvider:(JHSampleBuffer *)provider;
 
 @end

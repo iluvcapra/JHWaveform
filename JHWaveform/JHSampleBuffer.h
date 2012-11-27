@@ -29,18 +29,18 @@
  This is a redo of this class to support tables of samples in frames.
  */
 
-@interface JHSampleDataProvider : NSObject {
+@interface JHSampleBuffer : NSObject {
     double      _framesPerSecond;
     NSUInteger  _samplesPerFrame;
     NSData      *_sampleDataBuffer;
 }
 
 // init a dataProvider with an ABAsset
-+(id)providerWithAsset:(AVAsset *)asset
++(id)bufferWithAsset:(AVAsset *)asset
                  track:(AVAssetTrack *)track
              timeRange:(CMTimeRange)timeRange;
 
-+(id)providerWithAsset:(AVAsset *)asset
++(id)bufferWithAsset:(AVAsset *)asset
                  track:(AVAssetTrack *)track;
 
 
@@ -53,7 +53,7 @@
 // init a dataProvder with an Aubio fVec.
 // Because fVec structures have an implicit sample rate, you must give
 // an explicit one here in order to fulfill the SampleDataProvider's contract.
-+(id)providerWithFVec:(fvec_t *)vector
++(id)bufferWithFVec:(fvec_t *)vector
       framesPerSecond:(NSUInteger)sampleRate;
 
 #endif
@@ -61,7 +61,7 @@
 #ifdef SNDFILE_H
 
 // init a dataProvider with a libsndfile sound file
-+(id)providerWithSndfile:(SNDFILE *)file;
++(id)bufferWithSndfile:(SNDFILE *)file;
 
 #endif
  

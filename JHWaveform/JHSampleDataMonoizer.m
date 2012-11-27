@@ -11,7 +11,7 @@
 
 @implementation JHSampleDataMonoizer
 
--(id)initWithSourceProvider:(JHSampleDataProvider *)provider {
+-(id)initWithSourceProvider:(JHSampleBuffer *)provider {
     self = [super init];
     if (self) {
         NSAssert(provider != nil,@"provider argument may not be nil");

@@ -33,7 +33,7 @@
 #import <Foundation/Foundation.h>
 
 #import "JHSignalView.h"
-@class JHSampleDataProvider;
+@class JHSampleBuffer;
 
 @interface JHWaveformView : JHSignalView {
     
@@ -50,7 +50,7 @@
     BOOL        _displaysGrid;
     NSUInteger  _gridTicks;
     
-    JHSampleDataProvider    *_sampleDataProvider;
+    JHSampleBuffer    *_sampleDataProvider;
 }
 
 /* All of the colors of the view are modifiable. foregroundColor, lineColor and
@@ -72,7 +72,7 @@
 -(void)setWaveform:(const float*)samples length:(NSUInteger)length;
 
 /* Draws a waveform with a sample data provider */
--(void)setSampleDataProvider:(JHSampleDataProvider *)provider;
+-(void)setSampleDataProvider:(JHSampleBuffer *)provider;
 
 /* The total number of samples, rather, a convenience for getting whatever
  the client gave for `length` */
