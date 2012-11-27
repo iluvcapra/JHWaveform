@@ -49,9 +49,6 @@
                                         for (j = 0; j < outRange.length; j++) {
                                             result[j] += samples[j * spf + i];
                                         }
-                                        
-                                        
-                                        
 //                                        vDSP_vadd(result,
 //                                                  1,
 //                                                  samples + i,
