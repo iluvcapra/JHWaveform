@@ -68,9 +68,9 @@
 -(void)yieldFramesInRange:(NSRange)aRange
                   toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock;
 
--(void)yieldSamplesOnChannel:(NSUInteger)chan
-               inFrameRange:(NSRange)aRange
-                    toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock;
+//-(void)yieldSamplesOnChannel:(NSUInteger)chan
+//               inFrameRange:(NSRange)aRange
+//                    toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock;
 
 -(NSUInteger)framesLength;
 -(double)framesPerSecond;

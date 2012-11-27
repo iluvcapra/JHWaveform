@@ -47,28 +47,28 @@
     
 }
 
--(void)yieldSamplesOnChannel:(NSUInteger)chan
-               inFrameRange:(NSRange)aRange
-                    toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock {
-    
-    if (_samplesPerFrame == 1) {
-        [self yieldFramesInRange:aRange toBlock:yieldBlock];
-    } else if (_samplesPerFrame > chan) {
-        yieldBlock(NULL, NSMakeRange(NSNotFound, 0));
-    } else {
-        
-        [self yieldFramesInRange:aRange toBlock:^(float *samples, NSRange outRange) {
-            float *yieldPtr = calloc(outRange.length, sizeof(double));
-            
-            NSUInteger i;
-            for (i = 0; i < outRange.length; i++) {
-                yieldPtr[i] = samples[i*_samplesPerFrame + chan];
-            }
-            yieldBlock(yieldPtr,outRange);
-            free(yieldPtr);
-        }];
-    }
-}
+//-(void)yieldSamplesOnChannel:(NSUInteger)chan
+//               inFrameRange:(NSRange)aRange
+//                    toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock {
+//    
+//    if (_samplesPerFrame == 1) {
+//        [self yieldFramesInRange:aRange toBlock:yieldBlock];
+//    } else if (_samplesPerFrame > chan) {
+//        yieldBlock(NULL, NSMakeRange(NSNotFound, 0));
+//    } else {
+//        
+//        [self yieldFramesInRange:aRange toBlock:^(float *samples, NSRange outRange) {
+//            float *yieldPtr = calloc(outRange.length, sizeof(double));
+//            
+//            NSUInteger i;
+//            for (i = 0; i < outRange.length; i++) {
+//                yieldPtr[i] = samples[i*_samplesPerFrame + chan];
+//            }
+//            yieldBlock(yieldPtr,outRange);
+//            free(yieldPtr);
+//        }];
+//    }
+//}
 
 -(NSUInteger)framesLength {
     return [_sampleDataBuffer length] / (sizeof(float) * _samplesPerFrame);
