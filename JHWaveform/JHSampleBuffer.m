@@ -7,7 +7,7 @@
 //
 
 #import "JHSampleBuffer.h"
-#import "_JHAVAssetSampleDataProvider.h"
+#import "_JHAVAssetSampleDataBuffer.h"
 
 @implementation JHSampleBuffer
 
@@ -24,7 +24,7 @@
 +(id)bufferWithAsset:(AVAsset *)asset
                  track:(AVAssetTrack *)track
              timeRange:(CMTimeRange)timeRange {
-    return [[_JHAVAssetSampleDataProvider alloc] initWithAsset:asset
+    return [[_JHAVAssetSampleDataBuffer alloc] initWithAsset:asset
                                                          track:track
                                                      timeRange:timeRange];
    
@@ -32,7 +32,7 @@
 
 +(id)bufferWithAsset:(AVAsset *)asset
                  track:(AVAssetTrack *)track {
-    return [[_JHAVAssetSampleDataProvider alloc] initWithAsset:asset
+    return [[_JHAVAssetSampleDataBuffer alloc] initWithAsset:asset
                                                          track:track
                                                      timeRange:CMTimeRangeMake(kCMTimeZero, kCMTimePositiveInfinity)];
 }
