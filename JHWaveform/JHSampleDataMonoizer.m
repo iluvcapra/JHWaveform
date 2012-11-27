@@ -7,7 +7,7 @@
 //
 
 #import "JHSampleDataMonoizer.h"
-#import "Accelerate/Accelerate.h"
+//#import "Accelerate/Accelerate.h"
 
 @implementation JHSampleDataMonoizer
 
