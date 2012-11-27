@@ -172,7 +172,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
         _sampleDataProvider = provider;
         NSRange theRange = NSMakeRange(0, [_sampleDataProvider framesLength]);
         
-        [_sampleDataProvider yieldSampleOnChannel:0 inFrameRange:theRange
+        [_sampleDataProvider yieldSamplesOnChannel:0 inFrameRange:theRange
                                toBlock:^(float *samples, NSRange outRange) {
                                    [self setWaveform:samples length:outRange.length];
                                }];

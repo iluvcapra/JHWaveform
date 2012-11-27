@@ -47,7 +47,7 @@
     
 }
 
--(void)yieldSampleOnChannel:(NSUInteger)chan
+-(void)yieldSamplesOnChannel:(NSUInteger)chan
                inFrameRange:(NSRange)aRange
                     toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock {
     
