@@ -7,8 +7,9 @@
 //
 
 #import "JHSampleDataProvider.h"
+#import "_JHBufferedSampleDataProvider.h"
 
-@interface _JHAVAssetSampleDataProvider : JHSampleDataProvider {
+@interface _JHAVAssetSampleDataProvider : _JHBufferedSampleDataProvider {
     AVAsset         *_asset;
     AVAssetTrack    *_track;
     CMTimeRange     _timeRange;

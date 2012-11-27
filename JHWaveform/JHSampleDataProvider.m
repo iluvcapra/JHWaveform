@@ -14,9 +14,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        _sampleDataBuffer = [NSData data];
-        _framesPerSecond = 0;
-        _samplesPerFrame = 0;
+
     }
     return self;
 }
@@ -38,22 +36,18 @@
 }
 
 -(void)yieldFramesInRange:(NSRange)aRange
-                  toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock{
-    NSRange maxRange = NSMakeRange(0, [self framesLength]);
-    NSRange retRange = NSIntersectionRange(aRange, maxRange);
-    
-    yieldBlock((float *)[_sampleDataBuffer bytes] +
-               retRange.location * _samplesPerFrame,retRange);
-    
+                  toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock {
+    NSAssert(0, @"%s must be implemented by subclasses", (char *)_cmd);
 }
 
 -(void)yieldSamplesOnChannel:(NSUInteger)chan
                inFrameRange:(NSRange)aRange
                     toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock {
     
-    if (_samplesPerFrame == 1) {
+    NSUInteger spf = [self samplesPerFrame];
+    if (spf == 1) {
         [self yieldFramesInRange:aRange toBlock:yieldBlock];
-    } else if (_samplesPerFrame > chan) {
+    } else if ([self samplesPerFrame] > chan) {
         yieldBlock(NULL, NSMakeRange(NSNotFound, 0));
     } else {
         
@@ -62,7 +56,7 @@
             
             NSUInteger i;
             for (i = 0; i < outRange.length; i++) {
-                yieldPtr[i] = samples[i*_samplesPerFrame + chan];
+                yieldPtr[i] = samples[i*spf + chan];
             }
             yieldBlock(yieldPtr,outRange);
             free(yieldPtr);
@@ -71,14 +65,17 @@
 }
 
 -(NSUInteger)framesLength {
-    return [_sampleDataBuffer length] / (sizeof(float) * _samplesPerFrame);
+    NSAssert(0, @"%s must be implemented by subclasses",(char *)_cmd);
+    return 0;
 }
 
 -(double)framesPerSecond {
-    return _framesPerSecond;
+    NSAssert(0, @"%s must be implemented by subclasses",(char *)_cmd);
+    return 0.0f;
 }
 
 -(NSUInteger)samplesPerFrame {
-    return _samplesPerFrame;
+    NSAssert(0, @"%s must be implemented by subclasses",(char *)_cmd);
+    return 0.0f;
 }
 @end

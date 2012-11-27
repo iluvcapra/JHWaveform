@@ -16,10 +16,21 @@
     if (self) {
         NSAssert(provider != nil,@"provider argument may not be nil");
         _sourceProvider = provider;
-        _samplesPerFrame = 1;
-        _framesPerSecond = [provider framesPerSecond];
     }
     return self;
+}
+
+-(NSUInteger)samplesPerFrame {
+    return 1;
+}
+
+-(double)framesPerSecond {
+    return [_sourceProvider framesPerSecond];
+}
+
+
+-(NSUInteger)framesLength {
+    return [_sourceProvider framesLength];
 }
 
 -(void)yieldFramesInRange:(NSRange)aRange
@@ -54,10 +65,6 @@
     yieldBlock(result, retRange);
     free(result);
     
-}
-
--(NSUInteger)framesLength {
-    return [_sourceProvider framesLength];
 }
 
 @end

@@ -30,9 +30,6 @@
  */
 
 @interface JHSampleDataProvider : NSObject {
-    double      _framesPerSecond;
-    NSUInteger  _samplesPerFrame;
-    NSData      *_sampleDataBuffer;
 }
 
 // init a dataProvider with an ABAsset
