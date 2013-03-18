@@ -73,21 +73,21 @@
 
 -(void)yieldFramesInRange:(NSRange)aRange
                   toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock {
-    NSAssert(0, @"%s must be implemented by subclasses", (char *)_cmd);
+    NSAssert(0, @"%s must be implemented by subclasses", sel_getName(_cmd));
 }
 
 -(NSUInteger)framesLength {
-    NSAssert(0, @"%s must be implemented by subclasses",(char *)_cmd);
+    NSAssert(0, @"%s must be implemented by subclasses",sel_getName(_cmd));
     return 0;
 }
 
 -(double)framesPerSecond {
-    NSAssert(0, @"%s must be implemented by subclasses",(char *)_cmd);
+    NSAssert(0, @"%s must be implemented by subclasses",sel_getName(_cmd));
     return 0.0f;
 }
 
 -(NSUInteger)samplesPerFrame {
-    NSAssert(0, @"%s must be implemented by subclasses",(char *)_cmd);
+    NSAssert(0, @"%s must be implemented by subclasses",sel_getName(_cmd));
     return 0.0f;
 }
 

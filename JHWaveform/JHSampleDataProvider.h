@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 
-#import <aubio/aubio.h>
+//#import <aubio/aubio.h>
 //#import <sndfile.h>
 
 /* The SampleDataProvider is a class cluster for taking one of several

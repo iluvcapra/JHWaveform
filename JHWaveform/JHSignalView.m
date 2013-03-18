@@ -325,7 +325,7 @@ static NSString *JHSignalViewAllowsSelectionCtx = @"JHSignalViewAllowsSelectionO
 }
 
 -(void)drawSignalInRect:(NSRect)dirtyRect {
-    NSAssert(0, @"%s must be implemented by subclasses",(char *)_cmd);
+    NSAssert(0, @"%s must be implemented by subclasses",sel_getName(_cmd));
 }
 
 -(void)drawRect:(NSRect)dirtyRect {
