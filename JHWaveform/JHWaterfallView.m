@@ -23,6 +23,7 @@
         self.backgroundThreshold = 0.2f;
         self.backgroundColor = [NSColor blackColor];
         _precalculatedImageRep = nil;
+        _sampleDataProvider = nil;
     }
     
     return self;
@@ -86,6 +87,12 @@
     [self _precalculateImageRep];
     
     [self setNeedsDisplay:YES];
+}
+
+-(void)setSampleDataProvider:(JHSampleDataProvider *)provider {
+    if (provider != _sampleDataProvider) {
+        
+    }
 }
 
 #pragma mark Get and Set

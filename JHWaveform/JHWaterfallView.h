@@ -7,6 +7,7 @@
 //
 
 #import "JHSignalView.h"
+#import "JHSampleDataProvider.h"
 
 @interface JHWaterfallView : JHSignalView {
     float *_waterfallData;
@@ -17,6 +18,8 @@
     float       _backgroundThreshold;
     
     NSBitmapImageRep *_precalculatedImageRep;
+    
+    JHSampleDataProvider    *_sampleDataProvider;
 }
 
 @property (readwrite) NSGradient *intensityGradient;
@@ -26,5 +29,7 @@
  and represent the table of data "flat" */
 -(void)setData:(float *)data
         frames:(NSUInteger)frameCount samplesPerFrame:(NSUInteger)samplesPerFrame;
+
+-(void)setSampleDataProvider:(JHSampleDataProvider *)provider;
 
 @end
