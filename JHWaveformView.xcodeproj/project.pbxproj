@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7D3862F9164EC0150076B985 /* JHSignalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3862F7164EC0150076B985 /* JHSignalView.h */; };
+		7D3862F9164EC0150076B985 /* JHSignalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3862F7164EC0150076B985 /* JHSignalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D3862FA164EC0150076B985 /* JHSignalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3862F8164EC0150076B985 /* JHSignalView.m */; };
 		7D3862FB164EC0150076B985 /* JHSignalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3862F8164EC0150076B985 /* JHSignalView.m */; };
-		7D3862FF164EDF1A0076B985 /* JHWaterfallView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3862FD164EDF1A0076B985 /* JHWaterfallView.h */; };
+		7D3862FF164EDF1A0076B985 /* JHWaterfallView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3862FD164EDF1A0076B985 /* JHWaterfallView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D386301164EDF1A0076B985 /* JHWaterfallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3862FE164EDF1A0076B985 /* JHWaterfallView.m */; };
 		7D386302164EDF1A0076B985 /* JHWaterfallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3862FE164EDF1A0076B985 /* JHWaterfallView.m */; };
 		7D516F09161FB1B700742DCF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7115161E4464007AF2A0 /* CoreMedia.framework */; };
@@ -21,7 +21,7 @@
 		7D5560F716653C4600DC93EF /* _JHFVecSampleDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5560F516653C4600DC93EF /* _JHFVecSampleDataProvider.h */; };
 		7D5560F816653C4600DC93EF /* _JHFVecSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5560F616653C4600DC93EF /* _JHFVecSampleDataProvider.m */; };
 		7D5560F916653C4600DC93EF /* _JHFVecSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5560F616653C4600DC93EF /* _JHFVecSampleDataProvider.m */; };
-		7DA3A7C2165D4F2200D46389 /* JHSampleDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7C0165D4F2200D46389 /* JHSampleDataProvider.h */; };
+		7DA3A7C2165D4F2200D46389 /* JHSampleDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7C0165D4F2200D46389 /* JHSampleDataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DA3A7C3165D4F2200D46389 /* JHSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C1165D4F2200D46389 /* JHSampleDataProvider.m */; };
 		7DA3A7C4165D4F2200D46389 /* JHSampleDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7C1165D4F2200D46389 /* JHSampleDataProvider.m */; };
 		7DA3A7C7165D513200D46389 /* _JHAVAssetSampleDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA3A7C5165D513200D46389 /* _JHAVAssetSampleDataProvider.h */; };
@@ -31,8 +31,8 @@
 		7DA3A7CD165EE34E00D46389 /* JHSampleDataMonoizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7CB165EE34E00D46389 /* JHSampleDataMonoizer.m */; };
 		7DA3A7CE165EE34E00D46389 /* JHSampleDataMonoizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3A7CB165EE34E00D46389 /* JHSampleDataMonoizer.m */; };
 		7DA3A7D0165EE90B00D46389 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DA3A7CF165EE90B00D46389 /* Accelerate.framework */; };
-		7DC930DD162A2B1300893694 /* JHWaveformView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD0543D161CEB6B0019D540 /* JHWaveformView.h */; };
-		7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */; };
+		7DC930DD162A2B1300893694 /* JHWaveformView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD0543D161CEB6B0019D540 /* JHWaveformView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7DCF710F161E3440007AF2A0 /* JHAudioPreviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DCF710D161E3440007AF2A0 /* JHAudioPreviewView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DCF7110161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */; };
 		7DCF7111161E3440007AF2A0 /* JHAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCF710E161E3440007AF2A0 /* JHAudioPreviewView.m */; };
 		7DCF7114161E34CF007AF2A0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCF7113161E34CF007AF2A0 /* AVFoundation.framework */; };
@@ -52,7 +52,7 @@
 		7DD054A0161CF66B0019D540 /* JHWaveformTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0549F161CF66B0019D540 /* JHWaveformTests.m */; };
 		7DD054A9161CF6DB0019D540 /* JHWaveform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD05481161CF66A0019D540 /* JHWaveform.framework */; };
 		7DD054AA161CF7110019D540 /* JHWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0543E161CEB6B0019D540 /* JHWaveformView.m */; };
-		7DE94DF116F7D0C9009EDF8D /* JHWaveform.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD0548A161CF66A0019D540 /* JHWaveform.h */; };
+		7DE94DF116F7D0C9009EDF8D /* JHWaveform.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD0548A161CF66A0019D540 /* JHWaveform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
