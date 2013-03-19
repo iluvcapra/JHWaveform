@@ -30,11 +30,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "JHWaveform/JHAudioPreviewView.m"
-         timestampString = "374444237.39969"
+         timestampString = "385344970.718438"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "152"
-         endingLineNumber = "152"
+         startingLineNumber = "154"
+         endingLineNumber = "154"
          landmarkName = "-observeValueForKeyPath:ofObject:change:context:"
          landmarkType = "5">
       </FileBreakpoint>
