@@ -630,6 +630,7 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INFOPLIST_FILE = "JHWaveform/JHWaveform-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = build/Debug;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -648,6 +649,7 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INFOPLIST_FILE = "JHWaveform/JHWaveform-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = build/Release;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
