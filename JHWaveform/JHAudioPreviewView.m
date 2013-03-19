@@ -34,6 +34,8 @@
 #import "JHSampleDataProvider.h"
 #import "JHSampleDataMonoizer.h"
 
+#import <Carbon/Carbon.h>
+
 static NSString *JHAudioPreviewPlayerRateObservingCtx           = @"JHAudioPreviewPlayerRateObservingCtx";
 static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPreviewPlayerSampleRangeObservingCtx";
 static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPreviewNeedsDisplayObservingCtx";
@@ -188,8 +190,22 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 
 }
 
-#pragma mark Drawing
+-(BOOL)performKeyEquivalent:(NSEvent *)theEvent {
+    if ([theEvent type] == NSKeyDown &&
+        [theEvent keyCode] == kVK_Space) {
+        if ([self.player rate] == 0.0f) {
+            [self.player play];
+        } else {
+            self.player.rate = 0.0f;
+        }
+        return YES;
+    } else {
+        return NO;
+    }
+}
 
+
+#pragma mark Drawing
 
 -(void)mouseDown:(NSEvent *)theEvent {
     NSPoint click = [self convertPoint:[theEvent locationInWindow] fromView:nil];
