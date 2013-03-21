@@ -34,14 +34,14 @@
 }
 
 -(void)yieldFramesInRange:(NSRange)aRange
-                  toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock{
+                  toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock {
 
     NSUInteger spf  = [_sourceProvider samplesPerFrame];
-    [_sourceProvider yieldFramesInRange:aRange
+    NSRange possibleRange = NSMakeRange(0,[self framesLength]);
+    
+    [_sourceProvider yieldFramesInRange:possibleRange
                                 toBlock:^(float *samples, NSRange outRange) {
                                     float *result = NULL;
-                                    NSRange retRange;
-                                    retRange = outRange;
                                     result = calloc(outRange.length, sizeof(float));
                                     
                                     NSUInteger i,j;
@@ -57,7 +57,7 @@
 //                                                  1,
 //                                                  outRange.length);
                                     }
-                                    yieldBlock(result, retRange);
+                                    yieldBlock(result, outRange);
                                     free(result);
                                 }];
     
