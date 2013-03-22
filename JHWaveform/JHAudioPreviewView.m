@@ -190,7 +190,10 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 
 }
 
+#define JUMP_INTERVAL   3
+
 -(BOOL)performKeyEquivalent:(NSEvent *)theEvent {
+    BOOL handled = NO;
     if ([theEvent type] == NSKeyDown &&
         [theEvent keyCode] == kVK_Space) {
         if ([self.player rate] == 0.0f) {
@@ -198,10 +201,39 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
         } else {
             self.player.rate = 0.0f;
         }
-        return YES;
-    } else {
-        return NO;
+        handled = YES;
+    } else if ([theEvent type] == NSKeyDown &&
+               [theEvent keyCode] == kVK_LeftArrow &&
+               [theEvent modifierFlags] & NSCommandKeyMask) {
+        CMTime time = self.player.currentTime;
+        
+        time = CMTimeSubtract(time, CMTimeMake(JUMP_INTERVAL, 1));
+        [self.player seekToTime:time];
+        
+        handled = YES;
+    } else if ([theEvent type] == NSKeyDown &&
+               [theEvent keyCode] == kVK_RightArrow &&
+               [theEvent modifierFlags] & NSCommandKeyMask) {
+        CMTime time = self.player.currentTime;
+        
+        time = CMTimeAdd(time, CMTimeMake(JUMP_INTERVAL, 1));
+        [self.player seekToTime:time];
+        
+        handled = YES;
+    } else if ([theEvent type] == NSKeyDown &&
+               [theEvent keyCode] == kVK_RightArrow &&
+               [theEvent modifierFlags] & NSAlternateKeyMask) {
+        self.player.rate = self.player.rate + 0.25f;
+        
+        handled = YES;
+    } else if ([theEvent type] == NSKeyDown &&
+              [theEvent keyCode] == kVK_LeftArrow &&
+              [theEvent modifierFlags] & NSAlternateKeyMask) {
+        self.player.rate = self.player.rate - 0.25f;
+        
+        handled = YES;
     }
+    return handled;
 }
 
 
