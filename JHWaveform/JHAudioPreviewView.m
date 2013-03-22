@@ -233,19 +233,20 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
         [self.player seekToTime:time];
         
         handled = YES;
-    } else if ([theEvent type] == NSKeyDown &&
-               [theEvent keyCode] == kVK_RightArrow &&
-               [theEvent modifierFlags] & NSAlternateKeyMask) {
-        self.player.rate = self.player.rate + 0.25f;
-        
-        handled = YES;
-    } else if ([theEvent type] == NSKeyDown &&
-              [theEvent keyCode] == kVK_LeftArrow &&
-              [theEvent modifierFlags] & NSAlternateKeyMask) {
-        self.player.rate = self.player.rate - 0.25f;
-        
-        handled = YES;
     }
+//    } else if ([theEvent type] == NSKeyDown &&
+//               [theEvent keyCode] == kVK_RightArrow &&
+//               [theEvent modifierFlags] & NSControlKeyMask) {
+//        self.player.rate = self.player.rate + 0.25f;
+//        
+//        handled = YES;
+//    } else if ([theEvent type] == NSKeyDown &&
+//              [theEvent keyCode] == kVK_LeftArrow &&
+//              [theEvent modifierFlags] & NSControlKeyMask) {
+//        self.player.rate = self.player.rate - 0.25f;
+//        
+//        handled = YES;
+//    }
     return handled;
 }
 
