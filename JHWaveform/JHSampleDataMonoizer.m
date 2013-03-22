@@ -37,28 +37,35 @@
                   toBlock:(void(^)(float *samples, NSRange outRange))yieldBlock {
 
     NSUInteger spf  = [_sourceProvider samplesPerFrame];
-    NSRange possibleRange = NSMakeRange(0,[self framesLength]);
+    NSRange possibleRange = NSIntersectionRange(aRange, NSMakeRange(0,[self framesLength])) ;
     
     [_sourceProvider yieldFramesInRange:possibleRange
                                 toBlock:^(float *samples, NSRange outRange) {
                                     float *result = NULL;
+                                    
                                     result = calloc(outRange.length, sizeof(float));
                                     
-                                    NSUInteger i,j;
-                                    for (i = 0; i < spf; i++) {
-                                        for (j = 0; j < outRange.length; j++) {
-                                            result[j] += samples[j * spf + i];
+                                    if (result) {
+                                        NSUInteger i,j;
+                                        for (i = 0; i < spf; i++) {
+                                            for (j = 0; j < outRange.length; j++) {
+                                                result[j] += samples[j * spf + i];
+                                            }
+                                            //                                        vDSP_vadd(result,
+                                            //                                                  1,
+                                            //                                                  samples + i,
+                                            //                                                  [_sourceProvider samplesPerFrame],
+                                            //                                                  result,
+                                            //                                                  1,
+                                            //                                                  outRange.length);
                                         }
-//                                        vDSP_vadd(result,
-//                                                  1,
-//                                                  samples + i,
-//                                                  [_sourceProvider samplesPerFrame],
-//                                                  result,
-//                                                  1,
-//                                                  outRange.length);
+                                        yieldBlock(result, outRange);
+                                        free(result);
+                                    } else {
+                                        yieldBlock(NULL, NSMakeRange(0, 0));
                                     }
-                                    yieldBlock(result, outRange);
-                                    free(result);
+                                    
+
                                 }];
     
 
