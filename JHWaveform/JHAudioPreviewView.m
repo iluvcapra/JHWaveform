@@ -228,6 +228,7 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"selectedSampleRange"];
+    [self removeObserver:self forKeyPath:@"playheadColor"];
     if (_player) {
         [self _stopObservingPlayer];
         _player = nil;
