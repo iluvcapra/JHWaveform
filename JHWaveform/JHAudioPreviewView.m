@@ -57,9 +57,11 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 
 
 -(void)_readSamplesFromTrack:(AVAssetTrack *)track ofAsset:(AVAsset *)asset {
+    [self setWaveform:NULL length:0];
     [self willChangeValueForKey:@"isReadingOverview"];
     _isReadingOverview = YES;
     [self didChangeValueForKey:@"isReadingOverview"];
+    [self setNeedsDisplay:YES];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         JHSampleDataMonoizer *sdp = [[JHSampleDataMonoizer alloc] initWithSourceProvider:
@@ -70,6 +72,7 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
             [self willChangeValueForKey:@"isReadingOverview"];
             _isReadingOverview = NO;
             [self didChangeValueForKey:@"isReadingOverview"];
+            [self setNeedsDisplay:YES];
         });
     });
 
@@ -179,9 +182,11 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 
 
 -(void)readFirstAudioTrackOfPlayer {
+    _assetUnplayable = NO;
     NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
     if ([audioTracks count] == 0) {
-        
+        _assetUnplayable = YES;
+        [self setWaveform:NULL length:0];
     } else {
         _assetDuration = CMTimeGetSeconds(_player.currentItem.duration);
         [self _readSamplesFromTrack:audioTracks[0] ofAsset:_player.currentItem.asset];
@@ -253,6 +258,9 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
 
 #pragma mark Drawing
 
+#define PROMPT_SIZE (18.0f)
+#define PROMPT_MARGIN (5.0f)
+
 -(void)mouseDown:(NSEvent *)theEvent {
     NSPoint click = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     
@@ -260,15 +268,46 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
     [super mouseDown:theEvent];
 }
 
+
+-(NSDictionary *)promptAttributes {
+    NSMutableParagraphStyle *p = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    [p setAlignment:NSCenterTextAlignment];
+    
+    NSFont *f = [NSFont systemFontOfSize:PROMPT_SIZE];
+    
+    NSColor *c = [NSColor lightGrayColor];
+    
+    return @{NSFontAttributeName : f,
+             NSParagraphStyleAttributeName : p,
+             NSForegroundColorAttributeName : c};
+    
+}
+
+-(void)drawPrompt:(NSString *)text {
+    NSRect promptRect = [self bounds];
+    promptRect.origin.y += (promptRect.size.height - PROMPT_SIZE) / 2;
+    promptRect.size.height = PROMPT_SIZE;
+    promptRect = NSInsetRect(promptRect, -PROMPT_MARGIN, -PROMPT_MARGIN);
+    
+    [text drawInRect:promptRect withAttributes:[self promptAttributes]];
+}
+
 -(void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     
-    /* draw playhead */
-    if (_playheadPosition > 0) { // don't draw the playhead if we're at the head
-        [self.playheadColor set];
-        CGFloat xPos = [self sampleToXPoint:_playheadPosition];
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(xPos, 0)
-                                  toPoint:NSMakePoint(xPos, self.bounds.size.height)];
+    if (_assetUnplayable) {
+        [self drawPrompt:@"Audio Not Available From Asset"];
+    } else if ([self isReadingOverview]){
+        [self drawPrompt:@"Reading Overview..."];
+    } else {
+        
+        /* draw playhead */
+        if (_playheadPosition > 0) { // don't draw the playhead if we're at the head
+            [self.playheadColor set];
+            CGFloat xPos = [self sampleToXPoint:_playheadPosition];
+            [NSBezierPath strokeLineFromPoint:NSMakePoint(xPos, 0)
+                                      toPoint:NSMakePoint(xPos, self.bounds.size.height)];
+        }
     }
 }
 

@@ -47,7 +47,7 @@
     
     NSColor     *_playheadColor;
     
-    BOOL                    _isReadingOverview;
+    BOOL        _isReadingOverview, _assetUnplayable;
 }
 
 /*
