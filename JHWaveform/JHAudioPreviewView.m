@@ -38,7 +38,9 @@
 
 static NSString *JHAudioPreviewPlayerRateObservingCtx           = @"JHAudioPreviewPlayerRateObservingCtx";
 static NSString *JHAudioPreviewPlayerSampleRangeObservingCtx    = @"JHAudioPreviewPlayerSampleRangeObservingCtx";
+static NSString *JHAudioPreviewPlayerItemObservingCtx           = @"JHAudioPreviewPlayerItemObservingCtx";
 static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPreviewNeedsDisplayObservingCtx";
+
 
 @implementation JHAudioPreviewView
 
@@ -94,11 +96,16 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
               forKeyPath:@"rate"
                  options:NSKeyValueObservingOptionNew
                  context:(__bridge void *)(JHAudioPreviewPlayerRateObservingCtx)];
+    
+    [_player addObserver:self
+              forKeyPath:@"currentItem"
+                 options:NSKeyValueObservingOptionNew context:(__bridge void *)(JHAudioPreviewPlayerItemObservingCtx)];
 }
 
 -(void)_stopObservingPlayer {
     [_player removeTimeObserver:_timeObserverDescriptor];
     [_player removeObserver:self forKeyPath:@"rate"];
+    [_player removeObserver:self forKeyPath:@"currentItem"];
     _timeObserverDescriptor = nil;
 }
 
@@ -155,6 +162,8 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
         if ([keyPath isEqualToString:@"playheadColor"]) {
             [self setNeedsDisplay:YES];
         }
+    } else if (context == (__bridge void *)JHAudioPreviewPlayerItemObservingCtx) {
+        [self readFirstAudioTrackOfPlayer];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -168,6 +177,17 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
     return _player;
 }
 
+
+-(void)readFirstAudioTrackOfPlayer {
+    NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
+    if ([audioTracks count] == 0) {
+        
+    } else {
+        _assetDuration = CMTimeGetSeconds(_player.currentItem.duration);
+        [self _readSamplesFromTrack:audioTracks[0] ofAsset:_player.currentItem.asset];
+    }
+}
+
 -(void)setPlayer:(AVPlayer *)player {
     if (player != _player) {
         if (_player) {
@@ -177,17 +197,10 @@ static NSString *JHAudioPreviewNeedsDisplayObservingCtx         = @"JHAudioPrevi
         _player = player;
         
         if (_player) {
-            NSArray *audioTracks = [_player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
-            if ([audioTracks count] == 0) {
-                _player = nil;
-            } else {
-                _assetDuration = CMTimeGetSeconds(_player.currentItem.duration);
-                [self _observePlayer];
-                [self _readSamplesFromTrack:audioTracks[0] ofAsset:_player.currentItem.asset];
-            }
+            [self _observePlayer];
+            [self readFirstAudioTrackOfPlayer];
         }
     }
-
 }
 
 #define JUMP_INTERVAL   3
