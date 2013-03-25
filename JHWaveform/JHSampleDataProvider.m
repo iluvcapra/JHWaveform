@@ -59,7 +59,7 @@
     } else {
         
         [self yieldFramesInRange:aRange toBlock:^(float *samples, NSRange outRange) {
-            float *yieldPtr = calloc(outRange.length, sizeof(double));
+            float *yieldPtr = calloc(outRange.length, sizeof(float));
             
             NSUInteger i;
             for (i = 0; i < outRange.length; i++) {
