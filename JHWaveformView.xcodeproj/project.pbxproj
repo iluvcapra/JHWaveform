@@ -561,6 +561,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				SYMROOT = "~/src/CommonBuild/build";
 				USER_HEADER_SEARCH_PATHS = /opt/local/include;
 			};
 			name = Debug;
@@ -585,6 +586,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
+				SYMROOT = "~/src/CommonBuild/build";
 				USER_HEADER_SEARCH_PATHS = /opt/local/include;
 			};
 			name = Release;
@@ -630,7 +632,7 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INFOPLIST_FILE = "JHWaveform/JHWaveform-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SYMROOT = build/Debug;
+				SYMROOT = "~/src/CommonBuild/build";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -649,7 +651,7 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INFOPLIST_FILE = "JHWaveform/JHWaveform-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SYMROOT = build/Release;
+				SYMROOT = "~/src/CommonBuild/build";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
