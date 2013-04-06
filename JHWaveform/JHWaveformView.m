@@ -104,6 +104,14 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     }
 }
 
+-(void)scrollWheel:(NSEvent *)theEvent {
+        
+    self.verticalScale -= theEvent.deltaY / 100.0f;
+    self.verticalScale = MAX(self.verticalScale,0);
+
+    [super scrollWheel:theEvent];
+}
+
 
 #pragma mark Set Data
 
