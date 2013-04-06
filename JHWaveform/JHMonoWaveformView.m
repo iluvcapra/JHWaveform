@@ -30,12 +30,12 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "JHWaveformView.h"
+#import "JHMonoWaveformView.h"
 #import "JHSampleDataProvider.h"
 
 static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedisplayObserverContext";
 
-@implementation JHWaveformView
+@implementation JHMonoWaveformView
 
 @synthesize lineColor                       = _lineColor;
 @synthesize gridColor                       = _gridColor;
