@@ -7,7 +7,16 @@
 //
 
 #import "JHSampleDataProvider.h"
-#import <aubio/aubio.h>
+
+#ifndef AUBIO_H
+
+typedef struct _fvec_t {
+    UInt32 length;
+    UInt32 channels;
+    float **data;
+} fvec_t;
+
+#endif
 
 @interface _JHFVecSampleDataProvider : JHSampleDataProvider {
     fvec_t *_vector;
