@@ -30,7 +30,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "JHWaveformView.h"
+#import "JHMonoWaveformView.h"
 
 /* this view requires AVFoundation and CoreMedia in order to work its magic */
 #import <AVFoundation/AVFoundation.h>
@@ -38,7 +38,7 @@
 
 @class JHSampleDataProvider;
 
-@interface JHAudioPreviewView : JHWaveformView {
+@interface JHAudioPreviewView : JHMonoWaveformView {
     AVPlayer    *_player;
     
     id          _timeObserverDescriptor;

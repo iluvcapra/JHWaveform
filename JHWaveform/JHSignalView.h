@@ -22,8 +22,11 @@ enum JHWaveformViewMouseModes {
  A subclass of JHSignalView must do two things
  
  - Implement drawSignalInRect: to draw your rendition of the signal.  The 
- default implementation causes an assertion to fail.
- - set _originalSampleDataLength when the length of the sample data is known.
+ default implementation calls -doesNotRecognizeSelector:
+ 
+ - When the subclass loads or otherwise acquires the data it's going to draw
+ as a waveform, it must set _originalSampleDataLength.  The view's needs this
+ in order to convert the view geomoetry to the underlying signal's dimensions.
  
  */
 
@@ -39,19 +42,14 @@ enum JHWaveformViewMouseModes {
     NSUInteger  _selectionAnchor;
     BOOL        _dragging;
     int         _mouseMode;
-    
-//    NSUInteger  _rulerMajorTicks, _rulerMinorTicks;
+
     NSUInteger  _originalSampleDataLength;
-//    BOOL        _displaysRuler;
 }
 
 @property (copy, readwrite) NSColor *foregroundColor;
 @property (copy, readwrite) NSColor *backgroundColor;
 @property (copy, readwrite) NSColor *selectedColor;
 @property (copy, readwrite) NSColor *selectedBorderColor;
-
-//@property (assign) BOOL displaysRuler;
-//@property (assign) NSUInteger rulerMajorTicks, rulerMinorTicks;
 
 /*
  The current selection in the waveform.  This is an NSRange in terms of 
@@ -70,7 +68,6 @@ enum JHWaveformViewMouseModes {
 -(NSUInteger)xPointToSample:(CGFloat)xPoint;
 -(NSAffineTransform *)sampleTransform;
 -(NSRect)signalRect;
-//-(NSRect)rulerRect;
 
 -(void)drawSignalInRect:(NSRect)dirtyRect;
 

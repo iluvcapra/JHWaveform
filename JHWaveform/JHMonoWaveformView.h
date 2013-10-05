@@ -35,7 +35,7 @@
 #import "JHSignalView.h"
 @class JHSampleDataProvider;
 
-@interface JHWaveformView : JHSignalView {
+@interface JHMonoWaveformView : JHSignalView {
     
     NSColor     *_gridColor;
 

@@ -52,7 +52,7 @@ enum waveformTestSignals {
 }
 
 @property (assign) IBOutlet NSWindow *window;
-@property (retain) IBOutlet JHWaveformView *waveformView;
+@property (retain) IBOutlet JHMonoWaveformView *waveformView;
 @property (retain) IBOutlet JHWaterfallView *waterfallView;
 
 @property (retain) IBOutlet NSTextField *locationField;
