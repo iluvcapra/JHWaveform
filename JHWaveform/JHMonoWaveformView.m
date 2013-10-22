@@ -240,7 +240,7 @@ static NSString *JHWaveformViewNeedsRedisplayCtx = @"JHWaveformViewNeedsRedispla
     
     
     [self.lineColor set];
-    [waveformPath stroke];
+    [waveformPath stroke]; //aal_add_coverage_span crashes here sometimes
     [self.foregroundColor set];
     [waveformPath fill];
 }
